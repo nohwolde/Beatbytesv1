@@ -1,0 +1,225 @@
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities;
+ 
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+ 
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+ 
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+ 
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+ 
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+ 
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+ 
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+ 
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+ 
+    --ring: 215 20.2% 65.1%;
+ 
+    --radius: 0.5rem;
+  }
+ 
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+ 
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+ 
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+ 
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+ 
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+ 
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+ 
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+ 
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+ 
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 85.7% 97.3%;
+ 
+    --ring: 217.2 32.6% 17.5%;
+  }
+}
+ 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+} */
+
+@import 'shaka-player/dist/controls.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+:root {
+  height: 100%;
+  background-color: black;
+  color-scheme: dark;
+}
+
+@font-face {
+  font-family: "musive-icons";
+  src: url("../public/musive-icons.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+i {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: "musive-icons" !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  font-size: 22px;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-heart-o:before {
+  content: "\e923";
+}
+.icon-heart:before {
+  content: "\e924";
+}
+.icon-pause:before {
+  content: "\e920";
+}
+.icon-play:before {
+  content: "\e921";
+}
+.icon-chevron-down:before {
+  content: "\e922";
+}
+.icon-close:before {
+  content: "\e91e";
+}
+.icon-more-vertical:before {
+  content: "\e90b";
+}
+.icon-more-horizontal:before {
+  content: "\e90d";
+}
+.icon-volume-x:before {
+  content: "\e907";
+}
+.icon-volume-1:before {
+  content: "\e91d";
+}
+.icon-volume-2:before {
+  content: "\e91f";
+}
+.icon-about:before {
+  content: "\e908";
+}
+.icon-add-to-playlist:before {
+  content: "\e909";
+}
+.icon-add-to-queue:before {
+  content: "\e90a";
+}
+.icon-full-screen:before {
+  content: "\e90c";
+}
+.icon-hide-song:before {
+  content: "\e90e";
+}
+.icon-Like:before {
+  content: "\e90f";
+}
+.icon-lyrics:before {
+  content: "\e910";
+}
+.icon-Next:before {
+  content: "\e911";
+}
+.icon-Previous:before {
+  content: "\e913";
+}
+.icon-queue:before {
+  content: "\e914";
+}
+.icon-repeat:before {
+  content: "\e915";
+}
+.icon-share:before {
+  content: "\e917";
+}
+.icon-shuffle:before {
+  content: "\e918";
+}
+.icon-sleep-timer:before {
+  content: "\e919";
+}
+.icon-view-album:before {
+  content: "\e91b";
+}
+.icon-view-artist:before {
+  content: "\e91c";
+}
+.icon-create_new:before {
+  content: "\e900";
+  color: #fff;
+}
+.icon-home_filled:before {
+  content: "\e901";
+  color: #fff;
+}
+.icon-home:before {
+  content: "\e902";
+  color: #fff;
+}
+.icon-library_filled:before {
+  content: "\e903";
+  color: #fff;
+}
+.icon-library:before {
+  content: "\e904";
+  color: #fff;
+}
+.icon-search_filled:before {
+  content: "\e905";
+  color: #fff;
+}
+.icon-search:before {
+  content: "\e906";
+  color: #fff;
+}
