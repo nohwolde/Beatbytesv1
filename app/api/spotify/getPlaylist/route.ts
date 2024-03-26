@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
 import { chromium } from "playwright";
+import fetch from "node-fetch";
+import spotify from "spotify-url-info";
+const { getData, getTracks, getPreview, getDetails, getLink } = spotify(fetch);
 
 export async function POST(
   request: Request
@@ -7,6 +10,12 @@ export async function POST(
   const { playlist } = await request.json();
   try {
     const playlistUrl = "https://open.spotify.com" + playlist.href;
+
+    const playlistData  = await getData(playlistUrl);
+    console.log("Found arist:", playlistData);
+
+    return NextResponse.json(playlistData);
+
     const browser = await chromium.launch({ headless: true });
     const page = await browser.newPage();
     await page.goto(playlistUrl, { waitUntil: "networkidle" });

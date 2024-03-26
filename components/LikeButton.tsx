@@ -11,10 +11,12 @@ import useAuthModal from "@/hooks/useAuthModal";
 
 interface LikeButtonProps {
   songId: string;
+  song?: any;
 };
 
 const LikeButton: React.FC<LikeButtonProps> = ({
-  songId
+  songId, 
+  song
 }) => {
   const router = useRouter();
   const {
@@ -66,6 +68,24 @@ const LikeButton: React.FC<LikeButtonProps> = ({
         setIsLiked(false);
       }
     } else {
+      // Check if the song exists in the 'songs' table
+      const { data: existingSong, error: fetchSongError } = await supabaseClient
+        .from('songs')
+        .select('id')
+        .eq('id', songId);
+
+      // If the song doesn't exist, insert it
+      if (!existingSong.length) {
+        const { error: insertSongError } = await supabaseClient
+          .from('songs')
+          .insert([song]);
+
+        if (insertSongError) {
+          toast.error(insertSongError.message);
+          return;
+        }
+      }
+
       const { error } = await supabaseClient
         .from('liked_songs')
         .insert({
@@ -91,7 +111,10 @@ const LikeButton: React.FC<LikeButtonProps> = ({
         hover:opacity-75 
         transition
       "
-      onClick={handleLike}
+      onClick={(e) => {
+        e.stopPropagation();
+        handleLike();
+      }}
     >
       <Icon color={isLiked ? '#22c55e' : 'white'} size={25} />
     </button>

@@ -3,16 +3,22 @@ import Image from "next/image";
 import * as playlistImage from '@/public/images/playlist.jpeg';
 import { getThumbnail } from "@/actions/useInnertube";
 import { useRouter } from "next/navigation";
+import * as PlayNext from '@/public/images/play-next.svg';
+import * as PlayLast from '@/public/images/play-last.svg';
+
+import { usePlayerStore } from "@/app/store";
 
 import PlayButton from "./PlayButton";
+import toast from "react-hot-toast";
 
 interface VideoItemProps {
   data: any;
-  onClick: (id: string) => void;
 }
 
-const VideoItem: React.FC<VideoItemProps> = ({ data, onClick }) => {
+const VideoItem: React.FC<VideoItemProps> = ({ data }) => {
   const router = useRouter();
+
+  const {addToFront, addToQueue, setCurrentTrack} = usePlayerStore();
 
   // const ThumbnailImage = async () => {
   //   const thumbnail = data.thumbnails? getThumbnail(data, "max", data?.thumbnails[0]?.url) : playlistImage;
@@ -26,9 +32,19 @@ const VideoItem: React.FC<VideoItemProps> = ({ data, onClick }) => {
   //   )
   // }
 
+  const addFrontQueue = () => {
+    console.log("adding to Front of Queue");
+    addToFront({...data, platform: "Youtube"});
+  }
+
+  const addEndQueue = () => {
+    console.log("adding to End of Queue");
+    addToQueue({...data, platform: "Youtube"});
+  }
+
   return ( 
     <div
-      onClick={() => onClick(data.id)} 
+      onClick={() => {router.push(`/watch/${data.id}`); console.log('Playing Now');setCurrentTrack({...data, platform:"Youtube"});}}
       className="
         relative 
         group 
@@ -70,6 +86,73 @@ const VideoItem: React.FC<VideoItemProps> = ({ data, onClick }) => {
           "
         >
           <PlayButton />
+        </div>
+        <div 
+          className="
+            absolute 
+            top-5 
+            right-5
+            flex
+            flex-row
+          "
+        >
+          <div
+            className="
+              transition 
+              opacity-0 
+              rounded-md 
+              flex 
+              items-center 
+              justify-center 
+              bg-cyan-500 
+              p-2 
+              mb-2
+              drop-shadow-md 
+              translate
+              translate-y-1/4
+              group-hover:opacity-100 
+              group-hover:translate-y-0
+              hover:scale-110
+              mr-2
+            "
+            onClick={(e) => {e?.stopPropagation(); addFrontQueue(); toast.success("Added to Queue");}}
+          >
+            <Image 
+              className="object-contain"
+              src={PlayNext}
+              alt="Image"
+              width={45}
+              height={45}
+            />
+          </div>
+          <div
+            className="
+              transition 
+              opacity-0 
+              rounded-md
+              flex 
+              items-center 
+              justify-center 
+              bg-blue-500
+              p-2
+              mt-2
+              drop-shadow-md 
+              translate
+              translate-y-1/4
+              group-hover:opacity-100 
+              group-hover:translate-y-0
+              hover:scale-110
+            "
+            onClick={(e) => {e?.stopPropagation(); addEndQueue(); toast.success("Added to Queue");}}
+          >
+            <Image 
+              className="object-contain"
+              src={PlayLast}
+              alt="Image"
+              width={45}
+              height={45}
+            />
+          </div>
         </div>
       </div>
       <div className="flex flex-col items-start w-full pt-4 gap-y-1">

@@ -21,6 +21,8 @@ import useDebounce from '@/hooks/useDebounce';
 import { ProfileStore } from '@/hooks/useProfile';
 import { getPlaylist, search } from '@/actions/useInnertube'
 
+import { useProfileStore } from '@/app/store';
+
 
 interface AccountModalProps {
   profile: ProfileStore;
@@ -46,11 +48,16 @@ const AccountModal: React.FC<AccountModalProps> = ({
   const [username, setUsername] = useState<string>('');
   const { session } = useSessionContext();
   const router = useRouter();
+  const supabaseClient = useSupabaseClient();
+  
   const platformLogoPath = platform === 'Spotify' ? '/images/logos/spot.svg' : platform === 'Youtube' ? '/images/logos/yt.svg' : '/images/logos/soundcloud.png';
 
   const buttonColor = platform === 'Spotify' ? 'bg-green-500' : platform === 'Youtube' ? 'bg-red-500' : 'bg-orange-500';
   const hoverButtonColor = platform === 'Spotify' ? 'hover:bg-green-600' : platform === 'Youtube' ? 'hover:bg-red-600' : 'hover:bg-orange-600';
   const profileColor = platform === 'Spotify' ? 'bg-green-800' : platform === 'Youtube' ? 'bg-gray-500' : 'bg-orange-600';
+  
+  const { spotPlaylists, setSpotPlaylists } = useProfileStore();
+
   useEffect(() => {
     if (session) {
       router.refresh();
@@ -98,8 +105,8 @@ const AccountModal: React.FC<AccountModalProps> = ({
 
         console.log({...playlist, importResponse});
         if (platform !== 'Youtube') {
-          const songs = await Promise.all(await importResponse.map(async (song:any) => {
-            const yt = (await search(platform === 'Spotify' ? song.artists[0].name.concat(" - ", song.name) : song.name, "video")).results;
+          const songs = await Promise.all(await importResponse.map(async (song: any) => {
+            const yt = (await search(platform === 'Spotify' ? song.name.concat(" - ", song.artists[0].name) : song.name, "video")).results;
               // await postData({ url: '/api/youtube/search/findOne', data: { searchTerm: platform === 'Spotify' ? song.artists[0].name.concat(" - ", song.name) : song.name } })
             const newSong = {
               ...song,
@@ -111,10 +118,11 @@ const AccountModal: React.FC<AccountModalProps> = ({
 
           ));
           profile.addPlaylist({...playlist, songs: songs});
-          console.log(songs);
+          console.log({...playlist, songs: songs});
         }
         else {
-          profile.addPlaylist({...importResponse.info, songs: importResponse.videos});
+          profile.addPlaylist({...importResponse.info, image: playlist.image, name: playlist.name, id: playlist.id, songs: importResponse.videos.map((song:any) => {return{...song, platform:"Youtube" }})});
+          console.log({...importResponse.info, image: playlist.image, name: playlist.name, id: playlist.id, songs: importResponse.videos.map((song:any) => {return{...song, platform:"Youtube" }})});
         }
         setTimeout(() => {
           console.log('done');

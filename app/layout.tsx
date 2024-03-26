@@ -10,8 +10,10 @@ import SearchProvider from '@/providers/SearchProvider'
 import SupabaseProvider from '@/providers/SupabaseProvider'
 import Player from '@/components/Player'
 import { useRouter } from 'next/navigation'
-
+import VideoPlayerMemo from '@/components/VideoPlayerMemo'
+import VideoPlayerProvider from '@/providers/VideoPlayerProvider';
 import './globals.css'
+import VideoPlayer from '@/components/VideoPlayer'
 
 const font = Figtree({ subsets: ['latin'] })
 
@@ -20,7 +22,7 @@ export const metadata = {
   description: 'Music without limits',
 }
 
-export const revalidate = 0;
+// export const revalidate = 0;
 
 export default async function RootLayout({
   children,
@@ -34,26 +36,42 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link
+        {/* <link
           rel="preload"
           href="/musive-icons.ttf"
           as="font"
           crossOrigin=""
           type="font/ttf"
-        />
-        <link rel="stylesheet" href="globals.css" />
+        /> */}
         <script defer src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
+        <script src="https://github.com/videojs/mux.js/releases/latest/download/mux.js"></script>
+        <script src="shaka-player.compiled.debug.js"></script>
+
+        <script defer src="../node_modules/codem-isoboxer/dist/iso_boxer.min.js"></script>
+        <script defer src="../node_modules/lcevc_dec.js/dist/lcevc_dec.min.js"></script>
+        <script defer src="../node_modules/material-design-lite/dist/material.min.js"></script>
+        <script defer src="../node_modules/dialog-polyfill/dist/dialog-polyfill.js"></script>
+        <script defer src="../node_modules/awesomplete/awesomplete.min.js"></script>
+        <script defer src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
+        <script defer src="../node_modules/tippy.js/umd/index.min.js"></script>
+        <script defer src="../node_modules/pwacompat/pwacompat.min.js"></script>
+
+        <script type="text/javascript" src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+        <script type="text/javascript" src="https://imasdk.googleapis.com/js/sdkloader/ima3_dai.js"></script>
       </head> 
       <body className={font.className}>
         <ToasterProvider />
         <SupabaseProvider>
           <UserProvider>
             <SearchProvider>
-              <ModalProvider products={products} />
-              <Sidebar songs={userSongs}>
-                {children}
-              </Sidebar>
-              <Player />
+              {/* <VideoPlayerProvider> */}
+                <ModalProvider products={products} />
+                <div className="flex w-full h-full overflow-y-auto py-0.5">
+                  <Sidebar songs={userSongs}>
+                    {children}
+                  </Sidebar>
+                  <Player />
+                </div>
             </SearchProvider>
           </UserProvider>
         </SupabaseProvider>

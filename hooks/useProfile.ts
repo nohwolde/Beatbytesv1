@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 export interface ProfileStore {
+  user: any | null;
   username: string;
   setUsername: (username: string) => void;
   name: string;
@@ -14,6 +15,8 @@ export interface ProfileStore {
 }
 
 export const useSpotifyProfile = create<ProfileStore>((set, get) => ({
+  user: null,
+  setUser: (user: any) => set({ user }),
   username: "",
   setUsername: (username: string) => set({ username }),
   name: "",
@@ -36,6 +39,8 @@ export const useSpotifyProfile = create<ProfileStore>((set, get) => ({
 }));
 
 export const useYoutubeProfile = create<ProfileStore>((set, get) => ({
+  user: null,
+  setUser: (user: any) => set({ user }),
   username: "",
   setUsername: (username: string) => set({ username }),
   name: "",
@@ -58,6 +63,8 @@ export const useYoutubeProfile = create<ProfileStore>((set, get) => ({
 }));
 
 export const useSoundcloudProfile = create<ProfileStore>((set, get) => ({
+  user: null,
+  setUser: (user: any) => set({ user }),
   username: "",
   setUsername: (username: string) => set({ username }),
   name: "",

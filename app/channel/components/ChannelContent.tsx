@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import VideoItem from "@/components/VideoItem";
 import ChannelItem from "@/components/ChannelItem";
 import { useRouter, usePathname, useParams } from "next/navigation";
+import { usePlayerStore } from "@/app/store";
 
 
 interface ChannelContentProps {
@@ -10,6 +11,9 @@ interface ChannelContentProps {
 
 const ChannelContent: React.FC<ChannelContentProps> = ({ contents }) => {
   const router = useRouter();
+
+  const {currentTrack, setCurrentTrack} = usePlayerStore();
+  
   const shelf = (shelf: any) => {
     return (
       <div className="mb-2">
@@ -21,7 +25,11 @@ const ChannelContent: React.FC<ChannelContentProps> = ({ contents }) => {
                 <VideoItem 
                   key={video.id}
                   data={video}
-                  onClick={() => router.push(`/watch/${video.id}`)}
+                  onClick={() => {
+                    router.push(`/watch/${video.id}`);
+                    setCurrentTrack({...video, platform: "Youtube"});
+                  }
+                }
                 />
               )
             }

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import fetch from "node-fetch";
-import spotify, { } from "spotify-url-info";
-const { getData, getTracks, getPreview, getDetails, getLink } = spotify(fetch);
+import spotify from "spotify-url-info";
+const { getData,  getTracks, getPreview, getDetails, getLink } = spotify(fetch);
 
 export async function POST(
   request: Request

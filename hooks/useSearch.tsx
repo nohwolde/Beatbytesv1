@@ -1,4 +1,5 @@
 
+"use client";
 import { postData } from '@/libs/helpers';
 import { channel } from 'diagnostics_channel';
 import { useEffect, useState, createContext, useContext } from 'react';
@@ -11,6 +12,10 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react';
 // import { getInnertube, search } from '@/actions/useInnertube';
 // import { searchModule, innertubeModule } from '@/libs/youtube';
 import { search, getVideo, getBasicInfo, getDash, getChannel} from '@/actions/useInnertube';
+import { searchSoundcloud } from '@/soundcloudController/api-controller';
+import { useKeyStore, useSearchStore } from '@/app/store';
+import getNewKey from "@/soundcloudController/keys"
+
 // import { Client as SoundClient } from "soundcloud-scraper";
 
 // const sc = new SoundClient();
@@ -32,7 +37,7 @@ type SearchContextType = {
   albumResults: any[] | [];
   searchTerm: string;
   searchType: SearchType;
-  setYtSearcher: (searcher: any) => void;
+  setYtSearch: (searcher: any) => void;
   ytSearch: any | undefined;
   setSearchType: (searchType: SearchType) => void;
   setSearchTerm: (searchTerm: string) => void;
@@ -75,12 +80,18 @@ export const MySearchContextProvider = (props: Props) => {
   const [artistResults, setArtistResults] = useState<any[]>([]);
   const [albumResults, setAlbumResults] = useState<any[]>([]);
   const [searchPage, setSearchPage] = useState(0);
-  const [platform, setPlatform] = useState<Platform>(Platform.Spotify);
+  const [platform, setPlatform] = useState<Platform>(Platform.Youtube);
   const [ytSearch, setYtSearch] = useState<(any)>();
   const [ytSearcher, setYtSearcher] = useState<SearchResult>();
   const [scSearcher, setScSearcher] = useState<any>();
   const { user } = useUser();
   const supabaseClient = useSupabaseClient();
+  const {scKey, setScKey} = useKeyStore();
+  const {
+    scResults, setScResults, 
+    spotResults, setSpotResults, 
+    ytResults, setYtResults
+  } = useSearchStore();
 
   const site = platform === Platform.Spotify ? 'site:open.spotify.com' : platform === Platform.Youtube ? 'site:youtube.com' : 'site:soundcloud.com';
   const getSearchType: () => string = () => {
@@ -116,7 +127,7 @@ export const MySearchContextProvider = (props: Props) => {
     const googleSearch = await getGoogleSearchData(searchTerm, searchPage);
     console.log(googleSearch);
     setSearchResults(googleSearch);
-    if(platform === Platform.Spotify) getSpotifyResults([googleSearch[0]]);
+    if(platform === Platform.Spotify) getSpotifyResults(googleSearch.slice(0, 1));
   };
 
   const setResults = (results: any[]) => {
@@ -141,13 +152,27 @@ export const MySearchContextProvider = (props: Props) => {
     setIsLoading(false);
   }
 
+  const getArtist = async (url: string) => {
+    const artist = await postData({
+      url: '/api/spotify/getInfo',
+      data: { url }
+    });
+    console.log(artist);
+  }
+
+
   const getSpotifyResults = async (resultUrls: string[]) => {
     // try {
       if (resultUrls.length === 0) return;
       // iterate through resultUrl and get spotify info for each url
       const results: any[] = [];
-      resultUrls.map(async (result: any) => {
+      Promise.all(resultUrls.map(async (result: any) => {
         let combinedRes = {};
+        // const jkResult = await postData({
+        //   url: '/api/spotify/getProfInfo',
+        //   data: { url: "https://open.spotify.com/user/nohwolde"}
+        // });
+        // console.log(jkResult);
         const spotifyResult = await postData({
           url: '/api/spotify/getInfo',
           data: { url: result.link}
@@ -161,10 +186,11 @@ export const MySearchContextProvider = (props: Props) => {
             const artistNames = match.groups.artist.split(',')[0].trim() + '';
             console.log(`Song name: ${songName}`);
             console.log(`Artist name: ${artistNames}`);
-            const ytRes = await postData({
-              url: '/api/youtube/search',
-              data: { searchTerm: songName + " " + artistNames, type: 'video' }
-            });
+            // const ytRes = await postData({
+            //   url: '/api/youtube/search',
+            //   data: { searchTerm: songName + " " + artistNames, type: 'video' }
+            // });
+            const ytRes = await search(songName + " " + artistNames, 'video');
             console.log(ytRes);
             combinedRes = {...spotifyResult, ytSearch: ytRes};
           } else {
@@ -176,115 +202,60 @@ export const MySearchContextProvider = (props: Props) => {
         }
         console.log(combinedRes);
         results.push(combinedRes);
+      })).then(() => {
+        setSpotResults(results);
       });
-      setResults(results);
   };
 
   const searchSc = async(searchTerm: string) => {
     const currentSearchType = searchType;
-    const type = searchType === SearchType.Top ? 'all' : searchType === SearchType.Songs ? 'track' : searchType === SearchType.Playlists ? 'playlist' : searchType === SearchType.Artists ? 'artist' : 'all';
-    const scSearch = await postData({
-      url: '/api/soundcloud/search',
-      data: { searchTerm: searchTerm, type: type }
-    });
-    console.log(scSearch);
 
-
-
-    // const results = await Promise.all(scSearch.map(async (result: any) => {
-    //   await postData({
-    //     url: '/api/soundcloud/getInfo',
-    //     data: { url: result.url, type: result.type }
-    //   })
-    // }));
-    // do the above in a for loop and wait for each result to come back
-    // then set the results
-
-    const res = [];
-
-    for(let i = 0; i < scSearch.length; i++) {
-      const result = scSearch[i];
-      const info = await postData({
-        url: '/api/soundcloud/getInfo',
-        data: { url: result.url, type: result.type }
-      });
-      if(result.type === 'playlist') {
-        // wait 1 second
-        await new Promise(resolve => setTimeout(resolve, 1000));
-      }
-      console.log(info);
-      res.push(info)
+    if(scKey !== null) {
+      const scSearch = await searchSoundcloud(searchTerm, currentSearchType, scKey);
+      // const res = JSON.parse(await scSearch.response.text());
+      console.log(scSearch);
+      setScResults(scSearch.response);
+      if(scSearch.newKey){
+        if(scSearch.newKey !== scKey) {
+          console.log("Setting new key");
+          setScKey(scSearch.newKey);
+        }
+      } 
     }
-
-    console.log(res);
-    // setResults(scSearch);
   }
 
   
   const searchYt = async(searchTerm: string) => {
-    // setIsLoading(true);
-    // const searchResults: SearchResult= await youtube.search(searchTerm, {
-    //   type: searchType === SearchType.Top ? "all" : searchType === SearchType.Songs ? 'video' : searchType === SearchType.Playlists ? 'playlist' : searchType === SearchType.Artists ? 'channel' : 'all', // video | playlist | channel | all
-    // }).then((search: SearchResult) => {
-    //   console.log(search.items);
-    //   setYtSearch(search.items);
-    //   setYtSearcher(search);
-    //   return search;
-    // });
     const songResults = await search(searchTerm, searchType === SearchType.Top ? "all" : searchType === SearchType.Songs ? 'video' : searchType === SearchType.Playlists ? 'playlist' : searchType === SearchType.Artists ? 'channel' : 'all');
     console.log(songResults);
+
+    //deprecate and remove this
     setYtSearch(songResults);
 
-    // if(searchType === SearchType.Top || searchType === SearchType.Songs) {
-    //   const results = songResults.results.filter((result: any) => result.type === 'video');
-    //   console.log("Supabase Results");
-    //   console.log(results);
-    //   const songConvert = results.map((result: any) => {
-    //     return {
-    //       // user_id: user?.id,
-    //       name: result.title.text,
-    //       image_path: result.thumbnails[0].url,
-    //       href: "https://youtube.com" + result.endpoint.metadata.url,
-    //       yt_href:  "https://youtube.com" + result.endpoint.metadata.url,
-    //       platform: "Youtube",
-    //     }
-    //   }
-    //   );
-    //   const { error: supabaseError } = await supabaseClient
-    //   .from('songs')
-    //   .insert(songConvert);
-    //   if(supabaseError) console.log(supabaseError)
-    // }
-    // setSongResults(songResults);
+    //new search storage method
+    setYtResults(songResults.results);
   }
 
 
 
   const getNextPage = async () => {
     if(platform === Platform.Youtube) {
-      // const nextPage = ytSearcher?.next();
-      // switch(searchType) {
-      //   case SearchType.Top:
-      //     setTopResults(topResults.concat(nextPage));
-      //     break;
-      //   case SearchType.Songs:
-      //     setSongResults(songResults.concat(nextPage));
-      //     break;
-      //   case SearchType.Playlists:
-      //     setPlaylistResults(playlistResults.concat(nextPage));
-      //     break;
-      //   case SearchType.Artists:
-      //     setArtistResults(artistResults.concat(nextPage));
-      //     break;
-      //   case SearchType.Albums:
-      //     setAlbumResults(albumResults.concat(nextPage));
-      //     break;
+      console.log(ytSearch);
+      console.log(ytResults);
+      // if (ytSearch?.results?.length > 0) {
+        console.log(ytSearch);
+        if(ytSearch?.has_continuation) {
+          console.log("Getting Next Page");
+          const nextPage = await ytSearch?.getContinuation();
+          console.log(nextPage);
+        }
       // }
+
     }
     else {
       setSearchPage(searchPage + 1);
       const googleSearch = await getGoogleSearchData(searchTerm, searchPage);
-      setSearchResults(googleSearch);
+      setSearchResults(googleSearch); 
       if(platform === Platform.Spotify) getSpotifyResults([googleSearch[0]]);
     }
   };
@@ -295,7 +266,7 @@ export const MySearchContextProvider = (props: Props) => {
       else if(platform === Platform.Soundcloud) searchSc(searchTerm);
       else searchYt(searchTerm);
     }
-  }, [searchTerm, platform]);
+  }, [searchTerm, platform, searchType]);
 
   useEffect(() => {
     console.log("Setting Innertube");
@@ -306,9 +277,41 @@ export const MySearchContextProvider = (props: Props) => {
       // console.log(dash);
       // const uri = 'data:application/dash+xml;charset=utf-8;base64,' + btoa(dash.dash.value);
       // console.log(uri);
+
     }
     setInnertube();
+    
+    const fetchData = async () => {
+      const { data, error } = await supabaseClient
+        .from('keys')
+        .select('key')
+        .single();
+      
+      if (!error && data) {
+        console.log("KEY:", data.key);
+        setScKey(data.key);
+
+        // setKey(Platform.Soundcloud, "client_id", data.key);
+      }
+      // const newKey = await getKey(Platform.Soundcloud, "client_id");
+
+      // const newKey = await getNewKey.refreshSoundcloudClientId();
+      // console.log("NEW KEY:", newKey);
+      // setScKey(newKey);
+      // setScKey(await getNewKey.refreshSoundcloudClientId())
+    }
+
+    fetchData();
+
+    // get spotify access token
+    // getSpotifyToken();
+    // https://open.spotify.com/get_access_token?reason=transport&productType=web_player
+
+    
+
   }, []);
+
+
 
 
   const value = {
@@ -318,7 +321,7 @@ export const MySearchContextProvider = (props: Props) => {
     artistResults,
     albumResults,
     searchTerm,
-    setYtSearcher,
+    setYtSearch,
     ytSearch,
     setSearchTerm,
     searchType,

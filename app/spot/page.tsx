@@ -5,7 +5,7 @@ import Profile from "@/components/Profile";
 
 export const revalidate = 0;
 
-const Spot = async () => {
+const Spot = () => {
 
   const profile = useSpotifyProfile();
 

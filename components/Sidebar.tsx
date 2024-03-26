@@ -11,8 +11,12 @@ import usePlayer from "@/hooks/usePlayer";
 import SidebarItem from "./SidebarItem";
 import Box from "./Box";
 import Library from "./Library";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSpotifyProfile, useSoundcloudProfile, useYoutubeProfile } from "@/hooks/useProfile";
+import VideoPlayer from "./VideoPlayer";
+
+import { useProfileStore } from "@/app/store";
 
 interface SidebarProps {
   children: React.ReactNode;
@@ -22,6 +26,12 @@ interface SidebarProps {
 const Sidebar = ({ children, songs }: SidebarProps) => {
   const pathname = usePathname();
   const player = usePlayer();
+
+  const { spotPlaylists, ytPlaylists, scPlaylists } = useProfileStore();
+
+  // const { playlists: spotPlaylists } = useSpotifyProfile();
+  // const { playlists: ytPlaylists } = useYoutubeProfile();
+  // const { playlists: scPlaylists } = useSoundcloudProfile();
 
   const routes = useMemo(() => [
     {
@@ -38,43 +48,61 @@ const Sidebar = ({ children, songs }: SidebarProps) => {
     },
   ], [pathname]);
 
+  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+
   return (
-    <div 
-      className={twMerge(`
-        flex 
-        h-full
+    <div
+      className={twMerge((pathname.startsWith("/watch")) ?
+        `
+        flex
         h-[calc(100%-80px)]
+        `
+        :
+      `
+        flex
+        h-[calc(100%-80px)]
+        w-full
         `
       )}
     >
-      <div 
-        className="
-          hidden 
-          md:flex 
-          flex-col 
-          gap-y-2 
-          bg-black 
-          h-full 
-          w-[300px] 
-          p-2
-        "
-      >
-        <Box>
-          <div className="flex flex-col gap-y-4 px-5 py-4">
-            {/* {routes.map((item) => (
-              <SidebarItem key={item.label} {...item} />
-            ))} */}
-            <SidebarItem name="home" label="Home" href="/" active={pathname === '/'}/>
-            <SidebarItem name="search" label="Search" href='/search' active={pathname === '/search'}/>
-          </div>
-        </Box>
-        <Box className="overflow-y-auto h-full">
-          <Library songs={songs} />
-        </Box>
-      </div>
-      <main className="h-full flex-1 overflow-y-auto py-2">
+      {/* <button onClick={() => setIsSidebarVisible(!isSidebarVisible)}>
+        {isSidebarVisible ? 'Hide Sidebar' : 'Show Sidebar'}
+      </button> */}
+      {isSidebarVisible && (
+        <div 
+          className="
+            hidden 
+            md:flex 
+            flex-col 
+            gap-y-2 
+            bg-black 
+            h-full 
+            w-[300px] 
+            p-2
+          "
+        >
+          <Box>
+            <div className="flex flex-col gap-y-4 px-5 py-4">
+              {/* {routes.map((item) => (
+                <SidebarItem key={item.label} {...item} />
+              ))} */}
+              <SidebarItem name="home" label="Home" href="/" active={pathname === '/'}/>
+              <SidebarItem name="search" label="Search" href='/search' active={pathname === '/search'}/>
+            </div>
+          </Box>
+          <Box className="overflow-y-auto h-full">
+            <Library songs={songs} spotify={spotPlaylists || []} soundcloud={scPlaylists || []} youtube={ytPlaylists || []}/>
+          </Box>
+        </div>
+      )}
+
+    {/* <div className=""> */}
+    {!(pathname.startsWith("/watch")) &&
+      <main className="h-full w-full flex-1 overflow-y-auto py-2">
         {children}
       </main>
+    }
+      {/* {!(pathname.startsWith("/watch")) && videoPlayer && videoPlayer} */}
     </div>
   );
 }

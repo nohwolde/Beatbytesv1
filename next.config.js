@@ -2,7 +2,6 @@
 // const withWorkbox = require("next-with-workbox");
 const nextConfig = {
   experimental: {
-    serverActions: true,
   },
   compiler: {
     styledComponents: true,
@@ -72,14 +71,14 @@ const nextConfig = {
       // },
     ];
   },
-  // async rewrites() {
-  //   return [
-  //     {
-  //       source: "/:path",
-  //       destination: "http://localhost:8080/:path",
-  //     },
-  //   ];
-  // },
+  async rewrites() {
+    return [
+      {
+        source: '/watch/:path*',
+        destination: '/', // Or wherever you want to render instead of a 404 page
+      },
+    ];
+  },
 };
 
 // module.exports = withWorkbox({

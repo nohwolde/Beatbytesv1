@@ -93,7 +93,13 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      filter: {
+        'invert-100': 'invert(100%)',
+      },
     },
+  },
+  variants: {
+    extend: {},
   },
   plugins: [],
 }

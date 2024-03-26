@@ -73,7 +73,7 @@ const PlaylistItem: React.FC<PlaylistItemProps> = ({
           By {data.artist}
         </p>
       </div>
-      <div 
+      {/* <div 
         className="
           absolute 
           bottom-24 
@@ -81,7 +81,7 @@ const PlaylistItem: React.FC<PlaylistItemProps> = ({
         "
       >
         <PlayButton />
-      </div>
+      </div> */}
     </div>
    );
 }

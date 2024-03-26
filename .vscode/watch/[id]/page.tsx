@@ -14,8 +14,13 @@ import 'shaka-player/dist/controls.css'; /* Shaka player CSS import */
 import VideoItem from "@/components/VideoItem";
 import VideoPlayer from "@/components/VideoPlayer";
 import usePlayer from "@/hooks/usePlayer";
+import VideoPlayerMemo from "@/components/VideoPlayerMemo";
 
-const Watch = () => {
+interface WatchProps {
+  Video: JSX.Element;
+}
+
+const Watch = ({Video}: WatchProps) => {
   const [videoData, setVideoData] = useState(null);
   const [dash, setDash] = useState("");
   const router = useRouter();
@@ -166,8 +171,8 @@ const Watch = () => {
                   transition 
                 "
               >
-                {(dash !== "") && 
-                  <VideoPlayer/>
+                {(dash !== "") && Video &&
+                  Video
                 }
                 {/* Put video info and channel info below */}
               </div>

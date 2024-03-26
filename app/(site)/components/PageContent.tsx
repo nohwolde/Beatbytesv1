@@ -1,48 +1,146 @@
-"use client";
+"use client"
 
 import { Song } from "@/types";
 import useOnPlay from "@/hooks/useOnPlay";
 import SongItem from "@/components/SongItem";
+import { Platform } from "@/hooks/useSearch";
+import { useKeyStore, useProfileStore } from '@/app/store';
+import getNewKey from "@/soundcloudController/keys"
+import setKey from "@/actions/setKey";
+import { useEffect } from "react";
+
+import { useSessionContext } from "@supabase/auth-helpers-react";
+import getKey from "@/actions/getKey";
+import getPlaylists from "@/actions/getPlaylists";
+import Profile from "@/components/Profile";
+import PlaylistItem from "@/components/PlaylistItem";
+
+import playlistImage from "@/public/images/playlist.jpeg";
+import { useRouter } from "next/navigation";
 
 interface PageContentProps {
-  songs: Song[];
+  songs?: Song[];
+  // key: string | null;
 }
 
 const PageContent: React.FC<PageContentProps> = ({
-  songs
+  songs, 
+  // key
 }) => {
-  const onPlay = useOnPlay(songs);
+  const router = useRouter();
+  const {
+    supabaseClient
+  } = useSessionContext();
+  const { scKey, setScKey } = useKeyStore();
 
-  if (songs.length === 0) {
-    return (
-      <div className="mt-4 text-neutral-400">
-        No songs available.
-      </div>
-    )
-  }
+  const { spotPlaylists, scPlaylists, ytPlaylists } = useProfileStore();
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const { data, error } = await supabaseClient
+  //       .from('keys')
+  //       .select('key')
+  //       .single();
+      
+  //     if (!error && data) {
+  //       console.log("KEY:", data.key);
+  //       setScKey(data.key);
+
+  //       // setKey(Platform.Soundcloud, "client_id", data.key);
+  //     }
+  //     // const newKey = await getKey(Platform.Soundcloud, "client_id");
+
+  //     // const newKey = await getNewKey.refreshSoundcloudClientId();
+  //     // console.log("NEW KEY:", newKey);
+  //     // setScKey(newKey);
+  //     // setScKey(await getNewKey.refreshSoundcloudClientId())
+  //   }
+
+  //   fetchData();
+  // }, []);
+
+  // useEffect(() => {
+  //   const keyExists = async () => {
+  //     console.log(key);
+
+  //     if(key){
+  //       setScKey(key);
+  //     }
+  //     else {
+  //       const newKey = await getNewKey.refreshSoundcloudClientId();
+  //       setScKey(newKey);
+  //       setKey(Platform.Soundcloud, "client_id", newKey);
+  //     }
+  //   }
+  //   keyExists();
+  // }, []);
+
+  // if (songs.length === 0) {
+  //   return (
+  //     <div className="mt-4 text-neutral-400">
+  //       No songs available.
+  //     </div>
+  //   )
+  // }
 
   return ( 
     <div 
       className="
         grid 
-        grid-cols-2 
-        sm:grid-cols-3 
-        md:grid-cols-3 
-        lg:grid-cols-4 
-        xl:grid-cols-5 
-        2xl:grid-cols-8 
+        grid-cols-1 
         gap-4 
         mt-4
+        p-5
       "
     >
-      {songs.map((item) => (
-        <SongItem 
-          onClick={(id: string) => onPlay(id)} 
-          image='/images/music-placeholder.png'
-          key={item.id} 
-          data={item}
+<div className="grid grid-cols-1 gap-4 mt-4 p-5">
+  <div className="w-full grid grid-cols-6 gap-4" >
+    {spotPlaylists.length > 0 &&
+      spotPlaylists?.map((playlist) => (
+        <PlaylistItem
+          onClick={() => {
+            const platformPrefix = '/spot';
+            router.push(platformPrefix + '/playlist/' + playlist.id);
+          }}
+          key={playlist.id} 
+          data={{title: playlist?.name, id: playlist?.id, artist: playlist?.author?.display_name, artist_href: playlist?.author?.href}}
+          image={playlist?.image  || playlistImage}
         />
-      ))}
+      ))
+    }
+  </div>
+  <div className="w-full bg-gradient-to-r from-transparent to-transparent grid grid-cols-6 gap-4">
+    {ytPlaylists.length > 0 &&
+      ytPlaylists?.map((playlist) => (
+        <PlaylistItem
+          onClick={() => {
+            const platformPrefix = 'yt';
+            router.push(platformPrefix + '/playlist/' + playlist.id);
+          }}
+          key={playlist?.id}
+          data={{title: playlist?.name, id: playlist?.id, artist: playlist?.author?.name, artist_href: playlist?.author?.id}}
+          image={playlist?.image || playlistImage}
+        />
+      ))
+    }
+  </div>
+  <div className="w-full bg-gradient-to-r from-transparent to-transparent grid grid-cols-6 gap-4">
+    {scPlaylists.length > 0 &&
+      scPlaylists?.map((playlist) => (
+        <PlaylistItem
+          onClick={() => {
+            const platformPrefix = '/sc';
+            router.push(platformPrefix + '/playlist/' + playlist?.id);
+          }}
+          key={playlist?.id}
+          data={{title: playlist?.name, id: playlist?.id, artist: playlist?.author?.name, artist_href: playlist?.author?.id}}
+          image={playlist?.image}
+        />
+      ))
+    }
+  </div>
+</div>
+      
     </div>
   );
 }

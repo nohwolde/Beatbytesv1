@@ -1,27 +1,43 @@
 import React, { useEffect } from 'react';
 const shaka = require('shaka-player/dist/shaka-player.ui.js');
 import 'shaka-player/dist/controls.css'; /* Shaka player CSS import */
-import dynamic from 'next/dynamic';
-import NoSSRWrapper from '@/components/noSSRWrapper';
-import PropTypes from 'prop-types';
-
+import usePlayer from '@/hooks/usePlayer';
+import { getDash } from '@/actions/useInnertube';
 
 interface VideoProps {
   licenseServer: string,
   manifestUrl: string,
-  posterUrl: string
+  setManifestUrl: any,
+  posterUrl: string, 
+  currentId: string,
+  setCurrentId: any,
 }
 
-const Video = (props: VideoProps) => {
+const Video: React.FC<VideoProps> = ({licenseServer, manifestUrl, setManifestUrl, posterUrl, currentId, setCurrentId}) => {
   const video = React.useRef(null);
   const videoContainer = React.useRef(null);
+  let currPlayer: any = null;
+
+  const playerState = usePlayer();
+
+  useEffect(() => {
+    const setInnertube = async () => {
+      const id = playerState.activeId;
+      console.log(id);
+      if(currentId !== id) {
+        setCurrentId(id as string);
+        const video = await getDash(id);
+        console.log(video);
+        const uri = 'data:application/dash+xml;charset=utf-8;base64,' + btoa(video.dash);
+        setManifestUrl(uri);
+      }
+    }
+    setInnertube();
+  }, [playerState.activeId]);
+
 
   // useEffect hook to load shaka player
   useEffect(() => {
-    const manifestUri = props.manifestUrl;
-    const licenseServer = props.licenseServer;
-    const posterUrl = props.posterUrl;
-
     let vid = video.current;
     let vidContainer = videoContainer.current;
 
@@ -29,10 +45,24 @@ const Video = (props: VideoProps) => {
 
     var player = new shaka.Player(vid);
 
-    const ui = new shaka.ui.Overlay(player, vidContainer, vid);
-    const controls = ui.getControls();
+    currPlayer = player;
 
-    console.log(Object.keys(shaka.ui));
+    const ui = new shaka.ui.Overlay(player, vidContainer, vid);
+    const config = {
+      seekBarColors: {
+        base: 'rgba(255,255,255,.2)',
+        buffered: 'rgba(255,255,255,.4)',
+        played: 'rgb(64, 224, 208)',
+      },
+      fadeDelay: 0,
+      // controlPanelElements: ['rewind', 'fast_forward']
+    };
+
+    ui.configure(config);
+    // const controls = ui.getControls();
+
+
+    // console.log(Object.keys(shaka.ui));
 
     player.configure({
       streaming: {
@@ -61,13 +91,13 @@ const Video = (props: VideoProps) => {
       // protobuf - { 15: 0 }
       request.body = new Uint8Array([120, 0]);
 
-      if (url.pathname === "/videoplayback") {
+      // if (url.pathname === "/watch") {
         if (headers.Range) {
           request.headers = {};
           url.searchParams.set("range", headers.Range.split("=")[1]);
           url.searchParams.set("alr", "yes");
         }
-      }
+      // }
 
       request.uris[0] = url.toString();
     });
@@ -120,84 +150,40 @@ const Video = (props: VideoProps) => {
       console.error('Error code', error.code, 'object', error);
     }
 
-    player.load(manifestUri).then(function() {
+    player.load(manifestUrl).then(function() {
+      showUI({ hidePlayer: false });
+      // currPlayer = player;
+      // console.log("Player", player);
+      // console.log(currPlayer);
       // This runs if the asynchronous load is successful.
       console.log('The video has now been loaded!');
     }).catch(onError);  // onError is executed if the asynchronous load fails.
   }, []);
 
+  function showUI(args: { hidePlayer?: boolean } = {
+    hidePlayer: true,
+  }) {
+    const ytplayer = document.getElementById('video') as HTMLDivElement;
+  
+    ytplayer.style.display = args.hidePlayer ? 'none' : 'block';
+  
+    const video_container = document.getElementById('shaka-container') as HTMLDivElement;
+    video_container.animate({ opacity: [0, 1] }, { duration: 300, easing: 'ease-in-out' });
+    video_container.style.display = 'block';
+  
+    // loader.style.display = 'none';
+  }
+
   return (
-    <div className="shadow-lg mx-auto max-w-full" ref={videoContainer}>
-      <video id="video" ref={video} className="w-full h-full"
-      poster={props.posterUrl}>
+    <div 
+      className="shadow-lg mx-auto max-w-full" 
+      ref={videoContainer} id="shaka-container">
+      <video id="video" ref={video} 
+      className="w-full h-full"
+      poster={posterUrl}>
       </video>
     </div>
   );
 }
-export default dynamic(() => Promise.resolve(Video), {
-  ssr: false
-})
-// export default Video;
 
-// export default class Video extends React.PureComponent{
-//     video: React.RefObject<any>;
-//     videoContainer: React.RefObject<any>;
-
-//     constructor(props: VideoProps){
-
-//         super(props);
-
-//         this.video = React.createRef();
-//         this.videoContainer = React.createRef();
-//     }
-
-//     componentDidMount(){
-
-//         var manifestUri = this.props.manifestUrl;
-//         var licenseServer = this.props.licenseServer;
-        
-//         let video = this.video.current;
-//         let videoContainer = this.videoContainer.current;
-
-//         var player = new shaka.Player(video);
-
-//         const ui = new shaka.ui.Overlay(player, videoContainer, video);
-//         const controls = ui.getControls();
-
-//         console.log(Object.keys(shaka.ui));
-
-//         player.configure({
-//             drm: {
-//               servers: { 'com.widevine.alpha': licenseServer }
-//             }
-//           });
-
-
-//         const onError = (error) => {
-//             // Log the error.
-//             console.error('Error code', error.code, 'object', error);
-//         }
-
-//         player.load(manifestUri).then(function() {
-//             // This runs if the asynchronous load is successful.
-//             console.log('The video has now been loaded!');
-//           }).catch(onError);  // onError is executed if the asynchronous load fails.
-//     }
-
-//     render(){
-
-//         return(
-//             <div className="shadow-lg mx-auto max-w-full" ref={this.videoContainer} style={{"width": "800px"}}>
-//             <video id="video" ref={this.video} className="w-full h-full"
-//             poster={this.props.posterUrl}></video>
-//             </div>
-//         );
-
-//     }
-// }
-
-// Video.propTypes = {
-//     licenseServer: PropTypes.string,
-//     manifestUrl: PropTypes.string,
-//     posterUrl: PropTypes.string
-// }
+export default Video;

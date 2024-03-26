@@ -17,15 +17,18 @@ import usePlayer from "@/hooks/usePlayer";
 
 import Button from "./Button";
 import { useSpotifyAccountModal, useSoundcloudAccountModal, useYoutubeAccountModal } from "@/hooks/useAccountModal";
+import SearchInput from "./SearchInput";
 
 interface HeaderProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
+  displaySearch?: boolean;
 }
 
 const Header: React.FC<HeaderProps> = ({
   children,
   className,
+  displaySearch = false
 }) => {
   const player = usePlayer();
   const router = useRouter();
@@ -132,6 +135,9 @@ const Header: React.FC<HeaderProps> = ({
           </button>
         </div>
         <div className="flex justify-between items-center gap-x-4">
+          {displaySearch &&
+            <SearchInput />
+          }
           <div className="flex gap-x-2 items-center bg-sky-900 mx-1 px-2 rounded-full">
             <Image
               src={spotifyLogoPath}

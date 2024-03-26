@@ -58,14 +58,14 @@ const SearchInput = () => {
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={(e) => e.key === 'Enter' && value !== '' && setSearchTerm(value)}
       />
-      <Image
+      {/* <Image
         src={spotifyLogoPath}
         width={30}
         height={30}
         alt='Spotify'
         onClick={() => setPlatform(Platform.Spotify)}
         className="cursor-pointer"
-      />
+      /> */}
       <Image
         src={ytLogoPath}
         width={45}

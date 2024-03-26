@@ -2,14 +2,11 @@ import Stripe from "stripe";
 
 export interface Song {
   id: string;
-  // user_id: string;
-  artists: [{name: string, uri: string}]
-  // artist: string;
-  // artist_href: string;
+  author: JSON;
+  album: JSON | null;
   name: string;
-  href: string;
-  yt_href: string;
-  image_path: string;
+  yt: JSON | null;
+  image: string;
   platform: string;
   // isExplicit?: boolean;
 }

@@ -6,14 +6,18 @@ import useLoadImage from "@/hooks/useLoadImage";
 import { Song } from "@/types";
 import usePlayer from "@/hooks/usePlayer";
 
+import songImage from '@/public/images/playlist.jpeg';
+
 interface MediaItemProps {
-  data: Song;
+  data: any;
   onClick?: (id: string) => void;
+  children?: React.ReactNode;
 }
 
 const MediaItem: React.FC<MediaItemProps> = ({
   data,
   onClick,
+  children
 }) => {
   const player = usePlayer();
   // const imageUrl = useLoadImage(data);
@@ -26,42 +30,54 @@ const MediaItem: React.FC<MediaItemProps> = ({
     return player.setId(data.id);
   };
 
-  return ( 
+  return (
     <div
-      onClick={handleClick}
       className="
-        flex 
-        items-center 
-        gap-x-3 
-        cursor-pointer 
-        hover:bg-neutral-800/50 
-        w-full 
-        p-2 
-        rounded-md
-      "
+      flex 
+      items-center 
+      gap-x-3 
+      cursor-pointer 
+      hover:bg-neutral-800/50 
+      w-full 
+      p-2 
+      rounded-md
+    "
+      onClick={handleClick}
     >
-      <div 
+      <div
         className="
-          relative 
-          rounded-md 
-          min-h-[48px] 
-          min-w-[48px] 
-          overflow-hidden
+          flex 
+          items-center 
+          cursor-pointer  
+          gap-x-3
+          w-full 
+          rounded-md
         "
       >
-        <Image
-          fill
-          src={data.image_path || "/images/music-placeholder.png"}
-          alt="MediaItem"
-          className="object-cover"
-        />
+        <div 
+          className="
+            relative 
+            rounded-md 
+            min-h-[60px] 
+            min-w-[60px] 
+            overflow-hidden
+          "
+        >
+          <Image
+            fill
+            src={data.image_path || songImage}
+            alt="MediaItem"
+            className="object-cover"
+          />
+        </div>
+        <div className="flex flex-col gap-y-1 overflow-hidden">
+          <p className="text-white truncate">{data.name}</p>
+          {/* <p className="text-neutral-400 text-sm truncate">
+            {data.artists.map((artist) => artist.name || artist.name).join(", ")}
+          </p> */}
+        </div>
       </div>
-      <div className="flex flex-col gap-y-1 overflow-hidden">
-        <p className="text-white truncate">{data.name}</p>
-        <p className="text-neutral-400 text-sm truncate">
-          {data.artists.map((artist) => artist.name).join(", ")}
-        </p>
-      </div>
+      {children}
     </div>
   );
 }

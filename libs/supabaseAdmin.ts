@@ -6,6 +6,7 @@ import { Price, Product } from '@/types';
 
 import { stripe } from './stripe';
 import { toDateTime } from './helpers';
+import { Platform } from '@/hooks/useSearch';
 
 export const supabaseAdmin = createClient<Database>(
   process.env.NEXT_PUBLIC_SUPABASE_URL || '',
@@ -77,6 +78,36 @@ const createOrRetrieveCustomer = async ({
   }
   return data.stripe_customer_id;
 };
+
+const createOrUpdateKey = async (key: string, user_id: string) => {
+
+  // const { data, error } = await supabaseAdmin
+  //   .from('keys')
+  //   .update({
+  //     source: "Soundcloud",
+  //     type: 'client_id',
+  //     key: key,
+  //     user_id: user_id, 
+  //   });
+  // if (error) throw error;
+  // console.log(`Inserted/updated key for user [${user_id}]`);
+  // return data;
+
+  const { data, error } = await supabaseAdmin
+    .from('keys')
+    .select('*')
+    .eq('user_id', user_id)
+    .eq('source', Platform.Soundcloud)
+    .single();
+  
+  console.log("Data: ", data);
+
+  if (error) {
+    console.log(error.message);
+  }
+
+    return data;
+}
 
 const copyBillingDetailsToCustomer = async (
   uuid: string,
@@ -176,4 +207,5 @@ export {
   upsertPriceRecord,
   createOrRetrieveCustomer,
   manageSubscriptionStatusChange,
+  createOrUpdateKey
 };

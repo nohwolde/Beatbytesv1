@@ -61,6 +61,37 @@ export interface Database {
             referencedColumns: ["id"]
           }
         ]
+      }, 
+      keys: {
+        Row: {
+          created_at: string | null
+          key: string
+          source: Database["public"]["Enums"]["platform"]
+          type: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          key: string
+          source: string
+          type?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          key: string
+          source: string
+          type?: string | null
+          user_id: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "keys_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       prices: {
         Row: {
@@ -287,6 +318,7 @@ export interface Database {
         | "incomplete_expired"
         | "past_due"
         | "unpaid"
+      platform: "Soundcloud" | "Spotify" | "Youtube"
     }
     CompositeTypes: {
       [_ in never]: never

@@ -13,7 +13,7 @@ const setInnertube = async (): Promise<void> => {
     innertube = await Innertube.create({
       //   cache: new UniversalCache(false),
       // });
-      //   generate_session_locally: true,
+      generate_session_locally: true,
       fetch: async (input: RequestInfo | URL, init?: RequestInit) => {
         const url =
           typeof input === "string"
@@ -93,6 +93,7 @@ const search = async (
 const getVideo = async (id: string): Promise<any> => {
   if (!innertube) await setInnertube();
   const video = await innertube?.getInfo(id);
+  console.log("Items",video);
   return video;
 };
 
@@ -104,7 +105,7 @@ const getBasicInfo = async (id: string): Promise<any> => {
 
 const getPlaylist = async (id: string): Promise<any> => {
   if (!innertube) await setInnertube();
-  const playlist = await innertube?.getPlaylist(id);
+  const playlist = (await innertube?.getPlaylist(id))?.videos;
   return playlist;
 };
 

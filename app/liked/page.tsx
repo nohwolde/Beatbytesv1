@@ -4,6 +4,7 @@ import getLikedSongs from "@/actions/getLikedSongs";
 import Header from "@/components/Header";
 
 import LikedContent from "./components/LikedContent";
+import PlaylistContent from "@/components/PlaylistContent";
 
 export const revalidate = 0;
 
@@ -59,7 +60,8 @@ const Liked = async () => {
           </div>
         </div>
       </Header>
-      <LikedContent songs={songs} />
+      <PlaylistContent songs={songs} />
+      {/* <LikedContent songs={songs} /> */}
     </div>
   );
 }
