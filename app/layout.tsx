@@ -44,9 +44,7 @@ export default async function RootLayout({
           type="font/ttf"
         /> */}
         <script defer src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
-        <script src="https://github.com/videojs/mux.js/releases/latest/download/mux.js"></script>
-        <script src="shaka-player.compiled.debug.js"></script>
-
+        
         <script defer src="../node_modules/codem-isoboxer/dist/iso_boxer.min.js"></script>
         <script defer src="../node_modules/lcevc_dec.js/dist/lcevc_dec.min.js"></script>
         <script defer src="../node_modules/material-design-lite/dist/material.min.js"></script>
@@ -56,8 +54,6 @@ export default async function RootLayout({
         <script defer src="../node_modules/tippy.js/umd/index.min.js"></script>
         <script defer src="../node_modules/pwacompat/pwacompat.min.js"></script>
 
-        <script type="text/javascript" src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
-        <script type="text/javascript" src="https://imasdk.googleapis.com/js/sdkloader/ima3_dai.js"></script>
       </head> 
       <body className={font.className}>
         <ToasterProvider />

@@ -148,7 +148,7 @@ const UserProfile = () => {
     fetchImage();
   }, [userData?.avatar_url]);
 
-  const displayCollection = (results: any, setCollection: any) => {
+  const DisplayCollection = (results: any, setCollection: any) => {
     const sentinelRef = useRef(null);
 
     useEffect(() => {
@@ -257,7 +257,7 @@ const UserProfile = () => {
   const All = () => {
     return (
       <div>
-        {displayCollection(recentTracks, setRecentTracks)}
+        {DisplayCollection(recentTracks, setRecentTracks)}
       </div>
     );
   };
@@ -265,7 +265,7 @@ const UserProfile = () => {
   const PopularTracks = () => {
     return (
       <div>
-        {displayCollection(popTracks, setPopTracks)}
+        {DisplayCollection(popTracks, setPopTracks)}
       </div>
     );
   };
@@ -273,7 +273,7 @@ const UserProfile = () => {
   const Tracks = () => {
     return (
       <div>
-        {displayCollection(recentTracks, setRecentTracks)}
+        {DisplayCollection(recentTracks, setRecentTracks)}
       </div>
     );
   };
@@ -281,7 +281,7 @@ const UserProfile = () => {
   const Albums = () => {
     return (
       <div>
-        {displayCollection(albums, setAlbums)}
+        {DisplayCollection(albums, setAlbums)}
       </div>
     );
   };
@@ -289,7 +289,7 @@ const UserProfile = () => {
   const Playlists = () => {
     return (
       <div>
-        {displayCollection(playlists, setPlaylists)}
+        {DisplayCollection(playlists, setPlaylists)}
       </div>
     );
   };
@@ -297,7 +297,7 @@ const UserProfile = () => {
   const Reposts = () => {
     return (
       <div>
-        {displayCollection(reposts, setReposts)}
+        {DisplayCollection(reposts, setReposts)}
       </div>
     );
   };

@@ -82,6 +82,7 @@ const SoundcloudPlaylist: React.FC<SoundcloudPlaylistProps> = ({
                   w-full 
                   p-2 
                   "
+                  key={song.id}
                 >
                   <div 
                     className="

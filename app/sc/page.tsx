@@ -5,7 +5,7 @@ import { useSoundcloudProfile } from "@/hooks/useProfile";
 
 export const revalidate = 0;
 
-const sc = async () => {
+const Sc = async () => {
   
   const profile = useSoundcloudProfile();
 
@@ -25,4 +25,4 @@ const sc = async () => {
   );
 }
 
-export default sc;
+export default Sc;

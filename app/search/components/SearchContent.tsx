@@ -278,7 +278,7 @@ const SearchContent: React.FC<SearchContentProps> = ({
     );
   }
 
-  const showScResults = () => {
+  const ShowScResults = () => {
     const sentinelRef = useRef(null);
 
     useEffect(() => {
@@ -569,7 +569,7 @@ const SearchContent: React.FC<SearchContentProps> = ({
     );
   }
 
-  const showYtResults = () => {
+  const ShowYtResults = () => {
     const sentinelRef = useRef(null);
 
     useEffect(() => {
@@ -668,8 +668,8 @@ const SearchContent: React.FC<SearchContentProps> = ({
       </div>
       {/* show topResults, songResults, playlistResults, or artistResults which could be a list of songs, playlists, artists, or albums */}
       {/* {platform === Platform.Spotify && showSpotifyResults()} */}
-      {platform === Platform.Youtube && showYtResults()}
-      {platform === Platform.Soundcloud && showScResults()}
+      {platform === Platform.Youtube && ShowYtResults()}
+      {platform === Platform.Soundcloud && ShowScResults()}
       {/* {songs.map((song: Song) => (
         <div 
           key={song.id} 

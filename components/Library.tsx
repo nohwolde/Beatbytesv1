@@ -1,6 +1,5 @@
 "use client";
 
-import { TbPlaylist } from "react-icons/tb";
 import { AiOutlinePlus } from "react-icons/ai";
 
 import { Song } from "@/types";
@@ -15,73 +14,11 @@ import PlaylistRow from "./PlaylistRow";
 import {useRouter} from "next/navigation";
 
 import Image from "next/image";
-
-import MediaItem from "./MediaItem";
-
 interface LibraryProps {
   spotify: any[];
   soundcloud: any[];
   youtube: any[];
   songs: Song[];
-}
-
-const showYtPlaylist = (playlist: any) => {
-  return (
-    <div 
-      key={playlist.id} 
-      onClick={() => router.push(`/sc/playlist/${item.id}`)} 
-      className="
-      flex 
-      items-center 
-      gap-x-3 
-      cursor-pointer 
-      hover:bg-neutral-800/50 
-      w-full 
-      p-2 
-      rounded-md
-      "
-    >
-      <div 
-        className="
-          relative 
-          rounded-md 
-          min-h-[48px] 
-          min-w-[48px] 
-          overflow-hidden
-        "
-      >
-        <Image
-          fill
-          src={playlist.image || "/images/music-placeholder.png"}
-          alt="ArtistItem"
-          className="object-cover"
-        />
-      </div>
-      <div className="flex-col gap-y-1 overflow-hidden">
-        <p className="text-white text-md truncate">
-          {playlist.name}
-        </p>
-        <div className="flex gap-x-2 overflow-hidden items-center">
-          <p className="text-neutral-400 text-sm truncate">
-            {playlist.author.name}
-          </p>
-        </div>
-        {/* <div className='my-2'>
-          {playlist.first_videos?.map((video: any) => {
-            return (
-              <p key={video.id} className="text-white text-sm truncate">
-                {video.title.text}
-              </p>
-            )
-          }
-          )}
-        </div>
-        <p className="text-neutral-400 text-sm truncate">
-          VIEW FULL PLAYLIST
-        </p> */}
-    </div>
-    </div>
-  );
 }
 
 const Library: React.FC<LibraryProps> = ({

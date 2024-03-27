@@ -5,7 +5,7 @@ import Profile from "@/components/Profile";
 
 export const revalidate = 0;
 
-const yt = () => {
+const Yt = () => {
 
   const profile = useYoutubeProfile();
 
@@ -25,4 +25,4 @@ const yt = () => {
   );
 }
 
-export default yt;
+export default Yt;

@@ -29,8 +29,6 @@ const Draggable = require('react-draggable');
 const shaka = require('shaka-player/dist/shaka-player.ui.js');
 import 'shaka-player/dist/controls.css'; /* Shaka player CSS import */
 
-// import Watch from "@/components/Watch";
-
 import Header from "@/components/Header";
 import { twMerge } from "tailwind-merge";
 import Image from "next/image";
@@ -92,7 +90,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
   }, [currentTrack?.artwork_url]);
 
   useEffect(() => {
-    setFeed(videoData?.watch_next_feed.filter((item) => item?.type === "CompactVideo"));
+    setFeed(videoData?.watch_next_feed?.filter((item: any) => item?.type === "CompactVideo"));
   }, [videoData]);
 
   // const setInnertube = async (id: string) => {
