@@ -283,7 +283,7 @@ const Track = () => {
                 md:gap-y-10
               "
             >
-              {relatedTracks?.collection?.map((track, index) => (
+              {relatedTracks?.collection?.map((track: any, index: number) => (
                 <div key={index}>
                   {showSong(track, () => setCurrentTrack({...track, platform: "Soundcloud"}))}
                 </div>

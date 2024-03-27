@@ -46,7 +46,7 @@ const QueuePage: React.FC = () => {
     removeFromQueue(track.id);
   };
 
-  const values = [currentTrack? {...currentTrack, position:`c-0`} : [], ...queue.map((item, index) => {return {...item, position: `q-${index}`} }), ...currentPlaylist.songs.map((item, index) => {return {...item, position: `p-${index}`} })];
+  const values = [currentTrack? {...currentTrack, position:`c-0`} : [], ...queue.map((item: any, index: number) => {return {...item, position: `q-${index}`} }), ...currentPlaylist.songs.map((item: any, index: number) => {return {...item, position: `p-${index}`} })];
   
 
   useEffect(() => {

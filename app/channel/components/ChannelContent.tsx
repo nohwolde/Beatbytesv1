@@ -25,11 +25,7 @@ const ChannelContent: React.FC<ChannelContentProps> = ({ contents }) => {
                 <VideoItem 
                   key={video.id}
                   data={video}
-                  onClick={() => {
-                    router.push(`/watch/${video.id}`);
-                    setCurrentTrack({...video, platform: "Youtube"});
-                  }
-                }
+
                 />
               )
             }

@@ -21,7 +21,7 @@ const ChannelPage = () => {
       const channel = await getChannel(id as string);
       console.log(channel);
       setChannelData(channel);
-      console.log(channel?.current_tab.content.contents.filter((shelf) => shelf.contents[0].type === "Shelf" || shelf.contents[0].type === "ChannelVideoPlayer"));
+      console.log(channel?.current_tab.content.contents.filter((shelf: any) => shelf.contents[0].type === "Shelf" || shelf.contents[0].type === "ChannelVideoPlayer"));
     }
     setInnertube();
   }, []);
@@ -111,7 +111,7 @@ const ChannelPage = () => {
           </div>
         }
       </Header>
-      {channelData && <ChannelContent contents={channelData?.current_tab.content.contents.filter((shelf) => shelf.contents[0].type === "Shelf" || shelf.contents[0].type === "ChannelVideoPlayer")} />
+      {channelData && <ChannelContent contents={channelData?.current_tab.content.contents.filter((shelf: any) => shelf.contents[0].type === "Shelf" || shelf.contents[0].type === "ChannelVideoPlayer")} />
       }
     </div>
   );
