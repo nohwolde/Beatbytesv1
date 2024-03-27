@@ -73,7 +73,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
 
   const {scKey} = useKeyStore();
 
-  const {currentTrack, setCurrentTrack, playNext, playPrev, queue, shufflePlaylist, isShuffled, setIsShuffled} = usePlayerStore();
+  const {currentTrack, setCurrentTrack, playNext, playPrev, queue, shufflePlaylist, isShuffled, setIsShuffled, currentPlaylist} = usePlayerStore();
   
   const Icon = isPlaying ? BsPauseFill : BsPlayFill;
   const VolumeIcon = volume === 0 ? HiSpeakerXMark : HiSpeakerWave;
@@ -161,6 +161,8 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
   let currPlayer: any = null;
   
   let inWatchPage = false;
+
+  const [playCount, setPlayCount] = useState(0);
   
   useEffect(() => {
     if (watchRef.current || playerRef.current) {
@@ -309,6 +311,8 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
         // If the current time is within 1 second of the duration, consider the video as ended
         if (currDuration - accTime <= 1) {
           console.log("Video Ended");
+          console.log(queue);
+          console.log(currentTrack);
           playNext();
         }
       });
@@ -483,7 +487,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
         )
       }
     }
-  }, [currentTrack?.id]);
+  }, [currentTrack?.id, playCount]);
 
   // useEffect(() => {
   //   if (video.current) {
@@ -651,12 +655,24 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
   }
 
   const watchNext = (feed: Array<any>) => {
+    const sortedFeed = feed?.sort((a, b) => 
+      (a.author?.id === currentTrack.author?.id ? -1 : 0) - (b.author?.id === currentTrack.author?.id ? -1 : 0)
+    );
+  
     return (
       <>
-        {feed?.map((item) => <VideoItem data={item} />)}
+        {sortedFeed?.map((item) => <VideoItem data={item} />)}
       </>
     );
   };
+
+  // const watchNext = (feed: Array<any>) => {
+  //   return (
+  //     <>
+  //       {feed?.map((item) => <VideoItem data={item} />)}
+  //     </>
+  //   );
+  // };
 
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
 
@@ -900,15 +916,14 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
             >
               <div className="flex justify-center items-center w-full gap-x-6">
                                 
-                                  <Image 
-                                    className="object-contain filter invert-100"
-                                    src={shuffle}
-                                    style={{ filter: 'invert(70%)' }}
-                                    alt="Image"
-                                    width={28}
-                                    height={28}
-                                  />
-                                
+                <Image 
+                  className="object-contain filter invert-100"
+                  src={shuffle}
+                  style={{ filter: 'invert(70%)' }}
+                  alt="Image"
+                  width={28}
+                  height={28}
+                />
                 <AiFillStepBackward
                   onClick={onPlayPrevious}
                   size={30} 

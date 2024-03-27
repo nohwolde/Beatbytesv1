@@ -31,7 +31,7 @@ const SpotifyAccountModal = () => {
 
   const profile = useSpotifyProfile();
 
-  const { setSpotProfile, spotPlaylists, setSpotPlaylists, updateSpotPlaylist, setYtPlaylists, updateScPlaylist, updateYtPlaylist, setScPlaylists } =
+  const { setSpotProfile, spotPlaylists, setSpotPlaylists, addSpotPlaylist,  updateSpotPlaylist, setYtPlaylists, updateScPlaylist, updateYtPlaylist, setScPlaylists } =
     useProfileStore();
 
   const supabase = useSupabaseClient();
@@ -223,17 +223,33 @@ const SpotifyAccountModal = () => {
         image: profileResponse?.photo,
       })
 
+
+ 
+
+      return profileResponse;
+    } catch (error) {
+      if (error) return alert((error as Error).message);
+    }
+  };
+
+  const handleGetPlaylists = async (value: any) => {
+    try {
+      // const playlistResponse = await postData({
+      //   url: '/api/spotify/getProfile/getPlaylists',
+      //   data: { profile: value.username }
+      // });
+      
       const getSpotKeyResponse = await getSpotKey();
       console.log(getSpotKeyResponse);
       const accessToken = getSpotKeyResponse.accessToken;
       const playlistsResponse = await getSpotifyUserPlaylists(
-        value,
+        "nohwolde",
         accessToken
       );
       console.log(playlistsResponse);
       const playlistData = await Promise.all(
         playlistsResponse.items.map(async (playlist: any) => {
-          const { error } = await supabase.from("playlists").insert({
+          const {  error } = await supabase.from("playlists").insert({
             id: playlist?.id,
             platform: "Spotify",
             name: playlist?.name,
@@ -242,6 +258,22 @@ const SpotifyAccountModal = () => {
             author: playlist?.owner,
             user_id: session?.user?.id,
           });
+          if(error) {
+            console.error("Error inserting playlist:", error);
+            return;
+          }
+          else {
+            console.log("Playlist inserted");
+            addSpotPlaylist({
+              id: playlist?.id,
+              platform: "Spotify",
+              name: playlist?.name,
+              href: playlist?.href,
+              image: playlist?.images[0]?.url,
+              author: playlist?.owner,
+              user_id: session?.user?.id,
+            });
+          }
           const getPlaylists = await getSpotifyPlaylist(
             playlist.id,
             accessToken
@@ -405,27 +437,15 @@ const SpotifyAccountModal = () => {
 
           console.log("Playlist", data);
           // setSpotPlaylists(data);
+          onClose();
           return data;
         })
       );
       // setSpotPlaylists(playlistData);
       console.log(playlistData);
       // push playlistData to supabase
-
-      return profileResponse;
-    } catch (error) {
-      if (error) return alert((error as Error).message);
-    }
-  };
-
-  const handleGetPlaylists = async (value: any) => {
-    try {
-      // const playlistResponse = await postData({
-      //   url: '/api/spotify/getProfile/getPlaylists',
-      //   data: { profile: value.username }
-      // });
-      // console.log(playlistResponse);
       return spotPlaylists;
+      
     } catch (error) {
       if (error) return alert((error as Error).message);
     }

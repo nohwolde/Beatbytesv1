@@ -254,7 +254,7 @@ const QueuePage: React.FC = () => {
                     onDragStart={() => setActive(index + 1)}
                     onDragEnd={(e) => {console.log(e); console.log(index + 1)}}
                   >
-                    <div key={track.id} className="flex justify-between items-center w-full mb-2 p-4 rounded shadow">
+                    <div key={track.id} className="flex justify-between items-center w-full mb-2 p-4 rounded">
                       <div className="pr-2">
                         {index + 2}
                       </div>
@@ -280,7 +280,7 @@ const QueuePage: React.FC = () => {
                     onDragStart={() => setActive(index + 1)}
                     onDragEnd={() => console.log("Drag End")}
                   >
-                    <div key={track.id} className="flex justify-between items-center w-full mb-2 bg-white p-4 rounded shadow">
+                    <div key={track.id} className="flex justify-between items-center w-full mb-2 p-4 rounded">
                       <div>{index + 1}</div>
                       {showSong(track, () => {})}
                       <button onClick={() => removeTrack(track)} className="ml-2 bg-red-500 text-white rounded px-2 py-1">Remove</button>
@@ -305,7 +305,7 @@ const QueuePage: React.FC = () => {
                     onDragStart={() => setActive(index + queue.length + 1)}
                     onDragEnd={() => console.log("Drag End")}
                   >
-                    <div key={track.id} className="flex justify-between items-center w-full mb-2 p-4 rounded shadow">
+                    <div key={track.id} className="flex justify-between items-center w-full mb-2 p-4 rounded">
                       <div 
                         className="pr-2
                         "
@@ -332,10 +332,12 @@ const QueuePage: React.FC = () => {
                     onDragStart={(e) => {console.log(e); setActive(index + queue.length + 1)}}
                     onDragEnd={(e) => console.log(e)}
                   >
-                    <div key={track.id} className="flex justify-between items-center w-full mb-2 bg-white p-4 rounded shadow">
-                      <div>{index + 2}</div>
-                      {showSong(track, () => playTrack(track))}
-                      <button onClick={() => removeTrackFromPlaylist(track?.id)} className="ml-2 bg-red-500 text-white rounded px-2 py-1">Remove</button>
+                    <div key={track.id} className="flex justify-between items-center w-full mb-2 p-4 rounded">
+                        <div>{index + 2}</div>
+                        <div key={track.id} className="flex-1 items-center gap-x-4 w-full">
+                        {showSong(track, () => playTrack(track))}
+                        </div>
+                        <button onClick={() => removeTrackFromPlaylist(track?.id)} className="ml-2 bg-red-500 text-white rounded px-2 py-1">Remove</button>
                     </div>
                   </Reorder.Item>
                 );

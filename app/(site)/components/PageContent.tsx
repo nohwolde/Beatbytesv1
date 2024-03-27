@@ -93,55 +93,84 @@ const PageContent: React.FC<PageContentProps> = ({
         p-5
       "
     >
-<div className="grid grid-cols-1 gap-4 mt-4 p-5">
-  <div className="w-full grid grid-cols-6 gap-4" >
-    {spotPlaylists.length > 0 &&
-      spotPlaylists?.map((playlist) => (
-        <PlaylistItem
-          onClick={() => {
-            const platformPrefix = '/spot';
-            router.push(platformPrefix + '/playlist/' + playlist.id);
-          }}
-          key={playlist.id} 
-          data={{title: playlist?.name, id: playlist?.id, artist: playlist?.author?.display_name, artist_href: playlist?.author?.href}}
-          image={playlist?.image  || playlistImage}
-        />
-      ))
-    }
-  </div>
-  <div className="w-full bg-gradient-to-r from-transparent to-transparent grid grid-cols-6 gap-4">
-    {ytPlaylists.length > 0 &&
-      ytPlaylists?.map((playlist) => (
-        <PlaylistItem
-          onClick={() => {
-            const platformPrefix = 'yt';
-            router.push(platformPrefix + '/playlist/' + playlist.id);
-          }}
-          key={playlist?.id}
-          data={{title: playlist?.name, id: playlist?.id, artist: playlist?.author?.name, artist_href: playlist?.author?.id}}
-          image={playlist?.image || playlistImage}
-        />
-      ))
-    }
-  </div>
-  <div className="w-full bg-gradient-to-r from-transparent to-transparent grid grid-cols-6 gap-4">
-    {scPlaylists.length > 0 &&
-      scPlaylists?.map((playlist) => (
-        <PlaylistItem
-          onClick={() => {
-            const platformPrefix = '/sc';
-            router.push(platformPrefix + '/playlist/' + playlist?.id);
-          }}
-          key={playlist?.id}
-          data={{title: playlist?.name, id: playlist?.id, artist: playlist?.author?.name, artist_href: playlist?.author?.id}}
-          image={playlist?.image}
-        />
-      ))
-    }
-  </div>
-</div>
-      
+
+  <div className="grid grid-cols-1 gap-4 mt-4 p-5">
+    <div className="w-full">
+      {spotPlaylists.length > 0 &&
+        <>
+        <h1 className="text-3xl font-bold text-green-500 m-4" onClick={() => router.push('/spot')}>
+          Spotify Playlists
+        </h1>
+        <div className="w-full grid md:grid-cols-3 lg:grid-cols-5 gap-4" >
+          {spotPlaylists.length > 0 &&
+            spotPlaylists?.map((playlist) => (
+              <PlaylistItem
+                onClick={() => {
+                  const platformPrefix = '/spot';
+                  router.push(platformPrefix + '/playlist/' + playlist.id);
+                }}
+                key={playlist.id} 
+                data={{title: playlist?.name, id: playlist?.id, artist: playlist?.author?.display_name, artist_href: playlist?.author?.href}}
+                image={playlist?.image  || playlistImage}
+              />
+            ))
+          }
+        </div>
+        </>
+      }
+    </div>  
+
+    <div className="w-full">
+      {ytPlaylists.length > 0 &&
+        <>
+          <h1 className="text-3xl font-bold text-rose-500 m-4" onClick={() => router.push('/spot')}>
+            Youtube Playlists
+          </h1>
+          <div className="w-full grid md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {
+              ytPlaylists?.map((playlist) => (
+                <PlaylistItem
+                  onClick={() => {
+                    const platformPrefix = 'yt';
+                    router.push(platformPrefix + '/playlist/' + playlist.id);
+                  }}
+                  key={playlist?.id}
+                  data={{title: playlist?.name, id: playlist?.id, artist: playlist?.author?.name, artist_href: playlist?.author?.id}}
+                  image={playlist?.image || playlistImage}
+                />
+              ))
+            }
+          </div>
+        </>
+      }
     </div>
+    <div className="w-full">
+      {scPlaylists.length > 0 &&
+      <>
+        <h1 className="text-3xl font-bold text-orange-500 m-4" onClick={() => router.push('/spot')}>
+          Soundcloud Playlists
+        </h1>   
+        <div className="w-full grid md:grid-cols-3 lg:grid-cols-5 gap-4">
+
+          {scPlaylists.length > 0 &&
+            scPlaylists?.map((playlist) => (
+              <PlaylistItem
+                onClick={() => {
+                  const platformPrefix = '/sc';
+                  router.push(platformPrefix + '/playlist/' + playlist?.id);
+                }}
+                key={playlist?.id}
+                data={{title: playlist?.name, id: playlist?.id, artist: playlist?.author?.name, artist_href: playlist?.author?.id}}
+                image={playlist?.image}
+              />
+            ))
+          }
+        </div>
+      </>
+      }
+    </div>
+  </div>
+  </div>
   );
 }
  

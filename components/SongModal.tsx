@@ -124,7 +124,7 @@ const SongModal = () => {
       );
     }
     else if(song.platform === 'Youtube') {
-      addToQueue({
+      addToFront({
         id: song?.id,
         author: song?.author,
         title: {text: song?.name}, 
@@ -134,7 +134,7 @@ const SongModal = () => {
     }
     else { 
       // this is a spotify song
-      addToQueue({
+      addToFront({
         id: song.yt?.id,
         author: song.yt?.author,
         title: {text: song.yt?.name}, 
@@ -288,7 +288,7 @@ const SongModal = () => {
               </div>
               <div className="flex-shrink-0">
                 <AiOutlinePlus 
-                  onClick={() => addToPlaylist(item.id)} 
+                  onClick={() => addToPlaylist(item.id)}
                   size={30} 
                   className="
                     items-end

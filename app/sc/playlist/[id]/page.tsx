@@ -22,6 +22,7 @@ import { FaPlay } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
 
 import playlistImage from "@/public/images/playlist.jpeg";
+import shuffle from "@/public/images/shuffle.svg";
 
 export const revalidate = 0;
 
@@ -29,7 +30,7 @@ const Playlist = () => {
   const params = useParams();
   const id = params.id;
   const { scKey, setScKey } = useKeyStore();
-  const { setCurrentTrack, addToFront, addToQueue, setCurrentPlaylist} = usePlayerStore();
+  const { setCurrentTrack, addToFront, addToQueue, setCurrentPlaylist, isShuffled, setIsShuffled, shufflePlaylist, setUnshuffledPlaylist} = usePlayerStore();
   const router = useRouter();
 
 
@@ -91,44 +92,42 @@ const Playlist = () => {
 
   const playPlaylist = () => {
     if(isUserPlaylist) {
-      console.log("Playing", playlistData);
-      const song = playlistData?.songs[0];
-      console.log(song);
-      setCurrentTrack(getSongData(song));
-      // if(song.platform === "Youtube") {
-      //   setCurrentTrack(get);
-      // }
-      // else if(song.platform === "Spotify"){
-      //   setCurrentTrack({
-      //     id: song.yt?.id,
-      //     author: song.yt?.author,
-      //     title: {text: song.yt?.name}, 
-      //     thumbnails: [{url: song.yt?.image}], 
-      //     platform: "Youtube"
-      //   });
-      // }
-      // else {
-      //   setCurrentTrack({
-      //     id: song.id,
-      //     user: [song.author],
-      //     title: song.name,
-      //     href: song.id,
-      //     artwork_url: song.image,
-      //     isExplicit: song.isExplicit || false,
-      //     platform: "Soundcloud", 
-      //     track_authorization: song.media?.track_authorization, 
-      //     media: song.media
-      //   });
-      // }
-      setCurrentPlaylist(
-        {...playlistData, songs: [...playlistData?.songs.slice(1).map((song) => 
+      if(isShuffled) {
+        const copyOfPlaylistData = playlistData.songs?.slice();
+        const notShuffled = copyOfPlaylistData;
+        const shuffled = notShuffled.sort(() => 0.5 - Math.random());
+        const songData = getSongData(shuffled[0]);
+        console.log(songData);
+        setCurrentTrack(songData);
+        setCurrentPlaylist({...playlistData, songs: [...shuffled.slice(1).map((song) => 
           getSongData(song)
-        ), getSongData(song)]})
+        ), songData]})
+      }
+      else {
+        console.log("Playing", playlistData);
+        const song = playlistData?.songs[0];
+        console.log(song);
+        setCurrentTrack(getSongData(song));
+        setCurrentPlaylist(
+          {...playlistData, songs: [...playlistData?.songs.slice(1).map((song) => 
+            getSongData(song)
+          ), getSongData(song)]})
+      }
     }
     else {
-      setCurrentTrack({...playlistData?.tracks[0], platform: "Soundcloud"});
-      console.log("Playing", playlistData);
-      setCurrentPlaylist({...playlistData, songs: [...playlistData?.tracks.slice(1).map((scSong: any) => {return{...scSong, platform: "Soundcloud" }}), {...playlistData?.tracks[0], platform: "Soundcloud"}]})
+      if(isShuffled) {
+        const copyOfPlaylistData = playlistData.tracks?.slice();
+        const notShuffled = copyOfPlaylistData;
+        const shuffled = notShuffled.sort(() => 0.5 - Math.random());
+        console.log(shuffled[0]);
+        setCurrentTrack({...shuffled[0], platform: "Soundcloud"});
+        setCurrentPlaylist({...playlistData, songs: [...shuffled.slice(1).map((scSong: any) => {return{...scSong, platform: "Soundcloud" }}), {...shuffled[0], platform: "Soundcloud"}]})
+      }
+      else {
+        setCurrentTrack({...playlistData?.tracks[0], platform: "Soundcloud"});
+        console.log("Playing", playlistData);
+        setCurrentPlaylist({...playlistData, songs: [...playlistData?.tracks.slice(1).map((scSong: any) => {return{...scSong, platform: "Soundcloud" }}), {...playlistData?.tracks[0], platform: "Soundcloud"}]})
+      }
     }
   }
 
@@ -201,7 +200,8 @@ const Playlist = () => {
               </h1>
             </div>
           </div>
-          <div className="
+          <div className="items-center justify-center gap-x-4 mt-4">
+            <div className="
               transition 
               opacity-100 
               rounded-full 
@@ -221,6 +221,30 @@ const Playlist = () => {
             >
               <FaPlay className="text-3xl text-white" size={25} />
             </div>
+            <div className="
+              transition 
+              opacity-100 
+              inline-flex
+              items-center 
+              justify-center 
+              p-6 
+              drop-shadow-md 
+              translate
+              translate-y-1/3
+              group-hover:translate-y-0
+              hover:scale-110
+            "
+              onClick={() => setIsShuffled(!isShuffled)}
+            >
+              <Image
+                src={shuffle}
+                style={isShuffled?  { filter: ' invert(50%) sepia(52%) saturate(2434%) hue-rotate(224deg) brightness(114%) contrast(101%)'} : { filter: 'invert(70%)' }}
+                alt="Shuffle"
+                width={60}
+                height={60}
+              />
+            </div>
+          </div>
         </div>
       </Header>
       {isUserPlaylist && <PlaylistContent songs={playlistData?.songs} />}

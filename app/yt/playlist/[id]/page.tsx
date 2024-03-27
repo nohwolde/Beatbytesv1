@@ -12,6 +12,8 @@ import { usePlayerStore, useProfileStore } from "@/app/store";
 import { useRouter } from "next/navigation";
 import { FaPlay } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
+import shuffle from "@/public/images/shuffle.svg";
+
 export const revalidate = 0;
 
 const Playlist = () => {
@@ -19,7 +21,7 @@ const Playlist = () => {
   const id = params.id;
   const router = useRouter();
 
-  const { setCurrentTrack, setCurrentPlaylist} = usePlayerStore();
+  const { setCurrentTrack, setCurrentPlaylist, isShuffled, setIsShuffled, shufflePlaylist, setUnshuffledPlaylist} = usePlayerStore();
 
   const { getYtPlaylist } = useProfileStore();
 
@@ -72,18 +74,35 @@ const Playlist = () => {
     console.log("Playing playlist");
     if(playlistData === null || playlistData?.songs.length === 0) return;
     else {
-      console.log("Playing", playlistData);
-      const song = playlistData?.songs[0];
-      console.log(song);
-      // think we need to change the song object up to match the yt object
+      if(isShuffled) {
+        const copyOfPlaylistData = playlistData.songs?.slice();
+        const notShuffled = copyOfPlaylistData;
+        const shuffled = notShuffled.sort(() => 0.5 - Math.random());
+        const song = shuffled[0];
+        console.log(song);
 
-      const songData = getSongData(song);
-      setCurrentTrack(songData);
-      setCurrentPlaylist(
-        {...playlistData, 
-          songs: [...playlistData?.songs.slice(1).map(
-            (song: any) => getSongData(song)
-          ), songData]})
+        const songData = getSongData(song);
+
+        setCurrentTrack(songData);
+
+        setCurrentPlaylist({...playlistData, songs: [...shuffled.slice(1).map((song) => 
+          getSongData(song)
+        ), songData]})
+      }
+      else {
+        console.log("Playing", playlistData);
+        const song = playlistData?.songs[0];
+        console.log(song);
+        // think we need to change the song object up to match the yt object
+
+        const songData = getSongData(song);
+        setCurrentTrack(songData);
+        setCurrentPlaylist(
+          {...playlistData, 
+            songs: [...playlistData?.songs.slice(1).map(
+              (song: any) => getSongData(song)
+            ), songData]})
+      }
     }
   }
 
@@ -148,28 +167,51 @@ const Playlist = () => {
               flex 
               flex-col 
               md:flex-row ">
-            <div>
-              <div className="
-                transition 
-                opacity-100 
-                rounded-full 
-                inline-flex
-                items-center 
-                justify-center 
-                bg-rose-600
-                p-6 
-                drop-shadow-md 
-                translate
-                translate-y-1/4
-                group-hover:opacity-100 
-                group-hover:translate-y-0
-                hover:scale-110
-              "
-                onClick={() => playPlaylist()}
-              >
-                <FaPlay className="text-3xl text-white" size={25} />
-              </div>
+          <div className="gap-y-2 mt-4 items-center justify-center">
+            <div className="
+              transition 
+              opacity-100 
+              rounded-full 
+              inline-flex
+              items-center 
+              justify-center 
+              bg-green-600
+              p-6 
+              drop-shadow-md 
+              translate
+              translate-y-1/4
+              group-hover:opacity-100 
+              group-hover:translate-y-0
+              hover:scale-110
+            "
+              onClick={() => playPlaylist()}
+            >
+              <FaPlay className="text-3xl text-white" size={25} />
             </div>
+            <div className="
+              transition 
+              opacity-100 
+              inline-flex
+              items-center 
+              justify-center 
+              p-6 
+              drop-shadow-md 
+              translate
+              translate-y-1/3
+              group-hover:translate-y-0
+              hover:scale-110
+            "
+              onClick={() => setIsShuffled(!isShuffled)}
+            >
+              <Image
+                src={shuffle}
+                style={isShuffled?  { filter: ' invert(50%) sepia(52%) saturate(2434%) hue-rotate(224deg) brightness(114%) contrast(101%)'} : { filter: 'invert(70%)' }}
+                alt="Shuffle"
+                width={60}
+                height={60}
+              />
+            </div>
+          </div>
           </div>
         </div>
       </Header>

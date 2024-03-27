@@ -22,6 +22,7 @@ import { ProfileStore } from '@/hooks/useProfile';
 import { getPlaylist, search } from '@/actions/useInnertube'
 
 import { useProfileStore } from '@/app/store';
+import PlaylistItem from './PlaylistItem';
 
 
 interface AccountModalProps {
@@ -214,36 +215,28 @@ const AccountModal: React.FC<AccountModalProps> = ({
                 className='rounded-md'
               />
               <p className="text-center text-white">{playlist.name}</p> */}
-              <ScrollArea className="h-72 w-150 rounded-md border">
                 <div className="p-4">
                   <h4 className="mb-4 text-sm font-medium leading-none">Playlists</h4>
-                    {playlists.map((playlist: any) =>
-                    <React.Fragment>
-                      <div className='flex-row'>
-                        <Image 
-                          src={playlist.image || playlistImage}
-                          alt="Image"
-                          width={60}
-                          height={60}
-                          className='rounded-full'
+                  <div className="grid grid-cols-3 gap-4">
+                    {playlists.map((playlist: any) => 
+                        <PlaylistItem
+                          data={{id: playlist.id, title: playlist.name, image: playlist.image}}
+                          image={playlist.image || playlistImage}
+                          onClick={() => {
+                            console.log(playlist);
+                          }}
                         />
-                        <p className="text-white">{playlist.name}</p>
-                      </div>
-                    </React.Fragment>
+                        // <Image 
+                        //   src={playlist.image || playlistImage}
+                        //   alt="Image"
+                        //   width={60}
+                        //   height={60}
+                        //   className='rounded-full'
+                        // />
+
                     )}
                   </div>
-              </ScrollArea>
-              <Button
-                className={twMerge(`w-[400px] bg-cyan-400 hover:bg-cyan-500`)}
-                onClick={() => 
-                  {
-                    console.log(playlists);
-                    handleImportPlaylists(playlists);
-                  }
-                }
-              >
-                Import Playlists to Beatbytes
-              </Button>
+                </div>
             </div>
         : playlists === null ?
           <div>
