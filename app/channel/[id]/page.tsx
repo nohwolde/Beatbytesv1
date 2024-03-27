@@ -8,6 +8,8 @@ import Image from "next/image";
 
 import ChannelContent from "../components/ChannelContent";
 
+/* eslint-disable */
+
 const ChannelPage = () => {
   const [channelData, setChannelData] = useState(null);
   // {header: {}, current_tab: {content: {contents: []}}}

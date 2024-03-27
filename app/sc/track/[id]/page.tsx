@@ -11,6 +11,7 @@ import Waveform from "@/components/Waveform";
 import { FaPlay } from "react-icons/fa";
 import showSong from "@/components/ScSong";
 
+/* eslint-disable */
 
 export const revalidate = 0;
 
@@ -193,7 +194,7 @@ const Track = () => {
                 "
               >
                 {trackData?.user?.visuals?.enabled && (
-                  <div className="relative h-64 w-64 w-full">
+                  <div className="relative h-64 w-full">
                     <Image
                       className="object-cover"
                       layout="fill"
@@ -283,6 +284,7 @@ const Track = () => {
                 md:gap-y-10
               "
             >
+              
               {relatedTracks?.collection?.map((track: any, index: number) => (
                 <div key={index}>
                   {showSong(track, () => setCurrentTrack({...track, platform: "Soundcloud"}))}
