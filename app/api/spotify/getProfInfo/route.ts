@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import fetch from "node-fetch";
-import spotify from "spotify-url-info";
-const { getData, getDataForUser,  getTracks, getPreview, getDetails, getLink } = spotify(fetch);
+// import spotify from "spotify-url-info";
+// const { getData, getDataForUser,  getTracks, getPreview, getDetails, getLink } = spotify(fetch);
 
 export async function POST(
   request: Request
@@ -9,8 +9,10 @@ export async function POST(
   const { url } = await request.json();
 
   try {
-    const itemData  = await getDataForUser(url);
-    console.log("Found arist:", itemData);
+    // const itemData  = await getDataForUser(url);
+    // console.log("Found arist:", itemData);
+
+    const itemData = {};
 
     return NextResponse.json(itemData);
   } catch (error) {
