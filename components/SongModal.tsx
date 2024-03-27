@@ -277,7 +277,7 @@ const SongModal = () => {
       <div className="flex flex-col bg-neutral-900 rounded-lg overflow-y-scroll max-h-[300px]">
         <div className='pr-4'>
           {selectedPlatform === "Spotify" && spotPlaylists && spotPlaylists.map((item) => (
-            <div className='flex flex-1 w-full hover:bg-neutral-700'>
+            <div key={item.id} className='flex flex-1 w-full hover:bg-neutral-700'>
               <div className="flex-grow truncate">
                 <PlaylistRow 
                   onClick={() => {}} 
@@ -309,7 +309,7 @@ const SongModal = () => {
       <div className="flex flex-col bg-neutral-900 rounded-lg overflow-y-auto max-h-[300px]">
         <div className='pr-4'>
           {selectedPlatform === "Youtube" && ytPlaylists && ytPlaylists.map((item) => (
-            <div className='flex flex-1 w-full hover:bg-neutral-700'>
+            <div key={item.id} className='flex flex-1 w-full hover:bg-neutral-700'>
               <div className="flex-grow truncate">
                 <PlaylistRow 
                   onClick={() => {}} 
@@ -341,7 +341,7 @@ const SongModal = () => {
       <div className="flex flex-col bg-neutral-900 rounded-lg overflow-y-auto max-h-[300px]">
         <div className='pr-4'>
           {selectedPlatform === "Soundcloud" && scPlaylists && scPlaylists.map((item) => (
-            <div className='flex flex-1 w-full hover:bg-neutral-700 '>
+            <div key={item.id} className='flex flex-1 w-full hover:bg-neutral-700 '>
               <div className="flex-grow truncate">
                 <PlaylistRow 
                   onClick={() => {}} 

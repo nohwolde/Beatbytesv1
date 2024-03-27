@@ -202,6 +202,7 @@ const UserProfile = () => {
         else if (item.kind === 'playlist') {
           return (
             <SoundcloudPlaylist
+              key={item.id}
               data={{
                 id: item.id, 
                 name: item.title, 
@@ -226,6 +227,7 @@ const UserProfile = () => {
         else if (item.kind === 'user') {
           return (
             <SoundcloudUser
+              key={item.id}
               data={
                 {
                   id: item.id,

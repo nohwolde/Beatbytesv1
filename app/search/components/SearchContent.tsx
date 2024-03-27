@@ -361,6 +361,7 @@ const SearchContent: React.FC<SearchContentProps> = ({
             else if (item.kind === 'user') {
               return (
                 <SoundcloudUser
+                  key={item.id}
                   data={
                     {
                       id: item.id,
@@ -607,7 +608,10 @@ const SearchContent: React.FC<SearchContentProps> = ({
         {ytResults?.map((top: any) => {
             if(top.type === 'Video') {
               return (
-                <YoutubeSong song={{
+                <YoutubeSong 
+                  key={top.id}
+                
+                  song={{
                   id: top.id,
                   author: top.author,
                   name: top.title.text,

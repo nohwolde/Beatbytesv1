@@ -659,7 +659,9 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
   
     return (
       <>
-        {sortedFeed?.map((item) => <VideoItem data={item} />)}
+        {sortedFeed?.map((item) => 
+          <VideoItem key={item.id} data={item} />
+        )}
       </>
     );
   };

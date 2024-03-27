@@ -220,6 +220,7 @@ const AccountModal: React.FC<AccountModalProps> = ({
                   <div className="grid grid-cols-3 gap-4">
                     {playlists.map((playlist: any) => 
                         <PlaylistItem
+                          key={playlist.id}
                           data={{id: playlist.id, title: playlist.name, image: playlist.image}}
                           image={playlist.image || playlistImage}
                           onClick={() => {
