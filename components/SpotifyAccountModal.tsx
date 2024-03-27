@@ -234,10 +234,6 @@ const SpotifyAccountModal = () => {
 
   const handleGetPlaylists = async (value: any) => {
     try {
-      // const playlistResponse = await postData({
-      //   url: '/api/spotify/getProfile/getPlaylists',
-      //   data: { profile: value.username }
-      // });
       
       const getSpotKeyResponse = await getSpotKey();
       console.log(getSpotKeyResponse);
