@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 
-import useLoadImage from "@/hooks/useLoadImage";
 import * as playlistImage from '@/public/images/playlist.jpeg';
 import { Song } from "@/types";
 
