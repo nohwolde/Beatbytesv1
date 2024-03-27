@@ -9,7 +9,6 @@ import { useEffect } from "react";
 import { useKeyStore, useProfileStore } from "../store.js";
 import getNewKey from "@/soundcloudController/keys"
 import setKey from "@/actions/setKey";
-import getPlaylists from "@/actions/getPlaylists";
 import PlaylistItem from "@/components/PlaylistItem";
 import { twMerge } from "tailwind-merge";
 

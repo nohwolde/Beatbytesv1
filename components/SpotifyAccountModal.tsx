@@ -24,8 +24,6 @@ import {
 } from "@supabase/auth-helpers-react";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 
-import getPlaylists from "@/actions/getPlaylists";
-
 const SpotifyAccountModal = () => {
   const { onClose, isOpen, platform } = useSpotifyAccountModal();
 

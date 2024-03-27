@@ -11,7 +11,7 @@ import { useEffect } from "react";
 
 import { useSessionContext } from "@supabase/auth-helpers-react";
 import getKey from "@/actions/getKey";
-import getPlaylists from "@/actions/getPlaylists";
+
 import Profile from "@/components/Profile";
 import PlaylistItem from "@/components/PlaylistItem";
 
