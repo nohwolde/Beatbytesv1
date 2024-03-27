@@ -67,7 +67,7 @@ let keyStore = (set, get) => ({
 const useKeyStore = create(keyStore);
 
 let searchStore = (set, get) => ({
-  scResults: [],
+  scResults: {collection: [], next_href: ""},
   setScResults: (results) => set({ scResults: results }),
   spotResults: [],
   setSpotResults: (results) => set({ spotResults: results }),

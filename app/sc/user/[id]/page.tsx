@@ -31,7 +31,20 @@ const UserProfile = () => {
 
   // states
   
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState({
+    full_name: "",
+    username: "",
+    avatar_url: "",
+    followers_count: 0,
+    description: "",
+    visuals: {
+      visuals: [
+        {
+          visual_url: ""
+        }
+      ]
+    }
+  });
   const [recentTracks, setRecentTracks] = useState(null);
   const [popTracks, setPopTracks] = useState(null);
   const [highQualityProfileUrl, setHighQualityProfileUrl] = useState<string>("");

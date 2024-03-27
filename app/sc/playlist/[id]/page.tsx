@@ -36,7 +36,16 @@ const Playlist = () => {
 
 
   const { getScPlaylist } = useProfileStore();
-  const [playlistData, setPlaylistData] = useState(null);
+  const [playlistData, setPlaylistData] = useState(
+    {
+      name: "",
+      title: "",
+      image: "",
+      artwork_url: "",
+      songs: [{image: ""}], 
+      tracks: [{artwork_url: ""}]
+    }
+  );
   const [highQualityArtworkUrl, setHighQualityArtworkUrl] = useState<string>("");
   const [isUserPlaylist, setIsUserPlaylist] = useState(true);
 
@@ -179,7 +188,7 @@ const Playlist = () => {
               <Image
                 className="object-cover"
                 fill
-                src={isUserPlaylist? playlistData?.image : highQualityArtworkUrl? highQualityArtworkUrl : playlistData?.artwork_url? playlistData.artworkUrl : playlistData?.tracks? playlistData?.tracks[0]?.artwork_url : playlistImage}
+                src={isUserPlaylist? playlistData?.image : highQualityArtworkUrl? highQualityArtworkUrl : playlistData?.artwork_url? playlistData.artwork_url : playlistData?.tracks? playlistData?.tracks[0]?.artwork_url : playlistImage}
                 alt="Playlist"
               />
             </div>

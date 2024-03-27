@@ -6,13 +6,14 @@ import Header from "@/components/Header";
 import  PlaylistContent from "@/components/PlaylistContent";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useYoutubeProfile } from "@/hooks/useProfile";
 import PlayButton from "@/components/PlayButton";
 import { usePlayerStore, useProfileStore } from "@/app/store";
 import { useRouter } from "next/navigation";
 import { FaPlay } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
 import shuffle from "@/public/images/shuffle.svg";
+
+import playlistImage from "@/public/images/playlist.jpeg";
 
 export const revalidate = 0;
 
@@ -25,9 +26,13 @@ const Playlist = () => {
 
   const { getYtPlaylist } = useProfileStore();
 
-
-  const { getPlaylist, playlists } = useYoutubeProfile();
-  const [playlistData, setPlaylistData] = useState(null);
+  const [playlistData, setPlaylistData] = useState(
+    {
+      name: "",
+      image: playlistImage,
+      songs: []
+    }
+  );
 
   useEffect(() => {
     const pData = getYtPlaylist(id as string);

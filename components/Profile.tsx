@@ -135,7 +135,7 @@ const Profile: React.FC<ProfileProps> = ({
         "
       >
         {platform === "Spotify" && spotPlaylists.length > 0 &&
-          spotPlaylists?.map((playlist) => (
+          spotPlaylists?.map((playlist: any) => (
             <PlaylistItem
               onClick={() => {
                 const platformPrefix = '/spot';
@@ -148,7 +148,7 @@ const Profile: React.FC<ProfileProps> = ({
           ))
         }
         {platform === "Youtube" && ytPlaylists.length > 0 &&
-          ytPlaylists?.map((playlist) => (
+          ytPlaylists?.map((playlist: any) => (
             <PlaylistItem
               onClick={() => {
                 const platformPrefix = 'yt';
@@ -163,7 +163,7 @@ const Profile: React.FC<ProfileProps> = ({
         }
 
         {platform === "Soundcloud" && scPlaylists.length > 0 &&
-          scPlaylists?.map((playlist) => (
+          scPlaylists?.map((playlist: any) => (
             <PlaylistItem
               onClick={() => {
                 const platformPrefix = '/sc';

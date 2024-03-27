@@ -30,7 +30,13 @@ const Playlist = () => {
   const id = params.id;
   const router = useRouter();
 
-  const [playlistData, setPlaylistData] = useState(null);
+  const [playlistData, setPlaylistData] = useState(
+    {
+      name: "",
+      image: "",
+      songs: [{name: "", author: "", image: "", id: "", platform: "", yt: {id: "", name: "", author: "", image: "", platform: ""}}]
+    }
+  );
 
   const { getSpotPlaylist, spotPlaylists } = useProfileStore();
   const { setCurrentTrack, setCurrentPlaylist, isShuffled, setIsShuffled, shufflePlaylist, setUnshuffledPlaylist} = usePlayerStore();

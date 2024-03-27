@@ -48,9 +48,9 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
   song, 
   songUrl
 }) => {
-  const videoPlayerRef = useRef(null);
-  const watchRef = useRef(null);
-  const playerRef = useRef(null);
+  const videoPlayerRef = useRef<HTMLVideoElement | null>(null);
+  const watchRef = useRef<HTMLDivElement | null>(null);
+  const playerRef = useRef<HTMLDivElement | null>(null);
   const player = usePlayer();
   const [volume, setVolume] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -64,8 +64,62 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
   const [highQualityArtworkUrl, setHighQualityArtworkUrl] = useState<string>("");
 
   const [currentId, setCurrentId] = useState("");
-  const [feed, setFeed] = useState([]);
-  const [videoData, setVideoData] = useState(null);
+  const [feed, setFeed] = useState(
+    [
+      {
+        id: "",
+        type: "",
+        // other properties...
+      },
+      // other items...
+    ]
+  );
+  const [videoData, setVideoData] = useState(
+    {
+      basic_info: {
+        title: "",
+        thumbnail: [{url: ""}],
+        view_count: "0",
+        id: "",
+        channel: {
+          id: "",
+          name: "",
+          thumbnails: [
+            {
+              url: "",
+            },
+          ],
+        }
+      },
+      secondary_info: {
+        owner: {
+          author: {
+            id: "",
+            name: "",
+            thumbnails: [
+              {
+                url: "",
+              },
+            ],
+          }, 
+          subscriber_count: {
+            text: "",
+          },
+        },
+        description: {
+          text: "",
+        },
+      },
+      watch_next_feed: [
+        {
+          id: "",
+          type: "",
+          // other properties...
+        },
+        // other items...
+      ],
+    }
+  );
   const [dash, setDash] = useState("");
   const licenseServer = "https://widevine-proxy.appspot.com/proxy";
 
@@ -90,7 +144,9 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
   }, [currentTrack?.artwork_url]);
 
   useEffect(() => {
-    setFeed(videoData?.watch_next_feed?.filter((item: any) => item?.type === "CompactVideo"));
+    if(videoData?.watch_next_feed) {
+      setFeed(videoData?.watch_next_feed?.filter((item: any) => item?.type === "CompactVideo"));
+    }
   }, [videoData]);
 
   // const setInnertube = async (id: string) => {
@@ -154,7 +210,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
   //   setInnertube();
   // }, []);
 
-  const video = useRef(null);
+  const video = useRef<HTMLVideoElement | null>(null);
   const videoContainer = useRef(null);
   let currPlayer: any = null;
   
@@ -249,7 +305,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
   useEffect(() => {
     hasRun.current = true;
     let vid = video.current;
-    let vidContainer = videoContainer.current;
+    let vidContainer: any = videoContainer.current;
 
     var player = new shaka.Player(vid);
     let ui: any = null;
@@ -272,7 +328,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
     }
 
     vidContainer?.querySelectorAll("div")
-        .forEach(node => node.remove());
+        .forEach((node: any)=> node.remove());
     
     shaka.polyfill.installAll();
 
@@ -1015,8 +1071,8 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
                           rounded-md
                           
                         "
-                        onMouseEnter={(e) => e?.currentTarget?.children[1]?.firstChild?.classList.add('animate-marquee')} // Add the animation class on mouse enter
-                        onMouseLeave={(e) => e?.currentTarget?.children[1]?.firstChild?.classList.remove('animate-marquee')} // Remove the animation class on mouse leave
+                        onMouseEnter={(e) => (e?.currentTarget?.children[1]?.firstChild as Element)?.classList.add('animate-marquee')} // Add the animation class on mouse enter
+                        onMouseLeave={(e) => (e?.currentTarget?.children[1]?.firstChild as Element)?.classList.remove('animate-marquee')} // Remove the animation class on mouse leave
                       >
                         <span 
                           className="
@@ -1078,7 +1134,6 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
                     <Slider
                       value={volume}
                       onChange={(value) => setVolume(value)}
-                      sx={{ width: '100px' }}
                     />
                   </div>
                 </div>

@@ -146,14 +146,20 @@ const SpotifyAccountModal = () => {
       }
 
       // Sort the songs based on the order in the playlist
+      // songs.sort((a, b) => {
+      //   const orderA = playlistSongs.find(
+      //     (song) => song.song_id === a.id
+      //   ).song_order;
+      //   const orderB = playlistSongs.find(
+      //     (song) => song.song_id === b.id
+      //   ).song_order;
+      //   return orderA - orderB;
+      // });
+
       songs.sort((a, b) => {
-        const orderA = playlistSongs.find(
-          (song) => song.song_id === a.id
-        ).song_order;
-        const orderB = playlistSongs.find(
-          (song) => song.song_id === b.id
-        ).song_order;
-        return orderA - orderB;
+        const orderA = playlistSongs.find((song) => song.song_id === a.id)?.song_order;
+        const orderB = playlistSongs.find((song) => song.song_id === b.id)?.song_order;
+        return (orderA ?? 0) - (orderB ?? 0);
       });
 
       return songs;

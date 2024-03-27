@@ -11,7 +11,12 @@ import ChannelContent from "../components/ChannelContent";
 /* eslint-disable */
 
 const ChannelPage = () => {
-  const [channelData, setChannelData] = useState(null);
+  const [channelData, setChannelData] = useState({
+    header: 
+      {author:{name: ''},banner: [{url: ''}], channel_handle:{text: ''}, subscribers:{text:''}, videos_count:{text:'0'}}
+    , 
+    current_tab: 
+      {content: {contents: []}}, metadata: {avatar: [{url: ''}], description: ''}});
   // {header: {}, current_tab: {content: {contents: []}}}
   const router = useRouter();
   const params = useParams();
@@ -46,15 +51,15 @@ const ChannelPage = () => {
           to-b
           `
         )}>
-        {channelData &&
+        {channelData !== null &&
           <div className="mb-2 flex flex-col gap-y-6">
-            <div
-              className="
-                rounded-md
-              "
-            >
-              <Image src={channelData?.header?.banner[0]?.url} alt="Banner" width="2560" height="424" className="object-contain" />
-            </div>
+              <div
+                className="
+                  rounded-md
+                "
+              >
+                <Image src={channelData?.header?.banner[0]?.url} alt="Banner" width="2560" height="424" className="object-contain" />
+              </div>
             <div
               className="
               flex 

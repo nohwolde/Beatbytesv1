@@ -16,7 +16,13 @@ const Playlist = () => {
   const id = params.id;
 
   const { getPlaylist, playlists, username } = useSoundcloudProfile();
-  const [playlistData, setPlaylistData] = useState(null);
+  const [playlistData, setPlaylistData] = useState(
+    {
+      name: "",
+      image: "",
+      songs: []
+    }
+  );
 
   useEffect(() => {
     console.log(playlists);

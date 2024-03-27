@@ -1,7 +1,6 @@
 "use client";
 
 import usePlayer from "@/hooks/usePlayer";
-import useLoadSongUrl from "@/hooks/useLoadSongUrl";
 import useGetSongByHref from "@/hooks/useGetSongByHref";
 import { usePathname } from "next/navigation";
 
@@ -25,12 +24,19 @@ interface VideoProps {
 
 const VideoPlayer = () => {
   const player = usePlayer();
-  // const { song } = useGetSongByHref(player.activeId);
-  // const songUrl = useLoadSongUrl(song!);
   const pathname = usePathname();
 
   const [currentId, setCurrentId] = useState("");
-  const [videoData, setVideoData] = useState(null);
+  const [videoData, setVideoData] = useState({
+    basic_info: {
+      thumbnail: [
+        {
+          url: ""
+        }
+      ]
+    }
+  
+  });
   const [dash, setDash] = useState("");
   const licenseServer = "https://widevine-proxy.appspot.com/proxy";
 

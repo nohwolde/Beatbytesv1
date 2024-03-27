@@ -12,7 +12,7 @@ import expand from "@/public/images/expand.svg";
 import useSongModal from "@/hooks/useSongModal";
 import AddSongButton from "./AddSongButton";
 
-const ScSong = (song, onClick, children?) => {
+const ScSong = (song: any, onClick: (id: string) => void, children?: any) => {
 
   // const { onOpen, onClose, isOpen, setSong } = useSongModal();
 

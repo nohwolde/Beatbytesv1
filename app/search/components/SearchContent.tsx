@@ -311,7 +311,9 @@ const SearchContent: React.FC<SearchContentProps> = ({
         }
       };
     }, [sentinelRef, scResults, scKey]);
-
+    if(!scResults) {
+      return null;
+    }
     return (
       <div className="flex flex-col gap-y-2 w-full px-6">
         {

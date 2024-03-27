@@ -5,7 +5,6 @@ import { channel } from 'diagnostics_channel';
 import { useEffect, useState, createContext, useContext } from 'react';
 import { BaseChannel, Client, MusicClient, PlaylistCompact, SearchResult, VideoCompact } from "youtubei";
 import fetch from "node-fetch";
-import spotify from "spotify-url-info";
 import { Search } from 'youtubei.js/dist/src/parser/youtube';
 import { useUser } from "@/hooks/useUser";
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
@@ -20,7 +19,7 @@ import getNewKey from "@/soundcloudController/keys"
 
 // const sc = new SoundClient();
 
-const { getData, getTracks, getPreview, getDetails, getLink } = spotify(fetch);
+// const { getData, getTracks, getPreview, getDetails, getLink } = spotify(fetch);
 
 const youtube = new Client();
 

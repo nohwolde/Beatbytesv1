@@ -21,10 +21,30 @@ const Track = () => {
 
   const {scKey, setScKey} = useKeyStore();
   const {setCurrentTrack} = usePlayerStore();
-  const [trackData, setTrackData] = useState(null);
+  const [trackData, setTrackData] = useState({
+    title: "",
+    artwork_url: "",
+    user: {
+      username: "",
+      avatar_url: "",
+      followers_count: 0,
+      description: "",
+      visuals: {
+        enabled: false,
+        visuals: [
+          {
+            visual_url: ""
+          }
+        ]
+      }
+    }
+  
+  });
   const [highQualityArtworkUrl, setHighQualityArtworkUrl] = useState<string>("");
   const [highQualityProfilePicture, setHighQualityProfilePicture] = useState<string>("");
-  const [relatedTracks, setRelatedTracks] = useState(null);
+  const [relatedTracks, setRelatedTracks] = useState({
+    collection: []
+  });
 
   useEffect(() => {
     const fetchData = async () => {

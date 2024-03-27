@@ -31,7 +31,7 @@ interface AccountModalProps {
   isOpen: boolean;
   platform: string;
   handleSearchUser: (value: string) => Promise<JSON>;
-  handleGetPlaylists: (value: string) => Promise<JSON>;
+  handleGetPlaylists: (value: string) => Promise<any>;
 }
 
 const AccountModal: React.FC<AccountModalProps> = ({

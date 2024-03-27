@@ -75,7 +75,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({
         .eq('id', songId);
 
       // If the song doesn't exist, insert it
-      if (!existingSong.length) {
+      if (!existingSong?.length) {
         const { error: insertSongError } = await supabaseClient
           .from('songs')
           .insert([song]);
