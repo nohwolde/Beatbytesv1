@@ -103,7 +103,7 @@ const PageContent: React.FC<PageContentProps> = ({
         </h1>
         <div className="w-full grid md:grid-cols-3 lg:grid-cols-5 gap-4" >
           {spotPlaylists.length > 0 &&
-            spotPlaylists?.map((playlist) => (
+            spotPlaylists?.map((playlist: any) => (
               <PlaylistItem
                 onClick={() => {
                   const platformPrefix = '/spot';
@@ -128,7 +128,7 @@ const PageContent: React.FC<PageContentProps> = ({
           </h1>
           <div className="w-full grid md:grid-cols-3 lg:grid-cols-5 gap-4">
             {
-              ytPlaylists?.map((playlist) => (
+              ytPlaylists?.map((playlist: any) => (
                 <PlaylistItem
                   onClick={() => {
                     const platformPrefix = 'yt';
@@ -153,7 +153,7 @@ const PageContent: React.FC<PageContentProps> = ({
         <div className="w-full grid md:grid-cols-3 lg:grid-cols-5 gap-4">
 
           {scPlaylists.length > 0 &&
-            scPlaylists?.map((playlist) => (
+            scPlaylists?.map((playlist: any) => (
               <PlaylistItem
                 onClick={() => {
                   const platformPrefix = '/sc';
