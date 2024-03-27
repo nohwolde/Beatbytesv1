@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { Client } from "soundcloud-scraper";
-import metascraper from 'metascraper-soundcloud';
 import SoundScraper from '@/components/SoundScraper';
 
 export async function POST(
@@ -12,11 +11,9 @@ export async function POST(
 
     const getData = await SoundScraper.getHtmlFromUrl(url);
 
-    const getInfo = type === "track" ? await sc.getSongInfo(url) : type === "playlist" ? await metascraper({html: getData, url: url}) : type === "artist" ? await sc.getUser(url): null;
-    
-    console.log(getInfo);
+    console.log(getData);
 
-    const body = JSON.stringify({...getInfo, type});
+    const body = JSON.stringify(getData);
     return new NextResponse(body, { headers: { 'Content-Type': 'application/json' } });
   } catch (error) {
     console.log(error);

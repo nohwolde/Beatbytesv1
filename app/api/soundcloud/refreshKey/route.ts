@@ -3,9 +3,6 @@ import { NextResponse } from 'next/server';
 import KeyService from '@/soundcloudController/keys';
 import { Platform } from '@/hooks/useSearch';
 import setKey from '@/actions/setKey';
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
-import { createOrUpdateKey } from '@/libs/supabaseAdmin';
 
 export async function POST(request: Request) {
   try {
