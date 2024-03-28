@@ -25,52 +25,54 @@ const SC_API_V2_BASE = "https://api-v2.soundcloud.com";
 
 const SC_STREAM_BASE = "https://api.soundcloud.com";
 
-const tryFetch = async (input: any, init = { headers: {} } ) => {
-  // url
-  const url = typeof input === 'string'
-      ? new URL(input)
-      : input instanceof URL
-      ? input
-      : new URL(input.url);
+import tryFetch from "@/spotifyController/tryFetch";
 
-  // transform the url for use with our proxy
-  url.searchParams.set('__host', url.host);
-  url.host = 'localhost:8080';
-  url.protocol = 'http';
+// const tryFetch = async (input: any, init = { headers: {} } ) => {
+//   // url
+//   const url = typeof input === 'string'
+//       ? new URL(input)
+//       : input instanceof URL
+//       ? input
+//       : new URL(input.url);
 
-  console.log(init?.headers);
+//   // transform the url for use with our proxy
+//   url.searchParams.set('__host', url.host);
+//   url.host = 'localhost:8080';
+//   url.protocol = 'http';
 
-  const headers = init?.headers
-      ? new Headers(init.headers)
-      : input instanceof Request
-      ? input.headers
-      : new Headers();
+//   console.log(init?.headers);
 
-  // now serialize the headers
-  url.searchParams.set('__headers', JSON.stringify([...headers]));
+//   const headers = init?.headers
+//       ? new Headers(init.headers)
+//       : input instanceof Request
+//       ? input.headers
+//       : new Headers();
 
-  if (input instanceof Request) {
-    // @ts-ignore
-    input.duplex = 'half';
-  }
+//   // now serialize the headers
+//   url.searchParams.set('__headers', JSON.stringify([...headers]));
 
-  // copy over the request
-  const request = new Request(
-      url,
-      input instanceof Request ? input : undefined,
-  );
+//   if (input instanceof Request) {
+//     // @ts-ignore
+//     input.duplex = 'half';
+//   }
 
-  headers.delete('user-agent');
-  headers.delete('sec-fetch-site');
+//   // copy over the request
+//   const request = new Request(
+//       url,
+//       input instanceof Request ? input : undefined,
+//   );
 
-  // fetch the url
-  return fetch(request, init ? {
-      ...init,
-      headers
-  } : {
-      headers
-  });
-}
+//   headers.delete('user-agent');
+//   headers.delete('sec-fetch-site');
+
+//   // fetch the url
+//   return fetch(request, init ? {
+//       ...init,
+//       headers
+//   } : {
+//       headers
+//   });
+// }
 
 function formatEndpointHref(endpoint: string, key: string, options?: string): string {
   const concatChar = endpoint.includes("?") ? "&" : "?";
@@ -258,7 +260,7 @@ async function getMissingSoundcloudTrackInfo(
   const tracksWithInfo = soundcloudTrackInfoResponse;
   const tracksByIdMap = keyBy(tracksWithInfo, "id");
 
-  return tracks.map((track) => tracksByIdMap[track.id] || track);
+  return tracks.map((track) => tracksByIdMap[track.id] as unknown as SoundcloudTrack || track as SoundcloudTrack);
 }
 
 async function getSoundcloudUserPlaylists(
@@ -301,9 +303,9 @@ async function getTrackStream(
 }
 
 async function getSoundcloudPlaylist(
-  playlistId: string,
-  key: string,
-): Promise<ExpressResponse> {
+   playlistId: string,
+   key: string,
+): Promise<SoundcloudPlaylist> {
   const playlistEndpoint = `${SC_API_V2_BASE}/playlists/${playlistId}?limit=`;
 
   try {

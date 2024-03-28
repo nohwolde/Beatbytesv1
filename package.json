@@ -88,6 +88,8 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/lodash": "^4.17.0",
     "@types/node-fetch": "^2.6.4",
     "@types/uniqid": "^5.3.2",
     "@warren-bank/hls-proxy": "^3.5.2",

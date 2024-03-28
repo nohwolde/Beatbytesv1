@@ -1,57 +1,54 @@
-import {
-  Request as ExpressRequest,
-  Response as ExpressResponse,
-} from "express";
-import { isString, keyBy, set } from "lodash";
+
 import fetch, { Response as FetchResponse } from "node-fetch";
 
+import tryFetch from './tryFetch';
 
-const tryFetch = async (input: any, init = { headers: {} } ) => {
-  // url
-  const url = typeof input === 'string'
-      ? new URL(input)
-      : input instanceof URL
-      ? input
-      : new URL(input.url);
+// const tryFetch = async (input: any, init = { headers: {} } ) => {
+//   // url
+//   const url = typeof input === 'string'
+//       ? new URL(input)
+//       : input instanceof URL
+//       ? input
+//       : new URL(input.url);
 
-  // transform the url for use with our proxy
-  url.searchParams.set('__host', url.host);
-  url.host = 'localhost:8080';
-  url.protocol = 'http';
+//   // transform the url for use with our proxy
+//   url.searchParams.set('__host', url.host);
+//   url.host = 'localhost:8080';
+//   url.protocol = 'http';
 
-  console.log(init?.headers);
+//   console.log(init?.headers);
 
-  const headers = init?.headers
-      ? new Headers(init.headers)
-      : input instanceof Request
-      ? input.headers
-      : new Headers();
+//   const headers = init?.headers
+//       ? new Headers(init.headers)
+//       : input instanceof Request
+//       ? input.headers
+//       : new Headers();
 
-  // now serialize the headers
-  url.searchParams.set('__headers', JSON.stringify([...headers]));
+//   // now serialize the headers
+//   url.searchParams.set('__headers', JSON.stringify([...headers]));
 
-  if (input instanceof Request) {
-    // @ts-ignore
-    input.duplex = 'half';
-  }
+//   if (input instanceof Request) {
+//     // @ts-ignore
+//     input.duplex = 'half';
+//   }
 
-  // copy over the request
-  const request = new Request(
-      url,
-      input instanceof Request ? input : undefined,
-  );
+//   // copy over the request
+//   const request = new Request(
+//       url,
+//       input instanceof Request ? input : undefined,
+//   );
 
-  headers.delete('user-agent');
-  headers.delete('sec-fetch-site');
+//   headers.delete('user-agent');
+//   headers.delete('sec-fetch-site');
 
-  // fetch the url
-  return fetch(request, init ? {
-      ...init,
-      headers
-  } : {
-      headers
-  });
-}
+//   // fetch the url
+//   return fetch(request, init ? {
+//       ...init,
+//       headers
+//   } : {
+//       headers
+//   });
+// }
 
 function formatEndpointHref(endpoint: string, key: string, options?: string): string {
   const concatChar = endpoint.includes("?") ? "&" : "?";
@@ -70,7 +67,7 @@ const fetchSpotify = async (
   retriesRemaining: number = 1,
   key: string,
   options?: string,
-): Promise<FetchResponse>  => {
+): Promise<Response>  => {
   try {
 
     

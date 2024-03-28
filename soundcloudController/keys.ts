@@ -1,4 +1,4 @@
-import puppeteer from "puppeteer";
+import puppeteer,{ HTTPRequest} from "puppeteer";
 
 export interface KeyDao {
   source: Platform;
@@ -9,11 +9,6 @@ export interface KeyDao {
 }
 
 import { Platform } from "@/hooks/useSearch";
-
-import { useKeyStore } from "@/app/store";
-
-import setKey from "@/actions/setKey";
-import getKey from "@/actions/getKey";
 
 async function fetchKey(source: Platform, type: KeyDao["type"]): Promise<string | undefined> {
   // const key = await getKey(source, type);
@@ -56,7 +51,7 @@ async function fetchNewSoundcloudClientId(): Promise<string> {
   await page.setRequestInterception(true);
   let newClientId = "";
 
-  function requestListener(req: puppeteer.HTTPRequest): void {
+  function requestListener(req: HTTPRequest): void {
     const requestUrl = req.url();
 
     const soundcloudApiV2Regex = /api-v2.soundcloud.com\/.*client_id.*/;
