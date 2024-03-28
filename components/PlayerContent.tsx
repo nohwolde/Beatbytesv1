@@ -132,6 +132,12 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
 
   const [isPlayerExpanded, setIsPlayerExpanded] = useState(true);
 
+  useEffect(() => { 
+
+    console.log("backend url", process.env.REACT_APP_BACKEND_URL);
+
+  }, []);
+
   useEffect(() => {
     const fetchImage = async () => {
       if(currentTrack?.artwork_url) {
