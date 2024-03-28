@@ -355,7 +355,7 @@ async function searchSoundcloud(
   query: string,
   searchType: SearchType = SearchType.Top,
   key: string,
-): Promise<ExpressResponse> {
+): Promise<any> {
   const trackSearchEndpoint = searchType === SearchType.Songs ? `${SC_API_V2_BASE}/search/tracks?q=${query}` 
   : searchType === SearchType.Artists ? `${SC_API_V2_BASE}/search/users?q=${query}` 
   : searchType === SearchType.Playlists ? `${SC_API_V2_BASE}/search/playlists?q=${query}` 
