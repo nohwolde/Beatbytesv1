@@ -244,7 +244,7 @@ async function getSoundcloudTrackInfo(ids: number[], key: string): Promise<Fetch
  */
 async function getMissingSoundcloudTrackInfo(
   tracks: (SoundcloudTrack | SoundcloudTrackLite)[], key: string,
-): Promise<SoundcloudTrack[]> {
+): Promise<any> {
   const tracksThatNeedInfo: SoundcloudTrackLite[] = tracks.filter(
     (track) => !("title" in track),
   );
@@ -260,7 +260,7 @@ async function getMissingSoundcloudTrackInfo(
   const tracksWithInfo = soundcloudTrackInfoResponse;
   const tracksByIdMap = keyBy(tracksWithInfo, "id");
 
-  return tracks.map((track) => tracksByIdMap[track.id] as unknown as SoundcloudTrack || track as SoundcloudTrack);
+  return tracks.map((track) => tracksByIdMap[track.id] || track);
 }
 
 async function getSoundcloudUserPlaylists(
@@ -303,9 +303,9 @@ async function getTrackStream(
 }
 
 async function getSoundcloudPlaylist(
-   playlistId: string,
-   key: string,
-): Promise<SoundcloudPlaylist> {
+  playlistId: string,
+  key: string,
+): Promise<any> {
   const playlistEndpoint = `${SC_API_V2_BASE}/playlists/${playlistId}?limit=`;
 
   try {
