@@ -396,7 +396,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
         
         if (url.host.endsWith(".googlevideo.com") || headers.Range || url.host.includes("cf-hls-media.sndcdn.com")) {
           url.searchParams.set('__host', url.host);
-          url.host = 'localhost:8080';
+          url.host = process.env.REACT_APP_BACKEND_URL || "localhost:8080";
           url.protocol = 'http';
 
           if (url.host.includes("cf-hls-media.sndcdn.com")) {

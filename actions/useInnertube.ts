@@ -24,7 +24,7 @@ const setInnertube = async (): Promise<void> => {
 
         // Transform the url for use with our proxy.
         url.searchParams.set("__host", url.host);
-        url.host = "localhost:8080";
+        url.host = process.env.REACT_APP_BACKEND_URL || "localhost:8080";
         url.protocol = "http";
 
         const headers = init?.headers

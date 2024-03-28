@@ -26,7 +26,7 @@ const tryFetch = async (input, init = { headers: {} } ) => {
 
   // transform the url for use with our proxy
   url.searchParams.set('__host', url.host);
-  url.host = 'localhost:8080';
+  url.host = process.env.REACT_APP_BACKEND_URL || "localhost:8080";
   url.protocol = 'http';
 
   console.log(init?.headers);
