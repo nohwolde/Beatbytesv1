@@ -38,7 +38,7 @@ import tryFetch from "@/spotifyController/tryFetch";
 //   // transform the url for use with our proxy
 //   url.searchParams.set('__host', url.host);
 //   url.host = process?.env?.REACT_APP_BACKEND_URL || "localhost:8080";
-//   url.protocol = 'http';
+//   url.protocol = 'https';
 
 //   console.log(init?.headers);
 
