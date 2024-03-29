@@ -29,7 +29,7 @@ const SpotifyAccountModal = () => {
 
   const profile = useSpotifyProfile();
 
-  const { setSpotProfile, spotPlaylists, setSpotPlaylists, addSpotPlaylist,  updateSpotPlaylist, setYtPlaylists, updateScPlaylist, updateYtPlaylist, setScPlaylists } =
+  const { spotProfile, setSpotProfile, spotPlaylists, setSpotPlaylists, addSpotPlaylist,  updateSpotPlaylist, setYtPlaylists, updateScPlaylist, updateYtPlaylist, setScPlaylists } =
     useProfileStore();
 
   const supabase = useSupabaseClient();
@@ -225,10 +225,7 @@ const SpotifyAccountModal = () => {
         user_id: session?.user?.id,
         username: profileResponse?.username,
         image: profileResponse?.photo,
-      })
-
-
- 
+      });
 
       return profileResponse;
     } catch (error) {
@@ -243,7 +240,7 @@ const SpotifyAccountModal = () => {
       console.log(getSpotKeyResponse);
       const accessToken = getSpotKeyResponse.accessToken;
       const playlistsResponse = await getSpotifyUserPlaylists(
-        "nohwolde",
+        spotProfile?.username,
         accessToken
       );
       console.log(playlistsResponse);
