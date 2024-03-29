@@ -134,7 +134,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
 
   useEffect(() => { 
 
-    console.log("backend url", process?.env?.BACKEND_URL);
+    console.log("backend url", process?.env?.NEXT_PUBLIC_BACKEND_URL);
     console.log("supabase url", process?.env?.NEXT_PUBLIC_SUPABASE_URL);
 
   }, []);
@@ -403,7 +403,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
         
         if (url.host.endsWith(".googlevideo.com") || headers.Range || url.host.includes("cf-hls-media.sndcdn.com")) {
           url.searchParams.set('__host', url.host);
-          url.host = process?.env?.BACKEND_URL || "localhost:8080";
+          url.host = process?.env?.NEXT_PUBLIC_BACKEND_URL || "localhost:8080";
           url.protocol = 'http';
 
           if (url.host.includes("cf-hls-media.sndcdn.com")) {
