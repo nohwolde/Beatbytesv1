@@ -30,7 +30,7 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   const products = await getActiveProductsWithPrices();
-  const userSongs = await getSongsByUserId();
+  // const userSongs = await getSongsByUserId();
 
 
   return (
@@ -63,7 +63,7 @@ export default async function RootLayout({
               {/* <VideoPlayerProvider> */}
                 <ModalProvider products={products} />
                 <div className="flex w-full h-full overflow-y-auto py-0.5">
-                  <Sidebar songs={userSongs}>
+                  <Sidebar>
                     {children}
                   </Sidebar>
                   <Player />

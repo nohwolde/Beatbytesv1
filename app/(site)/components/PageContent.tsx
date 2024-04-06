@@ -28,9 +28,9 @@ const PageContent: React.FC<PageContentProps> = ({
   // key
 }) => {
   const router = useRouter();
-  const {
-    supabaseClient
-  } = useSessionContext();
+  // const {
+  //   supabaseClient
+  // } = useSessionContext();
   const { scKey, setScKey } = useKeyStore();
 
   const { spotPlaylists, scPlaylists, ytPlaylists } = useProfileStore();

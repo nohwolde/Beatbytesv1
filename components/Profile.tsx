@@ -3,8 +3,6 @@
 import Image from "next/image";
 import Header from "@/components/Header";
 import { twMerge } from "tailwind-merge";
-import { ProfileStore } from "@/hooks/useProfile";
-import SongItem from "./SongItem";
 import PlaylistItem from "./PlaylistItem";
 import useOnPlay from "@/hooks/useOnPlay";
 import Button from "./Button";
@@ -15,15 +13,13 @@ import playlistImage from "@/public/images/playlist.jpeg";
 
 import { useProfileStore } from "@/app/store";
 
-export const revalidate = 0;
+// export const revalidate = 0;
 
 interface ProfileProps {
-  profile?: ProfileStore;
   platform: string;
 }
 
 const Profile: React.FC<ProfileProps> = ({ 
-  profile,
   platform,
 }) => {
   const onPlay = useOnPlay([]);

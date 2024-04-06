@@ -50,7 +50,7 @@ const SearchInput = () => {
     // Iterate through each url and check if there is a song in the bb database with the same song_path
   }, [debouncedValue, router]);
 
-  return ( 
+  return (
     <div className="mb-2 flex flex-row gap-x-2 gap-y-6 bg-cyan-900 rounded-md justify-between items-center p-1">
       <Input
         placeholder="What do you want to listen to?"

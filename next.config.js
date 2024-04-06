@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 // const withWorkbox = require("next-with-workbox");
 const nextConfig = {
+  output: 'export',
   experimental: {
   },
   compiler: {

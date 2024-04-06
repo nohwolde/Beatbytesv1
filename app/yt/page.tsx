@@ -1,27 +1,30 @@
-"use client";
+// "use client";
 
 import { useYoutubeProfile } from "@/hooks/useProfile";
 import Profile from "@/components/Profile";
 
-export const revalidate = 0;
+import YtProfile from "./components/YtProfile";
+
+// export const revalidate = 0;
+
+export const dynamic = 'force-dynamic';
 
 const Yt = () => {
 
-  const profile = useYoutubeProfile();
-
   return (
-    <div 
-      className="
-        bg-neutral-900 
-        rounded-lg 
-        h-full 
-        w-full 
-        overflow-hidden 
-        overflow-y-auto
-      "
-    >
-      <Profile profile={profile} platform="Youtube"/>
-    </div>
+    <YtProfile />
+    // <div 
+    //   className="
+    //     bg-neutral-900 
+    //     rounded-lg 
+    //     h-full 
+    //     w-full 
+    //     overflow-hidden 
+    //     overflow-y-auto
+    //   "
+    // >
+    //   <Profile platform="Youtube"/>
+    // </div>
   );
 }
 
