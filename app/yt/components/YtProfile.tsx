@@ -1,13 +1,12 @@
 "use client";
 
-import { useSpotifyProfile } from "@/hooks/useProfile";
 import Profile from "@/components/Profile";
 
 // export const revalidate = 0;
 
 // export const dynamic = 'force-dynamic';
 
-const Spot = () => {
+const YtProfile = () => {
 
   return (
     <div 
@@ -20,9 +19,9 @@ const Spot = () => {
         overflow-y-auto
       "
     >
-      <Profile platform="Spotify"/>
+      <Profile platform="Youtube"/>
     </div>
   );
 }
 
-export default Spot;
+export default YtProfile;

@@ -3,11 +3,11 @@
 import Profile from "@/components/Profile";
 import { useSoundcloudProfile } from "@/hooks/useProfile";
 
-export const revalidate = 0;
+// export const revalidate = 0;
 
-const Sc = async () => {
-  
-  const profile = useSoundcloudProfile();
+// export const dynamic = 'force-dynamic';
+
+const Sc = () => {
 
   return (
     <div 
@@ -20,7 +20,7 @@ const Sc = async () => {
         overflow-y-auto
       "
     >
-      <Profile profile={profile} platform="Soundcloud"/>
+      <Profile platform="Soundcloud"/>
     </div>
   );
 }

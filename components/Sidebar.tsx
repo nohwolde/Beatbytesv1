@@ -20,10 +20,9 @@ import { useProfileStore } from "@/app/store";
 
 interface SidebarProps {
   children: React.ReactNode;
-  songs: Song[];
 }
 
-const Sidebar = ({ children, songs }: SidebarProps) => {
+const Sidebar = ({ children }: SidebarProps) => {
   const pathname = usePathname();
   const player = usePlayer();
 
@@ -91,7 +90,7 @@ const Sidebar = ({ children, songs }: SidebarProps) => {
             </div>
           </Box>
           <Box className="overflow-y-auto h-full">
-            <Library songs={songs} spotify={spotPlaylists || []} soundcloud={scPlaylists || []} youtube={ytPlaylists || []}/>
+            <Library spotify={spotPlaylists || []} soundcloud={scPlaylists || []} youtube={ytPlaylists || []}/>
           </Box>
         </div>
       )}

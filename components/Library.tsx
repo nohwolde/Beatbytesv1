@@ -18,11 +18,9 @@ interface LibraryProps {
   spotify: any[];
   soundcloud: any[];
   youtube: any[];
-  songs: Song[];
 }
 
 const Library: React.FC<LibraryProps> = ({
-  songs, 
   spotify,
   soundcloud,
   youtube
@@ -34,8 +32,6 @@ const Library: React.FC<LibraryProps> = ({
   const uploadModal = useUploadModal();
   const authModal = useAuthModal();
   const subscribeModal = useSubscribeModal();
-
-  const onPlay = useOnPlay(songs);
 
   const onClick = () => {
     if (!user) {
