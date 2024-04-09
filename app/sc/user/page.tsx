@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Header from '@/components/Header';
 import * as defaultBannerUrl from '@/public/images/banner2.jpg';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { getSoundcloudUserById, getSoundcloudArtistRecentTracks, getSoundcloudArtistTopTracks, getSoundcloudImage, getSoundcloudArtistAlbums, getSoundcloudArtistPlaylists, fetchSoundcloud} from '@/soundcloudController/api-controller';
 import { useKeyStore, usePlayerStore } from '@/app/store';
 import { twMerge } from 'tailwind-merge';
@@ -18,6 +18,8 @@ import LikeButton from '@/components/LikeButton';
 
 
 import { useRouter } from "next/navigation"
+
+export const dynamicParams = true;
 
 const UserProfile = () => {
   // stores
@@ -59,8 +61,8 @@ const UserProfile = () => {
 
 
 
-  const params = useParams();
-  const id = params.id;
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
 
   const showSong = (song: any, onClick: () => void) => {
     return (

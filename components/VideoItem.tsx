@@ -169,7 +169,7 @@ const VideoItem: React.FC<VideoItemProps> = ({ data }) => {
           "
           onClick={(e) => {
             e.stopPropagation();
-            router.push(`/channel/${data?.author?.id}`)
+            router.push(`/channel?id=${data?.author?.id}`)
           }
           }
         >

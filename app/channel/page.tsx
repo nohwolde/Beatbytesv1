@@ -1,12 +1,12 @@
 "use client";
 import React, {useEffect, useState} from "react";
 import { getChannel } from "@/actions/useInnertube";
-import { useRouter, usePathname, useParams } from "next/navigation";
+import { useRouter, usePathname, useParams, useSearchParams } from "next/navigation";
 import Header from "@/components/Header";
 import { twMerge } from "tailwind-merge";
 import Image from "next/image";
 
-import ChannelContent from "../components/ChannelContent";
+import ChannelContent from "./components/ChannelContent";
 
 /* eslint-disable */
 
@@ -18,9 +18,11 @@ const ChannelPage = () => {
     current_tab: 
       {content: {contents: []}}, metadata: {avatar: [{url: ''}], description: ''}});
   // {header: {}, current_tab: {content: {contents: []}}}
-  const router = useRouter();
-  const params = useParams();
-  const id = params.id;
+  // const router = useRouter();
+  // const params = useParams();
+  // const id = params.id;
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
   console.log(id);
   useEffect(() => {
     const setInnertube = async () => {
@@ -85,7 +87,7 @@ const ChannelPage = () => {
               >
                 <Image
                   fill
-                  src={channelData?.metadata?.avatar[0]?.url.startsWith("https:") ? channelData?.metadata?.avatar[0]?.url : "https:" + channelData?.metadata?.avatar[0]?.url}
+                  src={channelData?.metadata?.avatar[0]?.url}
                   alt="ArtistItem"
                   className="object-cover"
                 />

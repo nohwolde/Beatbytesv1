@@ -96,7 +96,7 @@ const YoutubeSong: React.FC<YoutubeSongProps> = ({song, onPlay, children}) => {
           <p className="text-neutral-400 text-sm truncate hover:text-white"
               onClick={(e) => {
                 e.stopPropagation();
-                router.push(`/channel/${song.author?.id}`)
+                router.push(`/channel?id=${song.author?.id}`)
               }
             }
           >

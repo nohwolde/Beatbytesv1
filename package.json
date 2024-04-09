@@ -55,7 +55,7 @@
     "metascraper-soundcloud": "^5.36.0",
     "music-engines": "^2.0.8",
     "nanoid": "^5.0.6",
-    "next": "^14.0.1",
+    "next": "^14.2.0-canary.61",
     "next-with-workbox": "^3.0.5",
     "persist-and-sync": "^1.2.1",
     "playwright": "^1.35.1",

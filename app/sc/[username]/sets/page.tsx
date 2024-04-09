@@ -5,15 +5,17 @@ import getLikedSongs from "@/actions/getLikedSongs";
 import Header from "@/components/Header";
 
 import PlaylistContent from "@/components/PlaylistContent";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSoundcloudProfile } from "@/hooks/useProfile";
 
-export const revalidate = 0;
+// export const revalidate = 0;
+
+export const dynamicParams = true;
 
 const Playlist = () => {
-  const params = useParams();
-  const id = params.id;
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
 
   const { getPlaylist, playlists, username } = useSoundcloudProfile();
   const [playlistData, setPlaylistData] = useState(

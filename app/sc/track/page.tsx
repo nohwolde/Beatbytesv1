@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import Header from "@/components/Header";
 
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getSoundcloudTrack, getSoundcloudImage, getRelatedSoundcloudTracks } from "@/soundcloudController/api-controller";
 import { useKeyStore, usePlayerStore } from "@/app/store";
@@ -13,11 +13,13 @@ import showSong from "@/components/ScSong";
 
 /* eslint-disable */
 
-export const revalidate = 0;
+// export const revalidate = 0;
+
+export const dynamicParams = true;
 
 const Track = () => {
-  const params = useParams();
-  const id = params.id;
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
 
   const {scKey, setScKey} = useKeyStore();
   const {setCurrentTrack} = usePlayerStore();

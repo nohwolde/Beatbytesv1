@@ -4,7 +4,7 @@ import Image from "next/image";
 import Header from "@/components/Header";
 
 import  PlaylistContent from "@/components/PlaylistContent";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import PlayButton from "@/components/PlayButton";
 import { usePlayerStore, useProfileStore } from "@/app/store";
@@ -15,11 +15,13 @@ import shuffle from "@/public/images/shuffle.svg";
 
 import playlistImage from "@/public/images/playlist.jpeg";
 
-export const revalidate = 0;
+// export const revalidate = 0;
+
+export const dynamicParams = true;
 
 const Playlist = () => {
-  const params = useParams();
-  const id = params.id;
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
   const router = useRouter();
 
   const { setCurrentTrack, setCurrentPlaylist, isShuffled, setIsShuffled, shufflePlaylist, setUnshuffledPlaylist} = usePlayerStore();

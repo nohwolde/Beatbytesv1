@@ -7,7 +7,7 @@ import getLikedSongs from "@/actions/getLikedSongs";
 import Header from "@/components/Header";
 
 import PlaylistContent from "@/components/PlaylistContent";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSpotifyProfile } from "@/hooks/useProfile";
 import playlistImage from "@/public/images/playlist.jpeg";
@@ -18,7 +18,9 @@ import { twMerge } from "tailwind-merge";
 
 import shuffle from "@/public/images/shuffle.svg";
 
-export const revalidate = 0;
+// export const revalidate = 0;
+
+export const dynamicParams = true;
 
 /**
  * Renders the playlist page.
@@ -26,8 +28,8 @@ export const revalidate = 0;
  * @returns The playlist page component.
  */
 const Playlist = () => {
-  const params = useParams();
-  const id = params.id;
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
   const router = useRouter();
 
   const [playlistData, setPlaylistData] = useState(

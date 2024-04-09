@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 // const withWorkbox = require("next-with-workbox");
 const nextConfig = {
+  // output: 'export',
   experimental: {
   },
   compiler: {
@@ -13,6 +14,7 @@ const nextConfig = {
         hostname: "**",
       },
     ],
+    unoptimized: true,
   },
   webpack: (config) => {
     // this will override the experiments

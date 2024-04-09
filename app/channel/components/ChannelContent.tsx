@@ -34,7 +34,7 @@ const ChannelContent: React.FC<ChannelContentProps> = ({ contents }) => {
                 <ChannelItem 
                   key={video.author.id}
                   data={video}
-                  onClick={() => router.push(`/channel/${video.author.id}`)}
+                  onClick={() => router.push(`/channel?id=${video.author.id}`)}
                 />
               )
             }

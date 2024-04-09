@@ -3,7 +3,7 @@
 import { useYoutubeProfile } from "@/hooks/useProfile";
 import Profile from "@/components/Profile";
 
-export const revalidate = 0;
+// export const revalidate = 0;
 
 const Yt = () => {
 

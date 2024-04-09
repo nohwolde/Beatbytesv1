@@ -5,7 +5,7 @@ import getLikedSongs from "@/actions/getLikedSongs";
 import Header from "@/components/Header";
 
 import PlaylistContent from "@/components/PlaylistContent";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSoundcloudProfile } from "@/hooks/useProfile";
 import { getSoundcloudPlaylist, getSoundcloudImage } from "@/soundcloudController/api-controller";
@@ -24,11 +24,14 @@ import { twMerge } from "tailwind-merge";
 import playlistImage from "@/public/images/playlist.jpeg";
 import shuffle from "@/public/images/shuffle.svg";
 
-export const revalidate = 0;
+// export const revalidate = 0;
+
+export const dynamicParams = true;
 
 const Playlist = () => {
-  const params = useParams();
-  const id = params.id;
+
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
   const { scKey, setScKey } = useKeyStore();
   const { setCurrentTrack, addToFront, addToQueue, setCurrentPlaylist, isShuffled, setIsShuffled, shufflePlaylist, setUnshuffledPlaylist} = usePlayerStore();
   const router = useRouter();
