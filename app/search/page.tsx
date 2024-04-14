@@ -28,7 +28,7 @@ const Search = async ({ searchParams }: SearchProps) => {
       <Header
         className={twMerge(`
           bg-gradient-to-b 
-          from-sky-400
+          from-teal-400
           to-b
           `
         )}>

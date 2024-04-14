@@ -3,6 +3,7 @@ import VideoItem from "@/components/VideoItem";
 import ChannelItem from "@/components/ChannelItem";
 import { useRouter, usePathname, useParams } from "next/navigation";
 import { usePlayerStore } from "@/app/store";
+import PlaylistItem from "@/components/PlaylistItem";
 
 
 interface ChannelContentProps {
@@ -35,6 +36,16 @@ const ChannelContent: React.FC<ChannelContentProps> = ({ contents }) => {
                   key={video.author.id}
                   data={video}
                   onClick={() => router.push(`/channel/${video.author.id}`)}
+                />
+              )
+            }
+            else if(video.type === "CompactStation") {
+              return (
+                <PlaylistItem 
+                  key={video.endpoint.payload.playlistId}
+                  data={{title: video.title.text, artist: "Youtube Music"}}
+                  image={video.thumbnail[0].url}
+                  onClick={() => router.push(`/yt/playlist/${video.endpoint.payload.playlistId}`)}
                 />
               )
             }

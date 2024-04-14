@@ -12,16 +12,7 @@ import setKey from "@/actions/setKey";
 import PlaylistItem from "@/components/PlaylistItem";
 import { twMerge } from "tailwind-merge";
 
-
-// export const revalidate = 0;
-
 export default async function Home() {
-
-  // const key = await getKey(Platform.Soundcloud, "client_id");
-
-  // console.log("KEY:", key);
-
-  // const songs = await getSongs();
 
   return (
     <div
@@ -46,7 +37,7 @@ export default async function Home() {
       <Header
         className={twMerge(`
         bg-gradient-to-b 
-        from-blue-800
+        from-[#2B75FF]
         to-b
         `
       )}>
@@ -79,9 +70,6 @@ export default async function Home() {
       </Header>
       <div className="mt-2 mb-7 px-6">
         <div className="flex justify-between items-center">
-          {/* <h1 className="text-white text-4xl font-semibold">
-            Jump back in
-          </h1> */}
         </div>
         <PageContent />
       </div>

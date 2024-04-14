@@ -109,6 +109,15 @@ const getPlaylist = async (id: string): Promise<any> => {
   return playlist;
 };
 
+const getPlaylistTracks = async (id: string): Promise<any> => {
+  if (!innertube) await setInnertube();
+  const playlistTracks = (await innertube?.getPlaylist(id))?.videos;
+  const playlistInfo = await innertube?.getPlaylist(id);
+  console.log("Playlist", playlistTracks);
+  return { tracks: playlistTracks, ...playlistInfo };
+};
+
+
 const getThumbnail = async (
   id: string,
   resolution: string,
@@ -148,4 +157,5 @@ export {
   getChannel,
   getRecommended,
   getPlaylist,
+  getPlaylistTracks,
 };

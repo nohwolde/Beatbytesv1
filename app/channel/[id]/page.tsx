@@ -85,7 +85,7 @@ const ChannelPage = () => {
               >
                 <Image
                   fill
-                  src={channelData?.metadata?.avatar[0]?.url.startsWith("https:") ? channelData?.metadata?.avatar[0]?.url : "https:" + channelData?.metadata?.avatar[0]?.url}
+                  src={channelData?.metadata?.avatar[0]?.url}
                   alt="ArtistItem"
                   className="object-cover"
                 />

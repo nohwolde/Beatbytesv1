@@ -15,7 +15,8 @@ import shuffle from "@/public/images/shuffle.svg";
 
 import playlistImage from "@/public/images/playlist.jpeg";
 
-export const revalidate = 0;
+import { getPlaylistTracks } from "@/actions/useInnertube";
+import YoutubeSong from "@/components/YoutubeSong";
 
 const Playlist = () => {
   const params = useParams();
@@ -30,15 +31,42 @@ const Playlist = () => {
     {
       name: "",
       image: playlistImage,
-      songs: []
+      songs: [], 
+      tracks: [], 
+      info: {
+        title: "", 
+        author: {
+          id, 
+          name: "",
+          thumbnails: [{url: ""}]
+        },
+        description: "",
+        thumbnails: [{url: ""}]
+
+
+      }
     }
   );
+
+    const [isUserPlaylist, setIsUserPlaylist] = useState(true);
 
   useEffect(() => {
     const pData = getYtPlaylist(id as string);
     console.log(pData);
-    if(pData) {
+    if(pData !== undefined) {
       setPlaylistData(pData);
+    }
+    else {
+      setIsUserPlaylist(false);
+      const fetchData = async () => {
+        const ytList = await getPlaylistTracks(id as string)
+        console.log(ytList);
+        if(ytList !== undefined) {
+          setPlaylistData(ytList);
+        }
+      }
+      fetchData();
+
     }
   }, []);
 
@@ -143,29 +171,55 @@ const Playlist = () => {
               gap-x-5
             "
           >
-            <div className="relative h-32 w-32 lg:h-44 lg:w-44">
-              <Image
-                className="object-cover"
-                fill
-                src={playlistData?.image || "/images/liked.png"}
-                alt="Playlist"
-              />
+            <div className="relative h-32 w-32 lg:h-64 lg:w-64">
+
+              {isUserPlaylist &&
+                <Image
+                  className="object-cover"
+                  fill
+                  src={playlistData?.image || "/images/liked.png"}
+                  alt="Playlist"
+                />
+              }
+              {!isUserPlaylist &&
+                <Image
+                  className="object-cover"
+                  fill
+                  src={playlistData?.info?.thumbnails[0]?.url || "/images/liked.png"}
+                  alt="Playlist"
+                />
+              }
             </div>
             <div className="flex flex-col gap-y-2 mt-4 md:mt-0">
               <p className="hidden md:block font-semibold text-sm">
                 Playlist
               </p>
-              <h1  
-                className="
-                  text-white 
-                  text-4xl 
-                  sm:text-5xl 
-                  lg:text-7xl 
-                  font-bold
-                "
-              >
-                {playlistData?.name}
-              </h1>
+              {(isUserPlaylist) &&
+                <h1  
+                  className="
+                    text-white 
+                    text-4xl 
+                    sm:text-5xl 
+                    lg:text-7xl 
+                    font-bold
+                  "
+                >
+                  {playlistData?.name}
+                </h1>
+              }
+              {(!isUserPlaylist) &&
+                <h1  
+                  className="
+                    text-white 
+                    text-4xl 
+                    sm:text-5xl 
+                    lg:text-7xl 
+                    font-bold
+                  "
+                >
+                  {playlistData?.info?.title}
+                </h1>
+              }
             </div>
           </div>
           <div className="mt-5
@@ -220,7 +274,38 @@ const Playlist = () => {
           </div>
         </div>
       </Header>
-      {playlistData !== null && <PlaylistContent songs={playlistData?.songs?.map((song:any) => {return({...song, image_path: song.image})})} />}
+    
+      {isUserPlaylist && playlistData !== null && <PlaylistContent songs={playlistData?.songs?.map((song:any) => {return({...song, image_path: song.image})})} />}
+      {!isUserPlaylist && 
+        <div className="flex flex-col gap-y-2 w-full p-6">
+          {playlistData?.tracks?.map((song: any) => (
+            <YoutubeSong
+              key={song.id} 
+                song={{
+                  id: song.id,
+                  author: song.author,
+                  name: song.title.text,
+                  href: song.id,
+                  image_path: song.thumbnails[0]?.url,
+                  views: "0 views",
+                  platform: "Youtube",
+                }}
+                onPlay={() => {
+                    router.push('/watch/' + song.id);
+                    setCurrentTrack({
+                      id: song.id,
+                      author: song.author,
+                      title: {text: song.title.text},
+                      thumbnails: song.thumbnails, 
+                      platform: "Youtube"
+
+                    });
+                  }
+                }
+            />
+          ))}
+        </div>
+      }
     </div>
   );
 }

@@ -112,7 +112,7 @@ const getSongData = async (trackId: string, accessToken: string) => {
 
 const getSpotifyUserPlaylists = async (userId: string, accessToken: string) => {
 
-  const response = await fetchSpotify(`https://api.spotify.com/v1/users/${userId}/playlists`, 1, accessToken);
+  const response = await fetchSpotify(`https://api.spotify.com/v1/me/playlists`, 1, accessToken);
 
   const data = await response.json();
 

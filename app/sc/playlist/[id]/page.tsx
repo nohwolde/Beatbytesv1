@@ -33,8 +33,6 @@ const Playlist = () => {
   const { setCurrentTrack, addToFront, addToQueue, setCurrentPlaylist, isShuffled, setIsShuffled, shufflePlaylist, setUnshuffledPlaylist} = usePlayerStore();
   const router = useRouter();
 
-
-
   const { getScPlaylist } = useProfileStore();
   const [playlistData, setPlaylistData] = useState(
     {
@@ -53,7 +51,7 @@ const Playlist = () => {
     const fetchData = async () => {
     const pData = await getScPlaylist(id as string);
     console.log(pData);
-    if(pData !== undefined) {
+    if(pData !== undefined) { 
       setPlaylistData(pData);
     }
     else {
