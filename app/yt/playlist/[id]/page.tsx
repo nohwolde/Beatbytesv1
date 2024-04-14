@@ -150,7 +150,7 @@ const Playlist = () => {
       }
       else {
         if(isShuffled) {
-          const copyOfPlaylistData = playlistData.songs?.slice();
+          const copyOfPlaylistData = playlistData.tracks?.slice();
           const notShuffled = copyOfPlaylistData;
           const shuffled = notShuffled.sort(() => 0.5 - Math.random());
           const song = shuffled[0];
@@ -166,7 +166,7 @@ const Playlist = () => {
         }
         else {
           console.log("Playing", playlistData);
-          const song = playlistData?.songs[0];
+          const song = playlistData?.tracks[0];
           console.log(song);
           // think we need to change the song object up to match the yt object
 
@@ -174,7 +174,7 @@ const Playlist = () => {
           setCurrentTrack(songData);
           setCurrentPlaylist(
             {...playlistData, 
-              songs: [...playlistData?.songs.slice(1).map(
+              songs: [...playlistData?.tracks.slice(1).map(
                 (song: any) => getYoutubeSongData(song)
               ), songData]})
         }
