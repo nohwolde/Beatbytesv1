@@ -102,39 +102,82 @@ const Playlist = () => {
     }
   }
 
+  const getYoutubeSongData = (song: any) => {
+    return {
+      id: song?.id,
+      author: song?.author,
+      title: {text: song?.title?.text},
+      thumbnails: song?.thumbnails, 
+      platform: "Youtube"
+    }
+  }
+
   
   const playPlaylist = () => {
     console.log("Playing playlist");
     if(playlistData === null || playlistData?.songs.length === 0) return;
     else {
-      if(isShuffled) {
-        const copyOfPlaylistData = playlistData.songs?.slice();
-        const notShuffled = copyOfPlaylistData;
-        const shuffled = notShuffled.sort(() => 0.5 - Math.random());
-        const song = shuffled[0];
-        console.log(song);
+      if(isUserPlaylist) {
+        if(isShuffled) {
+          const copyOfPlaylistData = playlistData.songs?.slice();
+          const notShuffled = copyOfPlaylistData;
+          const shuffled = notShuffled.sort(() => 0.5 - Math.random());
+          const song = shuffled[0];
+          console.log(song);
 
-        const songData = getSongData(song);
+          const songData = getSongData(song);
 
-        setCurrentTrack(songData);
+          setCurrentTrack(songData);
 
-        setCurrentPlaylist({...playlistData, songs: [...shuffled.slice(1).map((song) => 
-          getSongData(song)
-        ), songData]})
+          setCurrentPlaylist({...playlistData, songs: [...shuffled.slice(1).map((song) => 
+            getSongData(song)
+          ), songData]})
+        }
+        else {
+          console.log("Playing", playlistData);
+          const song = playlistData?.songs[0];
+          console.log(song);
+          // think we need to change the song object up to match the yt object
+
+          const songData = getSongData(song);
+          setCurrentTrack(songData);
+          setCurrentPlaylist(
+            {...playlistData, 
+              songs: [...playlistData?.songs.slice(1).map(
+                (song: any) => getSongData(song)
+              ), songData]})
+        }
       }
       else {
-        console.log("Playing", playlistData);
-        const song = playlistData?.songs[0];
-        console.log(song);
-        // think we need to change the song object up to match the yt object
+        if(isShuffled) {
+          const copyOfPlaylistData = playlistData.songs?.slice();
+          const notShuffled = copyOfPlaylistData;
+          const shuffled = notShuffled.sort(() => 0.5 - Math.random());
+          const song = shuffled[0];
+          console.log(song);
 
-        const songData = getSongData(song);
-        setCurrentTrack(songData);
-        setCurrentPlaylist(
-          {...playlistData, 
-            songs: [...playlistData?.songs.slice(1).map(
-              (song: any) => getSongData(song)
-            ), songData]})
+          const songData = getYoutubeSongData(song);
+
+          setCurrentTrack(songData);
+
+          setCurrentPlaylist({...playlistData, songs: [...shuffled.slice(1).map((song) => 
+            getSongData(song)
+          ), songData]})
+        }
+        else {
+          console.log("Playing", playlistData);
+          const song = playlistData?.songs[0];
+          console.log(song);
+          // think we need to change the song object up to match the yt object
+
+          const songData = getYoutubeSongData(song);
+          setCurrentTrack(songData);
+          setCurrentPlaylist(
+            {...playlistData, 
+              songs: [...playlistData?.songs.slice(1).map(
+                (song: any) => getYoutubeSongData(song)
+              ), songData]})
+        }
       }
     }
   }
@@ -298,7 +341,6 @@ const Playlist = () => {
                       title: {text: song.title.text},
                       thumbnails: song.thumbnails, 
                       platform: "Youtube"
-
                     });
                   }
                 }
