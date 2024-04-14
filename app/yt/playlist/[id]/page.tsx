@@ -115,7 +115,7 @@ const Playlist = () => {
   
   const playPlaylist = () => {
     console.log("Playing playlist");
-    if(playlistData === null || playlistData?.songs.length === 0) return;
+    if(playlistData === null || playlistData?.songs?.length === 0 && playlistData?.tracks?.length === 0) return;
     else {
       if(isUserPlaylist) {
         if(isShuffled) {
