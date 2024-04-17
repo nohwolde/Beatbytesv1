@@ -6,8 +6,6 @@ import Header from "@/components/Header";
 import LikedContent from "./components/LikedContent";
 import PlaylistContent from "@/components/PlaylistContent";
 
-export const revalidate = 0;
-
 const Liked = async () => {
   const songs = await getLikedSongs();
 

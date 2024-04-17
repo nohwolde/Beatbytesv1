@@ -9,8 +9,6 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSoundcloudProfile } from "@/hooks/useProfile";
 
-export const revalidate = 0;
-
 const Playlist = () => {
   const params = useParams();
   const id = params.id;

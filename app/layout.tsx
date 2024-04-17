@@ -22,8 +22,6 @@ export const metadata = {
   description: 'Music without limits',
 }
 
-// export const revalidate = 0;
-
 export default async function RootLayout({
   children,
 }: {

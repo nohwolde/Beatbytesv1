@@ -13,7 +13,6 @@ import showSong from "@/components/ScSong";
 
 /* eslint-disable */
 
-export const revalidate = 0;
 
 const Track = () => {
   const params = useParams();

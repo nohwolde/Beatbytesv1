@@ -18,8 +18,6 @@ import { twMerge } from "tailwind-merge";
 
 import shuffle from "@/public/images/shuffle.svg";
 
-export const revalidate = 0;
-
 /**
  * Renders the playlist page.
  * 

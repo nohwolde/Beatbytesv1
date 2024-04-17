@@ -24,8 +24,6 @@ import { twMerge } from "tailwind-merge";
 import playlistImage from "@/public/images/playlist.jpeg";
 import shuffle from "@/public/images/shuffle.svg";
 
-export const revalidate = 0;
-
 const Playlist = () => {
   const params = useParams();
   const id = params.id;

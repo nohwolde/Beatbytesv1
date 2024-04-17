@@ -15,8 +15,6 @@ import playlistImage from "@/public/images/playlist.jpeg";
 
 import { useProfileStore } from "@/app/store";
 
-export const revalidate = 0;
-
 interface ProfileProps {
   profile?: ProfileStore;
   platform: string;
