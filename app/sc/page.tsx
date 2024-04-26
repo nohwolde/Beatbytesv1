@@ -3,9 +3,8 @@
 import Profile from "@/components/Profile";
 import { useSoundcloudProfile } from "@/hooks/useProfile";
 
-// export const revalidate = 0;
 
-const Sc = async () => {
+const Sc = () => {
   
   const profile = useSoundcloudProfile();
 

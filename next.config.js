@@ -1,19 +1,19 @@
 /** @type {import('next').NextConfig} */
 // const withWorkbox = require("next-with-workbox");
 const nextConfig = {
-  // output: 'export',
-  experimental: {
-  },
-  compiler: {
-    styledComponents: true,
-  },
+  output: "export",
+  // experimental: {
+  // },
+  // compiler: {
+  //   styledComponents: true,
+  // },
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**",
-      },
-    ],
+    // remotePatterns: [
+    //   {
+    //     protocol: "https",
+    //     hostname: "**",
+    //   },
+    // ],
     unoptimized: true,
   },
   webpack: (config) => {
@@ -73,14 +73,14 @@ const nextConfig = {
       // },
     ];
   },
-  async rewrites() {
-    return [
-      {
-        source: '/watch/:path*',
-        destination: '/', // Or wherever you want to render instead of a 404 page
-      },
-    ];
-  },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: "/watch?id=:id*", // Match /watch with any query parameter named "id" and capture its value
+  //       destination: "/", // Rewrite to the root path
+  //     },
+  //   ];
+  // },
 };
 
 // module.exports = withWorkbox({

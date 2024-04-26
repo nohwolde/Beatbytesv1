@@ -30,7 +30,7 @@ const YoutubeSong: React.FC<YoutubeSongProps> = ({song, onPlay, children}) => {
       key={song.id}
       onClick={() => {
         onPlay(song.id);
-        router.push(`/watch/${song.id}`)
+        router.push(`/watch?id=${song.id}`)
       }}
       className="
       flex 

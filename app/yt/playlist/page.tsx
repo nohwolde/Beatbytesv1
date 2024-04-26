@@ -17,8 +17,6 @@ import playlistImage from "@/public/images/playlist.jpeg";
 
 // export const revalidate = 0;
 
-export const dynamicParams = true;
-
 const Playlist = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");

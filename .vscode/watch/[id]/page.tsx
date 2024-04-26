@@ -100,7 +100,7 @@ const Watch = ({Video}: WatchProps) => {
   const watchNext = (feed: Array<any>) => {
     return (
       feed.map((item) => 
-        <VideoItem onClick={() => router.push(`/watch/${item.id}`)} data={item} />
+        <VideoItem onClick={() => router.push(`/watch?id=${item.id}`)} data={item} />
       )
     );
   }

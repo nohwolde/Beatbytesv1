@@ -1,32 +1,24 @@
 "use client";
 
-import { useEffect, useState, useRef, memo } from "react";
+import { useEffect, useState, useRef } from "react";
 import { BsPauseFill, BsPlayFill, BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
 import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
 import * as QueueIcon from "@/public/images/queue.svg";
 import * as songPlaceholder from "@/public/images/playlist.jpeg";
-import { Song } from "@/types";
-import usePlayer from "@/hooks/usePlayer";
 
 import shuffle from "@/public/images/shuffle.svg";
 import replay from "@/public/images/replay.svg";
 
-import { toast } from "react-hot-toast";
-
-import LikeButton from "./LikeButton";
-import MediaItem from "./MediaItem";
 import Slider from "./Slider";
-import VideoPlayerMemo from "./VideoPlayerMemo";
-import VideoPlayer from "./VideoPlayer";
-import { usePathname, useParams, useRouter } from "next/navigation";
+import { usePathname, useParams, useSearchParams, useRouter } from "next/navigation";
 import YoutubeSong from "@/components/YoutubeSong";
 import showSong from "@/components/ScSong";
 
 import { getDash, getVideo } from "@/actions/useInnertube";
-const Draggable = require('react-draggable');
 
-const shaka = require('shaka-player/dist/shaka-player.ui.js');
+// const shaka = require('shaka-player/dist/shaka-player.ui.js');
+// import * as shaka from 'shaka-player/dist/shaka-player.ui.js';
 import 'shaka-player/dist/controls.css'; /* Shaka player CSS import */
 
 import Header from "@/components/Header";
@@ -35,28 +27,44 @@ import Image from "next/image";
 
 import 'shaka-player/dist/controls.css'; /* Shaka player CSS import */
 import VideoItem from "@/components/VideoItem";
-import { watch } from "fs";
 import { usePlayerStore, useKeyStore } from "@/app/store";
 import { getSoundcloudImage, getTrackStream } from "@/soundcloudController/api-controller";
 
 interface PlayerContentProps {
-  song: Song | undefined;
-  songUrl: string;
+  shaka: any;
 }
 
-const PlayerContent: React.FC<PlayerContentProps> = ({ 
-  song, 
-  songUrl
-}) => {
+const PlayerContent: React.FC<PlayerContentProps> = ({shaka}) => {
   const videoPlayerRef = useRef<HTMLVideoElement | null>(null);
   const watchRef = useRef<HTMLDivElement | null>(null);
   const playerRef = useRef<HTMLDivElement | null>(null);
-  const player = usePlayer();
   const [volume, setVolume] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
   const pathname = usePathname();
-  const params = useParams();
-  const { id } = useParams();
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+
+  // const [isClient, setIsClient] = useState(false);
+  // const [isLoading, setIsLoading] = useState(true);
+  // let shaka: any = null;
+
+  // useEffect(() => {
+  //   setIsClient(true);
+  // }, []);
+
+  // useEffect(() => {
+  //   if (isClient) {
+  //     import('shaka-player/dist/shaka-player.ui.js')
+  //       .then((shakaModule) => {
+  //         shaka = shakaModule;
+  //         setIsLoading(false);
+  //         // Initialize shaka-player here...
+  //       })
+  //       .catch((error) => {
+  //         console.error('Error loading shaka-player:', error);
+  //       });
+  //   }
+  // }, [isClient]);
 
   // const id = params.id;
   const router = useRouter();
@@ -175,9 +183,9 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
     const fetchTrack = async () => {
       // This code will only run once after the initial render
       console.log('App mounted');
-      if(pathname.startsWith('/watch/')) {
+      if(pathname.startsWith('/watch')) {
         console.log("PATHNAME:", pathname);
-        const newId = pathname.split('/')[2];
+        const newId = searchParams.get("id");
         if(newId && newId !== "") {
           console.log("ID", newId);
           if(currentTrack === null || currentTrack?.id !== id) {
@@ -501,7 +509,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
           console.log(pathname);
           if (pathname.startsWith('/watch') && pathname.split('/')[2] !== currentTrack?.id) {
             console.log("Changing route name");
-            router.push('/watch/' + currentTrack?.id);
+            router.push('/watch?id=' + currentTrack?.id);
           }
 
           // player.getMediaElement().addEventListener('timeupdate', () => {
@@ -628,13 +636,6 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
     // }
   }, [watchRef.current]);
 
-  const renderSong = () => {
-    if (!song || !songUrl || !player.activeId) {
-      return false;
-    }
-    return true;
-  }
-
   const onPlayNext = () => {
     playNext();
   }
@@ -739,7 +740,12 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
 
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
 
+  // if (isLoading) {
+  //   return <div>Loading...</div>; // Replace this with your own loading component
+  // }
+  
   return (
+    // <div></div>
     <>
     {pathname.startsWith('/watch/') && 
       <div 
@@ -1147,7 +1153,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
               </div>
             </div>
           </div>
-        </>
+    </>
    );
 }
  

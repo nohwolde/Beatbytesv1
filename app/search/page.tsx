@@ -5,14 +5,12 @@ import Header from "@/components/Header";
 import SearchContent from "./components/SearchContent";
 import { twMerge } from "tailwind-merge";
 
-export const revalidate = 0;
-
 interface SearchProps {
   searchParams: { title: string }
 };
 
 const Search = async ({ searchParams }: SearchProps) => {
-  const songs = await getSongsByTitle(searchParams.title);
+  // const songs = await getSongsByTitle(searchParams.title);
 
   return (
     <div 
@@ -39,7 +37,7 @@ const Search = async ({ searchParams }: SearchProps) => {
           <SearchInput />
         </div>
       </Header>
-      <SearchContent songs={songs} />
+      <SearchContent />
     </div>
   );
 }

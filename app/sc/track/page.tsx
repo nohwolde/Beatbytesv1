@@ -13,9 +13,7 @@ import showSong from "@/components/ScSong";
 
 /* eslint-disable */
 
-// export const revalidate = 0;
 
-export const dynamicParams = true;
 
 const Track = () => {
   const searchParams = useSearchParams();

@@ -20,8 +20,6 @@ import shuffle from "@/public/images/shuffle.svg";
 
 // export const revalidate = 0;
 
-export const dynamicParams = true;
-
 /**
  * Renders the playlist page.
  * 
@@ -101,7 +99,7 @@ const Playlist = () => {
         song.platform === "Spotify" ? 
           setCurrentTrack(songData) : 
         setCurrentTrack(songData);
-        router.push("/watch/"+ song.id);
+        router.push("/watch?id="+ song.id);
         setCurrentPlaylist({...playlistData, 
           songs: [...shuffled.slice(1).map(
             (song: any) => getSongData(song) 
@@ -129,7 +127,7 @@ const Playlist = () => {
         song.platform === "Spotify" ? 
           setCurrentTrack(songData) : 
         setCurrentTrack(songData);
-        router.push("/watch/"+ song.id);
+        router.push("/watch?id="+ song.id);
         setCurrentPlaylist({...playlistData, 
           songs: [...playlistData?.songs.slice(1).map(
             (song: any) => getSongData(song) 
@@ -240,7 +238,8 @@ const Playlist = () => {
           </div>
         </div>
       </Header>
-      <PlaylistContent songs={playlistData?.songs} />
+      {(playlistData && playlistData?.songs) && <PlaylistContent songs={playlistData?.songs} />
+      }
     </div>
   );
 }

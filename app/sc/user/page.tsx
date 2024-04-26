@@ -19,7 +19,6 @@ import LikeButton from '@/components/LikeButton';
 
 import { useRouter } from "next/navigation"
 
-export const dynamicParams = true;
 
 const UserProfile = () => {
   // stores

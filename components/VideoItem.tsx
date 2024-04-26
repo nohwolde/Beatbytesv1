@@ -44,7 +44,7 @@ const VideoItem: React.FC<VideoItemProps> = ({ data }) => {
 
   return ( 
     <div
-      onClick={() => {router.push(`/watch/${data.id}`); console.log('Playing Now');setCurrentTrack({...data, platform:"Youtube"});}}
+      onClick={() => {router.push(`/watch?id=${data.id}`); console.log('Playing Now');setCurrentTrack({...data, platform:"Youtube"});}}
       className="
         relative 
         group 

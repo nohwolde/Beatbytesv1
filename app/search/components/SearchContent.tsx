@@ -24,7 +24,7 @@ import SoundcloudUser from "@/components/SoundcloudUser";
 import { fetchSoundcloud } from "@/soundcloudController/api-controller";
 
 interface SearchContentProps {
-  songs: Song[];
+  songs?: Song[];
 } 
 
 const SearchContent: React.FC<SearchContentProps> = ({
@@ -356,7 +356,7 @@ const SearchContent: React.FC<SearchContentProps> = ({
                     platform: "Soundcloud"
                   }
                   , () => {
-                    router.push(`/sc/playlist/${item.id}`)
+                    router.push(`/sc/playlist?id=${item.id}`)
                   })
               )
             }
@@ -400,7 +400,7 @@ const SearchContent: React.FC<SearchContentProps> = ({
         key={song.id}
         onClick={() => {
           onPlay(song.id);
-          router.push(`/watch/${song.id}`)
+          router.push(`/watch?id=${song.id}`)
         }}
         className="
         flex 

@@ -82,7 +82,7 @@ const PlaylistContent: React.FC<PlaylistContentProps> = ({
                   platform: "Youtube",
                 }}
                 onPlay={() => {
-                  router.push('/watch/' + song.id);
+                  router.push('/watch?id=' + song.id);
                   setCurrentTrack({
                     id: song?.id,
                     author: song?.author,
@@ -104,7 +104,7 @@ const PlaylistContent: React.FC<PlaylistContentProps> = ({
                   platform: "Youtube",
                 }}
                 onPlay={() => {
-                  router.push('/watch/' + song.id);
+                  router.push('/watch?id=' + song.id);
                   setCurrentTrack({
                     id: song.yt?.id,
                     author: song.yt?.author,

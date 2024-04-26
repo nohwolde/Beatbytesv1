@@ -18,7 +18,7 @@ interface LibraryProps {
   spotify: any[];
   soundcloud: any[];
   youtube: any[];
-  songs: Song[];
+  songs?: Song[];
 }
 
 const Library: React.FC<LibraryProps> = ({
@@ -35,7 +35,6 @@ const Library: React.FC<LibraryProps> = ({
   const authModal = useAuthModal();
   const subscribeModal = useSubscribeModal();
 
-  const onPlay = useOnPlay(songs);
 
   const onClick = () => {
     if (!user) {
@@ -86,7 +85,7 @@ const Library: React.FC<LibraryProps> = ({
             </p>
             {spotify.map((item) => (
               <PlaylistRow 
-                onClick={() => router.push(`/spot/playlist/${item.id}`)} 
+                onClick={() => router.push(`/spot/playlist?id=${item.id}`)} 
                 key={item.id} 
                 playlist={{...item, id: item.href, subtitle: ""}}
                 image={item.image}
@@ -102,7 +101,7 @@ const Library: React.FC<LibraryProps> = ({
             </p>
             {soundcloud.map((item) => (
               <PlaylistRow 
-                onClick={() => router.push(`/sc/playlist/${item.id}`)} 
+                onClick={() => router.push(`/sc/playlist?id=${item.id}`)} 
                 key={item.id} 
                 playlist={{...item, subtitle: ""}}
                 image={item.image}
@@ -118,7 +117,7 @@ const Library: React.FC<LibraryProps> = ({
             </p>
             {youtube.map((item) => (
               <PlaylistRow 
-                onClick={() => router.push(`/yt/playlist/${item.id}`)} 
+                onClick={() => router.push(`/yt/playlist?id=${item.id}`)} 
                 key={item.id} 
                 playlist={{...item, subtitle: ""}}
                 image={item.image}

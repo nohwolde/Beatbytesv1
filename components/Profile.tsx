@@ -15,8 +15,6 @@ import playlistImage from "@/public/images/playlist.jpeg";
 
 import { useProfileStore } from "@/app/store";
 
-export const revalidate = 0;
-
 interface ProfileProps {
   profile?: ProfileStore;
   platform: string;
@@ -26,7 +24,6 @@ const Profile: React.FC<ProfileProps> = ({
   profile,
   platform,
 }) => {
-  const onPlay = useOnPlay([]);
   const color = platform === 'Spotify' ? 'from-green-500' : platform === 'Youtube' ? 'from-red-400' : 'from-orange-500';
   const router = useRouter();
 
@@ -139,7 +136,7 @@ const Profile: React.FC<ProfileProps> = ({
             <PlaylistItem
               onClick={() => {
                 const platformPrefix = '/spot';
-                router.push(platformPrefix + '/playlist/' + playlist.id);
+                router.push(platformPrefix + '/playlist?id=' + playlist.id);
               }}
               key={playlist.id} 
               data={{title: playlist?.name, id: playlist?.id, artist: playlist?.author?.display_name, artist_href: playlist?.author?.href}}
@@ -152,7 +149,7 @@ const Profile: React.FC<ProfileProps> = ({
             <PlaylistItem
               onClick={() => {
                 const platformPrefix = 'yt';
-                router.push(platformPrefix + '/playlist/' + playlist.id);
+                router.push(platformPrefix + '/playlist?id=' + playlist.id);
               }
               }
               key={playlist?.id}
@@ -167,7 +164,7 @@ const Profile: React.FC<ProfileProps> = ({
             <PlaylistItem
               onClick={() => {
                 const platformPrefix = '/sc';
-                router.push(platformPrefix + '/playlist/' + playlist?.id);
+                router.push(platformPrefix + '/playlist?id=' + playlist?.id);
               }}
               key={playlist.id}
               data={{title: playlist?.name, id: playlist?.id, artist: playlist?.author?.name, artist_href: playlist?.author?.id}}
@@ -183,7 +180,7 @@ const Profile: React.FC<ProfileProps> = ({
             onClick={() => {
               const platformPrefix = platform === "Spotify" ? '/spot' : platform === "Soundcloud" ? '/sc' : 'yt';
               if(platform !== "Youtube") router.push(platformPrefix + playlist.href);
-              else router.push(platformPrefix + "/playlist/" + playlist.id)
+              else router.push(platformPrefix + "/playlist?id=" + playlist.id)
             }}
             key={playlist.href} 
             data={platform !== 'Youtube' ? {title: playlist.name, id: playlist.href, artist: profile.name, artist_href: profile.username}: {...playlist, id: playlist.id, artist: playlist.author.name, artist_href: playlist.author.id  }}

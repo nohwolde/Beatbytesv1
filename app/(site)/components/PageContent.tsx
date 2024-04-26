@@ -28,9 +28,9 @@ const PageContent: React.FC<PageContentProps> = ({
   // key
 }) => {
   const router = useRouter();
-  const {
-    supabaseClient
-  } = useSessionContext();
+  // const {
+  //   supabaseClient
+  // } = useSessionContext();
   const { scKey, setScKey } = useKeyStore();
 
   const { spotPlaylists, scPlaylists, ytPlaylists } = useProfileStore();
@@ -107,7 +107,7 @@ const PageContent: React.FC<PageContentProps> = ({
               <PlaylistItem
                 onClick={() => {
                   const platformPrefix = '/spot';
-                  router.push(platformPrefix + '/playlist/' + playlist.id);
+                  router.push(platformPrefix + '/playlist?id=' + playlist.id);
                 }}
                 key={playlist.id} 
                 data={{title: playlist?.name, id: playlist?.id, artist: playlist?.author?.display_name, artist_href: playlist?.author?.href}}
@@ -132,7 +132,7 @@ const PageContent: React.FC<PageContentProps> = ({
                 <PlaylistItem
                   onClick={() => {
                     const platformPrefix = 'yt';
-                    router.push(platformPrefix + '/playlist/' + playlist.id);
+                    router.push(platformPrefix + '/playlist?id=' + playlist.id);
                   }}
                   key={playlist?.id}
                   data={{title: playlist?.name, id: playlist?.id, artist: playlist?.author?.name, artist_href: playlist?.author?.id}}
@@ -157,7 +157,7 @@ const PageContent: React.FC<PageContentProps> = ({
               <PlaylistItem
                 onClick={() => {
                   const platformPrefix = '/sc';
-                  router.push(platformPrefix + '/playlist/' + playlist?.id);
+                  router.push(platformPrefix + '/playlist?id=' + playlist?.id);
                 }}
                 key={playlist?.id}
                 data={{title: playlist?.name, id: playlist?.id, artist: playlist?.author?.name, artist_href: playlist?.author?.id}}

@@ -1,3 +1,4 @@
+import type { Metadata, Viewport } from 'next';
 import { Figtree } from 'next/font/google'
 
 import getSongsByUserId from '@/actions/getSongsByUserId'
@@ -17,12 +18,18 @@ import VideoPlayer from '@/components/VideoPlayer'
 
 const font = Figtree({ subsets: ['latin'] })
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Beatbytes',
   description: 'Music without limits',
 }
 
-// export const revalidate = 0;
+export const viewport: Viewport = {
+  initialScale: 1,
+  width: 'device-width',
+  viewportFit: 'cover',
+}
+
+
 
 export default async function RootLayout({
   children,
@@ -30,19 +37,19 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   const products = await getActiveProductsWithPrices();
-  const userSongs = await getSongsByUserId();
+  // const userSongs = await getSongsByUserId();
 
 
   return (
     <html lang="en">
       <head>
-        {/* <link
+        <link
           rel="preload"
           href="/musive-icons.ttf"
           as="font"
           crossOrigin=""
           type="font/ttf"
-        /> */}
+        />
         <script defer src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
         
         <script defer src="../node_modules/codem-isoboxer/dist/iso_boxer.min.js"></script>
@@ -60,10 +67,9 @@ export default async function RootLayout({
         <SupabaseProvider>
           <UserProvider>
             <SearchProvider>
-              {/* <VideoPlayerProvider> */}
                 <ModalProvider products={products} />
                 <div className="flex w-full h-full overflow-y-auto py-0.5">
-                  <Sidebar songs={userSongs}>
+                  <Sidebar>
                     {children}
                   </Sidebar>
                   <Player />
