@@ -40,3 +40,5 @@ next-env.d.ts
 # remove proxy from git 
 
 /proxy
+
+/ios

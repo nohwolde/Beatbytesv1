@@ -24,17 +24,17 @@ const PlaylistContent: React.FC<PlaylistContentProps> = ({
   songs
 }) => {
   const router = useRouter();
-  const { isLoading, user } = useUser();
+  // const { isLoading, user } = useUser();
 
   const onPlay = useOnPlay(songs);
 
   const { setCurrentTrack } = usePlayerStore();
 
-  useEffect(() => {
-    if (!isLoading && !user) {
-      router.replace('/');
-    }
-  }, [isLoading, user, router]);
+  // useEffect(() => {
+  //   if (!isLoading && !user) {
+  //     router.replace('/');
+  //   }
+  // }, [isLoading, user, router]);
   return ( 
     <div className="flex flex-col gap-y-2 w-full p-6">
       {/* add faPlay icon above in its own row */}
