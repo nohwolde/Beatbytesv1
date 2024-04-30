@@ -528,6 +528,7 @@ const SearchContent: React.FC<SearchContentProps> = ({
         p-2 
         rounded-md
         "
+        onClick={() => router.push(`/yt/playlist/${playlist.id}`)}
       >
         <div 
           className="
