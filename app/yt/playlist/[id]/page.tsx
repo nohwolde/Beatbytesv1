@@ -161,7 +161,7 @@ const Playlist = () => {
           setCurrentTrack(songData);
 
           setCurrentPlaylist({...playlistData, songs: [...shuffled.slice(1).map((song) => 
-            getSongData(song)
+            getYoutubeSongData(song)
           ), songData]})
         }
         else {
