@@ -107,24 +107,24 @@
 // export { handleLogin };
 
 
-import { remote } from 'webdriverio'
+// import { remote } from 'webdriverio'
 
 async function handleLogin() {
-  const browser = await remote({
-      capabilities: { browserName: 'chrome' }
-  })
+  // const browser = await remote({
+  //     capabilities: { browserName: 'chrome' }
+  // })
 
-  await browser.navigateTo('https://www.google.com/ncr')
+  // await browser.navigateTo('https://www.google.com/ncr')
 
-  const searchInput = await browser.$('#lst-ib')
-  await searchInput.setValue('WebdriverIO')
+  // const searchInput = await browser.$('#lst-ib')
+  // await searchInput.setValue('WebdriverIO')
 
-  const searchBtn = await browser.$('input[value="Google Search"]')
-  await searchBtn.click()
+  // const searchBtn = await browser.$('input[value="Google Search"]')
+  // await searchBtn.click()
 
-  console.log(await browser.getTitle()) // outputs "WebdriverIO - Google Search"
+  // console.log(await browser.getTitle()) // outputs "WebdriverIO - Google Search"
 
-  await browser.deleteSession()
+  // await browser.deleteSession()
 }
 
 // const {Builder, By, Key, until} = require('selenium-webdriver');

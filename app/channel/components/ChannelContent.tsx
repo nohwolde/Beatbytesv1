@@ -24,18 +24,19 @@ const ChannelContent: React.FC<ChannelContentProps> = ({ contents }) => {
           {shelf.content.items.map((video: any) => {
             if (video.type === "GridVideo") {
               return (
-                <div className="flex-none w-1/2 sm:w-1/3 md:w-1/3 lg:w-1/4">
+                <div className="flex-none w-1/2 sm:w-1/3 md:w-1/3 lg:w-1/4"
+                  key={video.id}
+                >
                   <VideoItem 
                     key={video.id}
                     data={video}
-
                   />
                 </div>
               )
             }
             else if (video.type === "GridChannel") {
               return (
-                <div className="flex-none w-1/2 sm:w-1/3 md:w-1/3 lg:w-1/6">
+                <div className="flex-none w-1/2 sm:w-1/3 md:w-1/3 lg:w-1/6" key={video.id}>
                   <ChannelItem 
                     key={video.author.id}
                     data={video}
@@ -47,7 +48,7 @@ const ChannelContent: React.FC<ChannelContentProps> = ({ contents }) => {
             else if(video.type === "CompactStation") {
               return (
                 // <div style={{flex: '0 0 auto', width: '16.66%'}}>
-                <div className="flex-none w-1/2 sm:w-1/3 md:w-1/3 lg:w-1/6">
+                <div className="flex-none w-1/2 sm:w-1/3 md:w-1/3 lg:w-1/6" key={video.id}>
                   <PlaylistItem 
                     key={video.endpoint.payload.playlistId}
                     data={{title: video.title.text, artist: "Youtube Music"}}
@@ -59,7 +60,7 @@ const ChannelContent: React.FC<ChannelContentProps> = ({ contents }) => {
             }
             else if (video.type === "GridPlaylist") {
               return (
-                <div className="flex-none w-1/2 sm:w-1/3 md:w-1/3 lg:w-1/6">
+                <div className="flex-none w-1/2 sm:w-1/3 md:w-1/3 lg:w-1/6" key={video.id}>
                   <PlaylistItem 
                     key={video.playlistId}
                     data={{title: video.title.text}}

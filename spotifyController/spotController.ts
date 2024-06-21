@@ -256,7 +256,8 @@ export {
   getSongData,
   getSpotifyUserPlaylists,
   getSpotifyPlaylist, 
-  fetchSpotifyProfile
+  fetchSpotifyProfile,
+  getClientToken
 }
 
 
