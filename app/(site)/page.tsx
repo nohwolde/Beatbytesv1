@@ -37,7 +37,7 @@ export default async function Home() {
       <Header
         className={twMerge(`
         bg-gradient-to-b 
-        from-[#2B75FF]
+        from-[#31b0ff]
         to-b
         `
       )}>

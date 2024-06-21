@@ -17,6 +17,6 @@ export async function POST(
     return new NextResponse(body, { headers: { 'Content-Type': 'application/json' } });
   } catch (error) {
     console.log(error);
-    new NextResponse("An error occurred while fetching your profile's playlists.", { status: 500 })
+    return new NextResponse("An error occurred while fetching your profile's playlists.", { status: 500 })
   }
 };

@@ -21,7 +21,9 @@ const nextConfig = {
       sharp: "commonjs sharp",
       canvas: "commonjs canvas",
       re2: "commonjs re2",
+      // fs: "commonjs fs",
     });
+    // config.resolve.fallback = { ...config.resolve.fallback, child_process: false };
     // config.plugins.push(
     //   new webpack.ProvidePlugin({
     //     Buffer: ['buffer', 'Buffer'],

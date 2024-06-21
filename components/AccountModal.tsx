@@ -23,6 +23,8 @@ import { getPlaylist, search } from '@/actions/useInnertube'
 
 import { useProfileStore } from '@/app/store';
 import PlaylistItem from './PlaylistItem';
+import { getClientToken, getSpotKey } from '@/spotifyController/spotController';
+import { handleLogin } from '@/spotifyController/handleLogin';
 
 
 interface AccountModalProps {
@@ -71,6 +73,34 @@ const AccountModal: React.FC<AccountModalProps> = ({
       onClose();
     }
   }
+
+  // Get spotify token info from the api
+  useEffect(() => {
+    const getSpotifyToken = async () => {
+      const getSpotKeyResponse = await getSpotKey();
+      console.log(getSpotKeyResponse);
+      // const getSpotClientToken = await getClientToken();
+      // console.log(getSpotClientToken);
+
+      // first wait 10 seconds
+      // await new Promise((resolve) => setTimeout(resolve, 5000));
+      // // then login
+      // const cookiesInfo = await handleLogin();
+      // console.log(cookiesInfo);
+
+      // const loginData = await postData({
+      //   url: '/api/handleLogin'
+      // });
+
+      // console.log(loginData);
+    }
+
+    if (platform === 'Spotify') {
+      getSpotifyToken();
+    }
+
+  } ,[]);
+
 
   useEffect(() => {
     if(username !== '') handleSearchUser(username).then((res) => {
@@ -137,6 +167,20 @@ const AccountModal: React.FC<AccountModalProps> = ({
   const displayLogin = () => {
     return (
     <div className={twMerge(`flex flex-row items-center justify-center p-3`)}>
+      {(platform === 'Spotify') &&
+        <div>
+          {/* Put the spotify user here if there is one else display a button with a message above telling them to login on spotify */}
+          <p className="text-center">Login on Spotify to load your private playlists</p>
+          <Button
+            className={twMerge(`w-[100px] bg-green-500 hover:bg-green-600`)}
+            onClick={() => {
+              window.location.href = 'open.spotify.com';
+            }}
+          >
+            Login
+          </Button>
+        </div>
+      }
       <Input
         placeholder={`What's your ${platform} Username?`}
         value={value}

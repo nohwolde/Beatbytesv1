@@ -53,13 +53,15 @@ const ChannelPage = () => {
         )}>
         {channelData !== null &&
           <div className="mb-2 flex flex-col gap-y-6">
-              <div
-                className="
-                  rounded-md
-                "
-              >
-                <Image src={channelData?.header?.banner[0]?.url} alt="Banner" width="2560" height="424" className="object-contain" />
-              </div>
+              {(channelData.header?.banner) &&
+                <div
+                  className="
+                    rounded-md
+                  "
+                >
+                  <Image src={channelData?.header?.banner[0]?.url} alt="Banner" width="2560" height="424" className="object-contain" />
+                </div>
+              }
             <div
               className="
               flex 

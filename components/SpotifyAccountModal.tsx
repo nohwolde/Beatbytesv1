@@ -9,6 +9,7 @@ import {
   getSpotKey,
   getSpotifyUserPlaylists,
   getSpotifyPlaylist,
+  fetchSpotifyProfile
 } from "@/spotifyController/spotController";
 import { useProfileStore } from "@/app/store";
 import {
@@ -23,6 +24,8 @@ import {
   useSupabaseClient,
 } from "@supabase/auth-helpers-react";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+
+import { parse } from 'spotify-uri';
 
 const SpotifyAccountModal = () => {
   const { onClose, isOpen, platform } = useSpotifyAccountModal();
@@ -212,6 +215,14 @@ const SpotifyAccountModal = () => {
         data: { profile: value },
       });
       console.log(profileResponse);
+      const getSpotKeyResponse = await getSpotKey();
+      console.log(getSpotKeyResponse);
+      const accessToken = getSpotKeyResponse.accessToken;
+
+      const spotProfile = await fetchSpotifyProfile(
+        value, 
+        accessToken
+      );
 
       const { error } = await supabase.from("profiles").insert({
         profile_id: profileResponse?.username,

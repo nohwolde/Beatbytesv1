@@ -1,7 +1,6 @@
 "use client";
 // import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 // import { cookies } from "next/headers";
-import { searchModule, innertubeModule } from "@/libs/youtube";
 import { Innertube, UniversalCache, Utils } from "youtubei.js";
 
 import Jimp from "jimp";
@@ -48,6 +47,10 @@ const setInnertube = async (): Promise<void> => {
         );
 
         headers.delete("user-agent");
+        // headers.delete('origin');
+        // headers.delete('referer');
+        // headers.set('origin', 'https://www.youtube.com');
+        // headers.set('referer', 'https://www.youtube.com');
 
         return fetch(
           request,
@@ -89,6 +92,14 @@ const search = async (
 
   return search;
 };
+
+
+const getHomeFeed = async (): Promise<any> => {
+	// We want the youtube music feed
+	if (!innertube) await setInnertube()
+	const homeFeed = await innertube?.music.getHomeFeed()
+	return homeFeed
+}
 
 const getVideo = async (id: string): Promise<any> => {
   if (!innertube) await setInnertube();
@@ -158,4 +169,5 @@ export {
   getRecommended,
   getPlaylist,
   getPlaylistTracks,
+  getHomeFeed
 };

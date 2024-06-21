@@ -3,6 +3,8 @@ import fetch, { Response as FetchResponse } from "node-fetch";
 
 import tryFetch from './tryFetch';
 
+import axios from 'axios';
+
 // const tryFetch = async (input: any, init = { headers: {} } ) => {
 //   // url
 //   const url = typeof input === 'string'
@@ -110,9 +112,48 @@ const getSongData = async (trackId: string, accessToken: string) => {
   return data;
 }
 
+const fetchSpotifyProfile = async (username: string, accessToken: string) => {
+  const url = `https://spclient.wg.spotify.com/user-profile-view/v3/profile/${username}?playlist_limit=50&artist_limit=50&episode_limit=10&market=from_token`;
+
+  const headers = {
+    'accept': 'application/json',
+    'accept-language': 'en',
+    'app-platform': 'WebPlayer',
+    'authorization': 'Bearer ' + accessToken,
+    'content-type': 'application/json;charset=UTF-8',
+    'origin': 'https://open.spotify.com',
+    'priority': 'u=1, i',
+    'referer': 'https://open.spotify.com/',
+    'sec-ch-ua': '"Chromium";v="124", "Microsoft Edge";v="124", "Not-A.Brand";v="99"',
+    'sec-ch-ua-mobile': '?0',
+    'sec-ch-ua-platform': 'macOS',
+    'sec-fetch-dest': 'empty',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-site': 'same-site',
+    'spotify-app-version': '1.2.39.87.g51668b79',
+    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0',
+    'Cookie': 'sp_t=3dcb36776d095e2c00e2920c816d5c0f'
+  };
+
+  try {
+    // const response = await axios.get(url, { headers });
+    // console.log(response.data);
+    // return response.data;
+
+    const response = await fetchSpotify(url, 1, accessToken);
+
+    console.log(await response.json());
+
+    return response;
+  } catch (error) {
+    console.error('Error fetching Spotify profile:', error);
+    throw error;
+  }
+}
+
 const getSpotifyUserPlaylists = async (userId: string, accessToken: string) => {
 
-  const response = await fetchSpotify(`https://api.spotify.com/v1/me/playlists`, 1, accessToken);
+  const response = await fetchSpotify(`https://api.spotify.com/v1/users/${userId}/playlists`, 1, accessToken);
 
   const data = await response.json();
 
@@ -128,11 +169,94 @@ const getSpotifyPlaylist = async (playlistId: string, accessToken: string) => {
   return data;
 }
 
+const getClientToken = async () => {
+  const url = "https://clienttoken.spotify.com/v1/clienttoken"
+  const headers = {
+    'accept': 'application/json',
+    'accept-language': 'en',
+    'Content-Type': 'application/json;charset=UTF-8',
+    'Origin': 'https://open.spotify.com',
+    'Priority': 'u=1, i',
+    'Referer': 'https://open.spotify.com/',
+    'sec-ch-ua': '"Chromium";v="124", "Microsoft Edge";v="124", "Not-A.Brand";v="99"',
+    'sec-ch-ua-mobile': '?0',
+    'sec-ch-ua-platform': '"macOS"',
+    'sec-fetch-dest': 'empty',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-site': 'same-site',
+    'spotify-app-version': '1.2.39.87.g51668b79',
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0',
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: headers
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching private Spotify Client token:', error);
+  }
+
+}
+
+const getDefaultSpotifyUser = async (clientToken: string, accessToken: string) => {
+
+}
+
+const getPrivateSpotifyPlaylists = async (clientToken: string, accessToken: string) => {
+  const url = 'https://api-partner.spotify.com/pathfinder/v1/query?operationName=libraryV3&variables=%7B%22filters%22%3A%5B%22Playlists%22%5D%2C%22order%22%3Anull%2C%22textFilter%22%3A%22%22%2C%22features%22%3A%5B%22LIKED_SONGS%22%2C%22YOUR_EPISODES%22%2C%22PRERELEASES%22%5D%2C%22limit%22%3A50%2C%22offset%22%3A0%2C%22flatten%22%3Afalse%2C%22expandedFolders%22%3A%5B%5D%2C%22folderUri%22%3Anull%2C%22includeFoldersWhenFlattening%22%3Atrue%7D&extensions=%7B%22persistedQuery%22%3A%7B%22version%22%3A1%2C%22sha256Hash%22%3A%2230695bca0ce164be315d1f599e1260471799170729f266fa925b5be3677a2718%22%7D%7D';
+
+  const headers = {
+    'accept': 'application/json',
+    'accept-language': 'en',
+    'app-platform': 'WebPlayer',
+    'authorization': `Bearer ${accessToken}`,
+    'client-token': clientToken,
+    'Content-Type': 'application/json;charset=UTF-8',
+    'Origin': 'https://open.spotify.com',
+    'Priority': 'u=1, i',
+    'Referer': 'https://open.spotify.com/',
+    'sec-ch-ua': '"Chromium";v="124", "Microsoft Edge";v="124", "Not-A.Brand";v="99"',
+    'sec-ch-ua-mobile': '?0',
+    'sec-ch-ua-platform': '"macOS"',
+    'sec-fetch-dest': 'empty',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-site': 'same-site',
+    'spotify-app-version': '1.2.39.87.g51668b79',
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0',
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: headers
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching private Spotify playlists:', error);
+  }
+};
+
+
 export {
   getSpotKey,
   getSongData,
   getSpotifyUserPlaylists,
-  getSpotifyPlaylist
+  getSpotifyPlaylist, 
+  fetchSpotifyProfile
 }
 
 

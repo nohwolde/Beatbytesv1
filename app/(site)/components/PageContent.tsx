@@ -18,7 +18,7 @@ import PlaylistItem from "@/components/PlaylistItem";
 import playlistImage from "@/public/images/playlist.jpeg";
 import { useRouter } from "next/navigation";
 
-import { getChannel } from "@/actions/useInnertube";
+import { getChannel, getHomeFeed } from "@/actions/useInnertube";
 
 import Image from "next/image";
 
@@ -53,6 +53,10 @@ const PageContent: React.FC<PageContentProps> = ({
       console.log(channel);
       setChannelData(channel);
       console.log(channel?.current_tab.content.contents.filter((shelf: any) => shelf.contents[0].type === "Shelf" || shelf.contents[0].type === "ChannelVideoPlayer"));
+
+      const homeFeed = await getHomeFeed();
+
+      console.log("Home", homeFeed);
     }
     setInnertube();
   }, []);
