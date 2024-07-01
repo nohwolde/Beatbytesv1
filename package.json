@@ -74,6 +74,7 @@
     "scrape-youtube": "^2.4.0",
     "shaka-player": "^4.4.2",
     "soundcloud-scraper": "^5.0.3",
+    "spotifly": "^0.1.1",
     "spotify-uri": "^4.1.0",
     "spotify-url-info": "git+https://github.com/nohwolde/spotify-url-info.git",
     "spottydl": "^0.2.5",

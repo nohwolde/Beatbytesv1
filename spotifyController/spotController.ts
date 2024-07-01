@@ -3,7 +3,7 @@ import fetch, { Response as FetchResponse } from "node-fetch";
 
 import tryFetch from './tryFetch';
 
-import axios from 'axios';
+import { Spotifly } from "spotifly";
 
 // const tryFetch = async (input: any, init = { headers: {} } ) => {
 //   // url
@@ -250,6 +250,13 @@ const getPrivateSpotifyPlaylists = async (clientToken: string, accessToken: stri
   }
 };
 
+const getMyLibrary = async (cookies: string) => {
+  const sp = new Spotifly(cookies);
+  const library = await sp.getMyLibrary();
+  console.log(library);
+  return library;
+}
+
 
 export {
   getSpotKey,
@@ -257,7 +264,8 @@ export {
   getSpotifyUserPlaylists,
   getSpotifyPlaylist, 
   fetchSpotifyProfile,
-  getClientToken
+  getClientToken, 
+  getMyLibrary
 }
 
 

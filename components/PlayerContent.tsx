@@ -404,7 +404,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
         if (url.host.endsWith(".googlevideo.com") || headers.Range || url.host.includes("cf-hls-media.sndcdn.com")) {
           url.searchParams.set('__host', url.host);
           url.host = process?.env?.NEXT_PUBLIC_BACKEND_URL || "localhost:8080";
-          url.protocol = 'https';
+          url.protocol = 'http';
 
           if (url.host.includes("cf-hls-media.sndcdn.com")) {
             url.pathname = '/hls' + url.pathname;

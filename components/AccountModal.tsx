@@ -167,20 +167,6 @@ const AccountModal: React.FC<AccountModalProps> = ({
   const displayLogin = () => {
     return (
     <div className={twMerge(`flex flex-row items-center justify-center p-3`)}>
-      {(platform === 'Spotify') &&
-        <div>
-          {/* Put the spotify user here if there is one else display a button with a message above telling them to login on spotify */}
-          <p className="text-center">Login on Spotify to load your private playlists</p>
-          <Button
-            className={twMerge(`w-[100px] bg-green-500 hover:bg-green-600`)}
-            onClick={() => {
-              window.location.href = 'open.spotify.com';
-            }}
-          >
-            Login
-          </Button>
-        </div>
-      }
       <Input
         placeholder={`What's your ${platform} Username?`}
         value={value}

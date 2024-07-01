@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import { handleLogin } from '../../../spotifyController/handleLogin';
+// import { handleLogin } from '../../../spotifyController/handleLogin';
+import { Spotifly } from 'spotifly';
 
 export async function POST(request: Request) {
-  const { login } = await request.json();
-  const result = await handleLogin();
-  console.log(result);
-  return NextResponse.json(result);
+  const { cookies } = await request.json();
+  const spotifly = new Spotifly(cookies);
+  return new NextResponse(spotifly);
 }
