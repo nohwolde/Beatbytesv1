@@ -11,6 +11,8 @@ import useDebounce from "@/hooks/useDebounce";
 
 import { getMyLibrary } from "@/spotifyController/spotController";
 
+import Image from "next/image";
+
 
 
 
@@ -81,6 +83,19 @@ const Spot = () => {
           mt-4
         "
       >
+        <Input
+          placeholder="Enter your spotify cookies here"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && value !== '' && setCookies(value)}
+        />
+
+        <Image
+          src="/spotify.png"
+          alt="spotify"
+          width={200}
+          height={200}
+        />
         <Input
           placeholder="Enter your spotify cookies here"
           value={value}
