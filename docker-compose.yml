@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile # Specify the Dockerfile for the frontend if separate
+    ports:
+      - "3000:3000" # Frontend port
+    env_file:
+      - .env # Specify if you have separate env files for frontend and backend
+
+  # backend:
+  #   build:
+  #     context: ./backend
+  #     dockerfile: Dockerfile.backend # Specify the Dockerfile for the backend if separate
+  #   ports:
+  #     - "8000:8000" # Backend port
+  #   env_file:
+  #     - .env # Specify if you have separate env files for frontend and backend

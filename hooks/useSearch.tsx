@@ -161,49 +161,51 @@ export const MySearchContextProvider = (props: Props) => {
 
 
   const getSpotifyResults = async (resultUrls: string[]) => {
+    return resultUrls;
+
     // try {
-      if (resultUrls.length === 0) return;
-      // iterate through resultUrl and get spotify info for each url
-      const results: any[] = [];
-      Promise.all(resultUrls.map(async (result: any) => {
-        let combinedRes = {};
-        // const jkResult = await postData({
-        //   url: '/api/spotify/getProfInfo',
-        //   data: { url: "https://open.spotify.com/user/nohwolde"}
-        // });
-        // console.log(jkResult);
-        const spotifyResult = await postData({
-          url: '/api/spotify/getInfo',
-          data: { url: result.link}
-        });
-        console.log(spotifyResult);
-        if(result.link.startsWith("https://open.spotify.com/track")){
-          const regex = /^(?<song>.+?)\s+-\s+(?:song\s+and\s+lyrics\s+by\s+)?(?<artist>.+?)(?:\s+feat\..+)?$/;
-          const match = result.title.match(regex);
-          if (match) {
-            const songName = match.groups.song.trim();
-            const artistNames = match.groups.artist.split(',')[0].trim() + '';
-            console.log(`Song name: ${songName}`);
-            console.log(`Artist name: ${artistNames}`);
-            // const ytRes = await postData({
-            //   url: '/api/youtube/search',
-            //   data: { searchTerm: songName + " " + artistNames, type: 'video' }
-            // });
-            const ytRes = await search(songName + " " + artistNames, 'video');
-            console.log(ytRes);
-            combinedRes = {...spotifyResult, ytSearch: ytRes};
-          } else {
-            console.log('No match found');
-            combinedRes = {...spotifyResult};
-          }
-        } else {
-          combinedRes = {...spotifyResult};
-        }
-        console.log(combinedRes);
-        results.push(combinedRes);
-      })).then(() => {
-        setSpotResults(results);
-      });
+      // if (resultUrls.length === 0) return;
+      // // iterate through resultUrl and get spotify info for each url
+      // const results: any[] = [];
+      // Promise.all(resultUrls.map(async (result: any) => {
+      //   let combinedRes = {};
+      //   // const jkResult = await postData({
+      //   //   url: '/api/spotify/getProfInfo',
+      //   //   data: { url: "https://open.spotify.com/user/nohwolde"}
+      //   // });
+      //   // console.log(jkResult);
+      //   const spotifyResult = await postData({
+      //     url: '/api/spotify/getInfo',
+      //     data: { url: result.link}
+      //   });
+      //   console.log(spotifyResult);
+      //   if(result.link.startsWith("https://open.spotify.com/track")){
+      //     const regex = /^(?<song>.+?)\s+-\s+(?:song\s+and\s+lyrics\s+by\s+)?(?<artist>.+?)(?:\s+feat\..+)?$/;
+      //     const match = result.title.match(regex);
+      //     if (match) {
+      //       const songName = match.groups.song.trim();
+      //       const artistNames = match.groups.artist.split(',')[0].trim() + '';
+      //       console.log(`Song name: ${songName}`);
+      //       console.log(`Artist name: ${artistNames}`);
+      //       // const ytRes = await postData({
+      //       //   url: '/api/youtube/search',
+      //       //   data: { searchTerm: songName + " " + artistNames, type: 'video' }
+      //       // });
+      //       const ytRes = await search(songName + " " + artistNames, 'video');
+      //       console.log(ytRes);
+      //       combinedRes = {...spotifyResult, ytSearch: ytRes};
+      //     } else {
+      //       console.log('No match found');
+      //       combinedRes = {...spotifyResult};
+      //     }
+      //   } else {
+      //     combinedRes = {...spotifyResult};
+      //   }
+      //   console.log(combinedRes);
+      //   results.push(combinedRes);
+      // })).then(() => {
+      //   setSpotResults(results);
+      // });
   };
 
   const searchSc = async(searchTerm: string) => {
