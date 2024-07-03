@@ -83,7 +83,7 @@ const Video: React.FC<VideoProps> = ({licenseServer, manifestUrl, setManifestUrl
       if (url.host.endsWith(".googlevideo.com") || headers.Range) {
         url.searchParams.set('__host', url.host);
         url.host = 'localhost:8080';
-        url.protocol = 'https';
+        url.protocol = `${process.env.PROTOCOL}`;
       }
 
       request.method = 'POST';
