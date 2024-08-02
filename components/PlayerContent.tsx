@@ -23,7 +23,7 @@ import { usePathname, useParams, useRouter } from "next/navigation";
 import YoutubeSong from "@/components/YoutubeSong";
 import showSong from "@/components/ScSong";
 
-import { getDash, getVideo, getBasicInfo } from "@/actions/useInnertube";
+import { getDash, getVideo } from "@/actions/useInnertube";
 const Draggable = require('react-draggable');
 
 const shaka = require('shaka-player/dist/shaka-player.ui.js');
@@ -309,13 +309,6 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
     if (video.current) video.current.currentTime = newTime;
   };
 
-  const getHLS = async (id: string) => {
-		const hls = await getBasicInfo(id).then((res) => res?.streaming_data?.hls_manifest_url)
-		console.log(hls)
-
-		return hls
-	}
-
   useEffect(() => {
     hasRun.current = true;
     let vid = video.current;
@@ -411,7 +404,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
         if (url.host.endsWith(".googlevideo.com") || headers.Range || url.host.includes("cf-hls-media.sndcdn.com")) {
           url.searchParams.set('__host', url.host);
           url.host = process?.env?.NEXT_PUBLIC_BACKEND_URL || "localhost:8080";
-          url.protocol = `https`;
+          url.protocol = `${process?.env?.PROTOCOL}`;
 
           if (url.host.includes("cf-hls-media.sndcdn.com")) {
             url.pathname = '/hls' + url.pathname;
@@ -476,46 +469,25 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
         response.headers = redirect_response.headers;
         response.uri = redirect_response.uri;
       });
-      // getBasicInfo(currentTrack?.id as string).then((video) => {
-      //   setVideoData(video);
-      //   if (!currentTrack?.title) {
-      //     console.log("Setting Current Track")
-      //     console.log(video);
-      //     setCurrentTrack(
-      //       {...video.basic_info,
-      //         author: video.basic_info.author,
-      //         thumbnails: video.basic_info.thumbnail, 
-      //         views: video.basic_info.view_count, 
-      //         title: {text: video.basic_info.title}, 
-      //         endpoint: { metadata: {url: "/watch/" + video.basic_info.id }},  
-      //         platform: "Youtube"
-      //       });
-      //   }
-      //   const uri = video?.streaming_data?.hls_manifest_url
-      //   // setDash(uri);
 
-      //   player.load(uri).then(function() {
-        getDash(currentTrack?.id as string).then((video) => {
-          console.log(video);
-          setVideoData(video.video);
-          if (!currentTrack?.title) {
-            console.log("Setting Current Track")
-  
-            setCurrentTrack(
-              {...video.video.basic_info, 
-                author: video.video.secondary_info.owner.author,
-                thumbnails: video.video.basic_info.thumbnail, 
-                views: video.video.basic_info.view_count, 
-                title: {text: video.video.basic_info.title}, 
-                endpoint:{metadata: {url: "/watch/" + video.video.basic_info.id }},  
-                platform: "Youtube"
-              });
-          }
-          const uri = 'data:application/dash+xml;charset=utf-8;base64,' + btoa(video.dash);
-          setDash(uri);
-  
-          player.load(uri).then(function() {
-            // showUI({ hidePlayer: false });
+      getDash(currentTrack?.id as string).then((video) => {
+        console.log(video);
+        setVideoData(video.video);
+        if (!currentTrack?.title) {
+          console.log("Setting Current Track")
+          setCurrentTrack(
+            {...video.video.basic_info, 
+              author: video.video.secondary_info.owner.author,
+              thumbnails: video.video.basic_info.thumbnail, 
+              views: video.video.basic_info.view_count, 
+              title: {text: video.video.basic_info.title}, 
+              endpoint:{metadata: {url: "/watch/" + video.video.basic_info.id }},  
+              platform: "Youtube"
+            });
+        }
+        const uri = 'data:application/dash+xml;charset=utf-8;base64,' + btoa(video.dash);
+        setDash(uri);
+        player.load(uri).then(function() {
           // showUI({ hidePlayer: false });
           currPlayer = player;
           console.log("Player", player);

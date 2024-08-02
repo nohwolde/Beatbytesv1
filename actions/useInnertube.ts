@@ -24,7 +24,7 @@ const setInnertube = async (): Promise<void> => {
         // Transform the url for use with our proxy.
         url.searchParams.set("__host", url.host);
         url.host = process?.env?.NEXT_PUBLIC_BACKEND_URL || "localhost:8080";
-        url.protocol = `https`;
+        url.protocol = `${process.env.PROTOCOL}`;
 
         const headers = init?.headers
           ? new Headers(init.headers)
@@ -70,7 +70,7 @@ const setInnertube = async (): Promise<void> => {
 
 const getDash = async (id: any): Promise<any> => {
   if (!innertube) await setInnertube();
-  const video = await innertube?.getInfo(id, 'TV_EMBEDDED');
+  const video = await innertube?.getInfo(id);
   const dash = await video?.toDash();
   return { video: video, dash: dash };
 };
@@ -109,10 +109,10 @@ const getVideo = async (id: string): Promise<any> => {
 };
 
 const getBasicInfo = async (id: string): Promise<any> => {
-	if (!innertube) await setInnertube()
-	const video = await innertube?.getBasicInfo(id)
-	return video
-}
+  if (!innertube) await setInnertube();
+  const video = await innertube?.getBasicInfo(id);
+  return video;
+};
 
 const getPlaylist = async (id: string): Promise<any> => {
   if (!innertube) await setInnertube();

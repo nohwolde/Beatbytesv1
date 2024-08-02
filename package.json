@@ -83,7 +83,7 @@
     "uniqid": "^5.4.0",
     "use-sound": "^4.0.1",
     "youtubei": "^1.1.2",
-    "youtubei.js": "^10.3.0",
+    "youtubei.js": "^9.1.0",
     "zustand": "^4.4.7"
   },
   "devDependencies": {
