@@ -70,7 +70,7 @@ const setInnertube = async (): Promise<void> => {
 
 const getDash = async (id: any): Promise<any> => {
   if (!innertube) await setInnertube();
-  const video = await innertube?.getInfo(id);
+  const video = await innertube?.getInfo(id, 'TV_EMBEDDED');
   const dash = await video?.toDash();
   return { video: video, dash: dash };
 };
