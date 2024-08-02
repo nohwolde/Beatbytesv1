@@ -23,9 +23,3 @@ ENV NODE_OPTIONS=--max-old-space-size=4096
 RUN npm run build
 
 # Expose the port the app runs on
-
-# Expose the port the app runs on
-EXPOSE 3000
-
-# Command to run the application
-CMD ["npm", "run", "dev"]
