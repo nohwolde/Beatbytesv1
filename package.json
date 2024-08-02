@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "NODE_OPTIONS=\"--max_old_space_size=4096\" next dev",
+    "build": "NODE_OPTIONS=\"--max_old_space_size=4096\" next build",
+    "start": "NODE_OPTIONS=\"--max_old_space_size=4096\" next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -83,7 +83,7 @@
     "uniqid": "^5.4.0",
     "use-sound": "^4.0.1",
     "youtubei": "^1.1.2",
-    "youtubei.js": "^9.1.0",
+    "youtubei.js": "^10.3.0",
     "zustand": "^4.4.7"
   },
   "devDependencies": {
