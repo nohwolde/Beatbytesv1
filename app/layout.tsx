@@ -51,6 +51,9 @@ export default async function RootLayout({
         <script defer src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
         <script defer src="../node_modules/tippy.js/umd/index.min.js"></script>
         <script defer src="../node_modules/pwacompat/pwacompat.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/mux.js@5.5.3/dist/mux.min.js">  </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/shaka-player@3.2.2/dist/shaka-player.compiled.js"></script> 
 
       </head> 
       <body className={font.className}>
