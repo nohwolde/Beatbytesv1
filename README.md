@@ -1,77 +1,50 @@
-# Full Stack Spotify Clone with Next.js 13.4 App Router: React, Tailwind, Supabase, PostgreSQL, Stripe
-
-![Copy of Copy of Fullstack Twitter Clone](https://github.com/AntonioErdeljac/next13-spotify/assets/23248726/2722c7bd-2d8f-44a9-97b9-f2711a8d8b64)
-
-For DEMO, use [Stripe Testing Cards](https://stripe.com/docs/testing)
-
-This is a repository for a Full Stack Spotify Clone with Next.js 13.4 App Router: React, Tailwind, Supabase, PostgreSQL, Stripe
-
-[VIDEO TUTORIAL](https://youtu.be/2aeMRB8LL4o)
-
-Key Features:
-
-- Song upload
-- Stripe integration
-- Tailwind design for sleek UI
-- Tailwind animations and transition effects
-- Full responsiveness for all devices
-- Credential authentication with Supabase
-- Github authentication integration
-- File and image upload using Supabase storage
-- Client form validation and handling using react-hook-form
-- Server error handling with react-toast
-- Play song audio
-- Favorites system
-- Playlists / Liked songs system
-- Advanced Player component
-- Stripe recurring payment integration
-- How to write POST, GET, and DELETE routes in route handlers (app/api)
-- How to fetch data in server React components by directly accessing the database (WITHOUT API! like Magic!)
-- Handling relations between Server and Child components in a real-time environment
-- Cancelling Stripe subscriptions
-
-### Prerequisites
-
-**Node version 14.x**
-
-### Cloning the repository
-
-```shell
-git clone https://github.com/AntonioErdeljac/next13-spotify.git
-```
-
-### Install packages
-
-```shell
-npm i
-```
-
-### Setup .env file
+Audyos
+A unified music streaming platform that brings together your favorite music from Spotify, SoundCloud, and YouTube in one seamless experience.
+<img width="1724" alt="watch" src="https://github.com/user-attachments/assets/e59fc612-0862-4b6f-b097-01e2edac54c3" />
 
 
-```js
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
-SUPABASE_SERVICE_ROLE_KEY=
+Features
+Cross-Platform Playlist Import
+Import playlists from Spotify, SoundCloud, and YouTube
+Automatic playlist conversion between platforms
+Seamless playlist synchronization
+Universal Search
+Search across multiple platforms simultaneously
+Browse artists, albums, and playlists
+Access to extensive music libraries from YouTube and SoundCloud
+Advanced Media Playback
+HLS and DASH streaming support via Shaka Player
+High-quality audio playback
+Continuous playback across platform switches
+Technical Stack
+Frontend: Native iOS application
+Media Player: Shaka Player integration
+Streaming: HLS and DASH protocols
+Backend: Reverse proxy implementation for platform access
+Installation
+bash
+# Clone the repository
+git clone https://github.com/nohwolde/Beatbytesv1.git
 
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
-STRIPE_SECRET_KEY=
-STRIPE_WEBHOOK_SECRET=
-```
+# Install dependencies
+cd audyos
+npm install
 
-### Add SQL Tables
-Use `database.sql` file, create songs and liked_songs table (there is a video tutorial)
-
-### Start the app
-
-```shell
+# Run the development server
 npm run dev
-```
+API Integration
+The app integrates with multiple music platforms through their respective APIs:
+YouTube Data API
+Spotify Web API
+SoundCloud API
+Configuration
+javascript
 
-## Available commands
-
-Running commands with npm `npm run [command]`
-
-| command         | description                              |
-| :-------------- | :--------------------------------------- |
-| `dev`           | Starts a development instance of the app |
+Contributing
+Fork the repository
+Create your feature branch
+Commit your changes
+Push to the branch
+Open a Pull Request
+License
+MIT License - see LICENSE.md for details
