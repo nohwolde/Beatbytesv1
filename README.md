@@ -1,4 +1,5 @@
-Audyos
+# Audyos
+
 A unified music streaming platform that brings together your favorite music from Spotify, SoundCloud, and YouTube in one seamless experience.
 <img width="1724" alt="watch" src="https://github.com/user-attachments/assets/e59fc612-0862-4b6f-b097-01e2edac54c3" />
 
