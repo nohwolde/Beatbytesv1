@@ -23,10 +23,10 @@ A unified music streaming platform that integrates Spotify, SoundCloud, and YouT
 
 ## 🚀 Technical Stack
 
-- **Frontend**: Native iOS application
+- **Frontend**: Next.JS, React, TailwindCSS
 - **Media**: Shaka Player
 - **Streaming**: HLS and DASH protocols
-- **Backend**: Custom reverse proxy server
+- **Backend**: Custom reverse proxy server in Deno
 
 ## 📱 Installation
 
